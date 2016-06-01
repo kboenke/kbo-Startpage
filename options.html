@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="google" value="notranslate">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>kboStartpage Options</title>
+	<link rel="stylesheet" type="text/css" href="startpage.css">
+	<link rel="stylesheet" type="text/css" href="weather.css">
+	<script src="options.js"></script>
+</head>
+<body>
+
+<aside>
+	<h2>Feeds</h2>
+	<ul id="feeds">
+		<li><img src="icons/easternsun.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedEasternsun' />Eastern Sun Forum</li>
+		<li><img src="icons/planetDebian.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedPlanetDebian' />Planet Debian</li>
+		<li>
+			<img src="icons/reddit.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedReddit' />Reddit<br />
+			<a href="https://www.reddit.com/prefs/feeds/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="Private JSON feed from Reddit Profile.">&nbsp;</a><input id='feedRedditUrl' value='' />
+		</li>
+		<li><img src="icons/tagesschau.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedTagesschau' />Tagesschau</li>
+		<li>
+			<img src="icons/twitter.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedTwitter' />Twitter<br />
+			<a href="https://apps.twitter.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="API Key">&nbsp;</a><input id='feedTwitterKey' value='' /><br />
+			<a href="https://apps.twitter.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="API Secret">&nbsp;</a><input id='feedTwitterSecret' value='' /><br />
+			<a href="https://apps.twitter.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="Token">&nbsp;</a><input id='feedTwitterToken' value='' /><br />
+			<a href="https://apps.twitter.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="Token Secret">&nbsp;</a><input id='feedTwitterTokenSecret' value='' />
+		</li>
+	</ul>
+</aside>
+
+<section>
+	<h2>Weather</h2>
+	<div id="weather">
+		<div><input id="weatherID" value='' />&nbsp;<a href="https://weather.yahoo.com/" target="_blank"><img src="help.png" width="16" height="16" title="Check Yahoo! Weather for available cities."></a></div>
+		<ul>
+			<li><input type="radio" name="weatherUnit" id="weatherTTf" value="f" />Fahrenheit</li>
+			<li><input type="radio" name="weatherUnit" id="weatherTTc" value="c" />Celsius</li>
+		</ul>
+	</div>
+	<h2>Links</h2>
+	<table id="links"><tr><td style="border-right: 1px solid black;">
+		<ul id="linksL">
+			<li><table><tr><td><input id="linkL1l" value='' /><input id="linkL1d" value='' /></td><td><input type='checkbox' id='linkL1v' /></td></table></li>
+			<li><table><tr><td><input id="linkL2l" value='' /><input id="linkL2d" value='' /></td><td><input type='checkbox' id='linkL2v' /></td></table></li>
+			<li><table><tr><td><input id="linkL3l" value='' /><input id="linkL3d" value='' /></td><td><input type='checkbox' id='linkL3v' /></td></table></li>
+			<li><table><tr><td><input id="linkL4l" value='' /><input id="linkL4d" value='' /></td><td><input type='checkbox' id='linkL4v' /></td></table></li>
+		</ul>
+	</td><td>
+		<ul id="linksR">
+			<li><table><tr><td><input type='checkbox' id='linkR1v' /></td><td><input id='linkR1l' value=''/><input id="linkR1d" value='' /></td></table></li>
+			<li><table><tr><td><input type='checkbox' id='linkR2v' /></td><td><input id='linkR2l' value=''/><input id="linkR2d" value='' /></td></table></li>
+			<li><table><tr><td><input type='checkbox' id='linkR3v' /></td><td><input id='linkR3l' value=''/><input id="linkR3d" value='' /></td></table></li>
+			<li><table><tr><td><input type='checkbox' id='linkR4v' /></td><td><input id='linkR4l' value=''/><input id="linkR4d" value='' /></td></table></li>
+		</ul>
+	</td></tr></table>
+	<span style="vertical-align: bottom;">
+	<div id="status"></div>
+	<button id="save">Save</button>
+	</span>
+</section>
+
+<footer>
+	<div id="runtime"></div>
+</footer>
+
+</body>
+</html>
