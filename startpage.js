@@ -47,7 +47,9 @@ function initialize(){
 		FeedTwitterKey:			'',
 		FeedTwitterSecret:		'',
 		FeedTwitterToken:		'',
-		FeedTwitterTokenSecret:	''
+		FeedTwitterTokenSecret:	'',
+		FeedWowhead:	false,
+		FeedWowheadUrl:	'',
 	}, function(items){
 		kboConfig = {
 			WeatherID:		items.WeatherID,
@@ -76,6 +78,7 @@ function initialize(){
 			LinkR3d:		items.LinkR3d,
 			LinkR4l:		items.LinkR4l,
 			LinkR4d:		items.LinkR4d,
+			FeedPlanetDebian:		items.FeedPlanetDebian,
 			FeedEasternsun:			items.FeedEasternsun,
 			FeedReddit:				items.FeedReddit,
 			FeedRedditUrl:			items.FeedRedditUrl,
@@ -84,7 +87,10 @@ function initialize(){
 			FeedTwitterKey:			items.FeedTwitterKey,
 			FeedTwitterSecret:		items.FeedTwitterSecret,
 			FeedTwitterToken:		items.FeedTwitterToken,
-			FeedTwitterTokenSecret:	items.FeedTwitterTokenSecret
+			FeedTwitterTokenSecret:	items.FeedTwitterTokenSecret,
+			FeedWowhead:			items.FeedWowhead,
+			FeedWowheadUrl:			items.FeedWowheadUrl,
+			FeedConnections:		items.FeedConnections,
 		};
 		//Populate page
 		loadWeather();
@@ -103,51 +109,60 @@ console.log(kboConfig);
 
 /* Invoked by Initialize */
 function loadLinks(){
-	rawL = '<li><a href="{link}">{desc}</a>&nbsp;<img src="http://www.google.com/s2/favicons?domain={domain}" width=\'16\' height=\'16\'></li>';
-	rawR = '<li><img src="http://www.google.com/s2/favicons?domain={domain}" width=\'16\' height=\'16\'>&nbsp;<a href="{link}">{desc}</a></li>';
+	rawL = '<li><a href="{link}">{desc}</a>&nbsp;<img src="{favicon}" width=\'16\' height=\'16\'></li>';
+	rawR = '<li><img src="{favicon}" width=\'16\' height=\'16\'>&nbsp;<a href="{link}">{desc}</a></li>';
 	linkL = "";
 	linkR = "";
+	favicon = "http://www.google.com/s2/favicons?domain=";
 	
 	//Build linklists
 	if(kboConfig['LinkL1v']){
 		urlParts = (kboConfig['LinkL1l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL1l'])).replace("{desc}", kboConfig['LinkL1d'])).replace("{domain}", urlParts[0]);
+		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL1l'])).replace("{desc}", kboConfig['LinkL1d'])).replace("{favicon}", _favicon);
 		linkL+= linkBuilder;
 	}
 	if(kboConfig['LinkL2v']){
 		urlParts = (kboConfig['LinkL2l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL2l'])).replace("{desc}", kboConfig['LinkL2d'])).replace("{domain}", urlParts[0]);
+		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL2l'])).replace("{desc}", kboConfig['LinkL2d'])).replace("{favicon}", _favicon);
 		linkL+= linkBuilder;
 	}
 	if(kboConfig['LinkL3v']){
 		urlParts = (kboConfig['LinkL3l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL3l'])).replace("{desc}", kboConfig['LinkL3d'])).replace("{domain}", urlParts[0]);
+		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL3l'])).replace("{desc}", kboConfig['LinkL3d'])).replace("{favicon}", _favicon);
 		linkL+= linkBuilder;
 	}
 	if(kboConfig['LinkL4v']){
 		urlParts = (kboConfig['LinkL4l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL4l'])).replace("{desc}", kboConfig['LinkL4d'])).replace("{domain}", urlParts[0]);
+		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL4l'])).replace("{desc}", kboConfig['LinkL4d'])).replace("{favicon}", _favicon);
 		linkL+= linkBuilder;
 	}
 	
 	if(kboConfig['LinkR1v']){
 		urlParts = (kboConfig['LinkR1l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR1l'])).replace("{desc}", kboConfig['LinkR1d'])).replace("{domain}", urlParts[0]);
+		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR1l'])).replace("{desc}", kboConfig['LinkR1d'])).replace("{favicon}", _favicon);
 		linkR+= linkBuilder;
 	}
 	if(kboConfig['LinkR2v']){
 		urlParts = (kboConfig['LinkR2l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR2l'])).replace("{desc}", kboConfig['LinkR2d'])).replace("{domain}", urlParts[0]);
+		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR2l'])).replace("{desc}", kboConfig['LinkR2d'])).replace("{favicon}", _favicon);
 		linkR+= linkBuilder;
 	}
 	if(kboConfig['LinkR3v']){
 		urlParts = (kboConfig['LinkR3l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR3l'])).replace("{desc}", kboConfig['LinkR3d'])).replace("{domain}", urlParts[0]);
+		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR3l'])).replace("{desc}", kboConfig['LinkR3d'])).replace("{favicon}", _favicon);
 		linkR+= linkBuilder;
 	}
 	if(kboConfig['LinkR4v']){
 		urlParts = (kboConfig['LinkR4l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR4l'])).replace("{desc}", kboConfig['LinkR4d'])).replace("{domain}", urlParts[0]);
+		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR4l'])).replace("{desc}", kboConfig['LinkR4d'])).replace("{favicon}", _favicon);
 		linkR+= linkBuilder;
 	}
 	
@@ -174,7 +189,12 @@ function loadFeeds(){
 		loadEasternsun();
 	if(kboConfig['FeedPlanetDebian'])
 		loadPlanetDebian();
+	if(kboConfig['FeedWowhead'])
+		loadWowhead();
+	if(kboConfig['FeedConnections'])
+		loadConnetions();
 }
+
 
 /* To be called after data has been retrieved */
 function updateContent(){
@@ -282,10 +302,10 @@ function loadReddit(){
 
 function loadTagesschau(){
 	parseRSS("https://www.tagesschau.de/xml/rss2", function(tagesschauData) {
-		$.each(tagesschauData.entries, function(i, entry){
+		$.each(tagesschauData.items, function(i, entry){
 			feedData.push({
 				icon: "tagesschau.ico",
-				timestamp: (new Date(entry.publishedDate)).getTime(),
+				timestamp: (new Date(entry.pubDate)).getTime() - (6*3600*1000),
 				link: entry.link,
 				value: entry.title
 			});
@@ -296,11 +316,10 @@ function loadTagesschau(){
 
 function loadEasternsun(){
 	parseRSS("http://easternsun.de/forum/feed.php?mode=topics", function(easternsunData) {
-console.log(easternsunData);
 		$.each(easternsunData.entries, function(i, post){
 			feedData.push({
 				icon: "easternsun.png",
-				timestamp: (new Date(post.published)).getTime(),
+				timestamp: (new Date(post.published)).getTime() - (6*3600*1000),
 				link: post.link,
 				value: post.title
 			});
@@ -311,10 +330,38 @@ console.log(easternsunData);
 
 function loadPlanetDebian(){
 	parseRSS("http://planet.debian.org/atom.xml", function(planetDebianData) {
-		$.each(planetDebianData.entries, function(i, post){
+		$.each(planetDebianData.items, function(i, post){
 			feedData.push({
 				icon: "planetDebian.ico",
-				timestamp: (new Date(post.publishedDate)).getTime(),
+				timestamp: (new Date(post.pubDate)).getTime(),
+				link: post.link,
+				value: post.title
+			});
+		});
+		updateContent();
+	});
+}
+
+function loadWowhead(){
+	parseRSS(kboConfig['FeedWowheadUrl'], function(wowheadData) {
+		$.each(wowheadData.items, function(i, post){
+			feedData.push({
+				icon: "wowhead.ico",
+				timestamp: (new Date(post.pubDate)).getTime() - (5*3600*1000),
+				link: post.link,
+				value: post.title
+			});
+		});
+		updateContent();
+	});
+}
+
+function loadConnections(){
+	parseRSS("https://connect.bosch.com/connections/opensocial/basic/rest/activitystreams/@me/@all/@all?shortStrings=true&rollup=true&format=atom", function(connectionsdData) {
+		$.each(connectionsdData.items, function(i, post){
+			feedData.push({
+				icon: "bosch.png",
+				timestamp: (new Date(post.updated)).getTime(),
 				link: post.link,
 				value: post.title
 			});
@@ -328,11 +375,13 @@ function loadPlanetDebian(){
  */
 function parseRSS(url, callback) {
 	$.ajax({
-		url: 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=?&num=20&q=' + encodeURIComponent(url),
+		url: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url),
+//		url: 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=?&num=20&q=' + encodeURIComponent(url),
 //		url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20rss%20where%20url%20in%20(select%20title%20from%20atom%20where%20url%3D'"+ encodeURIComponent(url) +"')&format=json&callback=",
 		dataType: 'json',
 		success: function(data) {
-			callback(data.responseData.feed);
+console.log(data);
+			callback(data);
 		}
 	});
 }

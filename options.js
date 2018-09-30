@@ -43,6 +43,9 @@ function save_options(){
 	var feedTwitterSecret = document.getElementById('feedTwitterSecret').value;
 	var feedTwitterToken = document.getElementById('feedTwitterToken').value;
 	var feedTwitterTokenSecret = document.getElementById('feedTwitterTokenSecret').value;
+	var feedWowhead = (document.getElementById('feedWowhead').checked) ? true: false;
+	var feedWowheadUrl = document.getElementById('feedWowheadUrl').value;
+	var feedConnections = (document.getElementById('feedConnections').checked) ? true: false;
 
 	//Store values
 	chrome.storage.sync.set({
@@ -80,7 +83,10 @@ function save_options(){
 			FeedTwitterKey:			feedTwitterKey,
 			FeedTwitterSecret:		feedTwitterSecret,
 			FeedTwitterToken:		feedTwitterToken,
-			FeedTwitterTokenSecret:	feedTwitterTokenSecret
+			FeedTwitterTokenSecret:	feedTwitterTokenSecret,
+			FeedWowhead:			feedWowhead,
+			FeedWowheadUrl:			feedWowheadUrl,
+			FeedConnections:		feedConnections,
 		}, function() {
 			// Update status to let user know options were saved.
 			var status = document.getElementById('status');
@@ -129,7 +135,10 @@ function restore_options(){
 		FeedTwitterKey:			'',
 		FeedTwitterSecret:		'',
 		FeedTwitterToken:		'',
-		FeedTwitterTokenSecret:	''
+		FeedTwitterTokenSecret:	'',
+		FeedWowhead:			false,
+		FeedWowheadUrl:			'http://www.wowhead.com/news%26rss',
+		FeedConnections:		false,
 	}, function(items){
 	//Set values
 console.log(items);
@@ -177,5 +186,8 @@ console.log(items);
 		document.getElementById('feedTwitterSecret').value = items.FeedTwitterSecret;
 		document.getElementById('feedTwitterToken').value = items.FeedTwitterToken;
 		document.getElementById('feedTwitterTokenSecret').value = items.FeedTwitterTokenSecret;
+		document.getElementById('feedWowhead').checked = items.FeedWowhead;
+		document.getElementById('feedWowheadUrl').value = items.FeedWowheadUrl;
+		document.getElementById('feedConnections').checked = items.FeedConnections;
 	});
 }
