@@ -1,74 +1,84 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="google" value="notranslate">
+	<meta charset="utf-8" />
+	<meta name="google" value="notranslate" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>kboStartpage Options</title>
-	<link rel="stylesheet" type="text/css" href="startpage.css">
-	<link rel="stylesheet" type="text/css" href="weather.css">
+	<link rel="stylesheet" type="text/css" href="options.css" />
 	<script src="options.js"></script>
 </head>
 <body>
 
-<aside>
-	<h2>Feeds</h2>
-	<ul id="feeds">
-		<li><img src="icons/bosch.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedConnections' />Bosch Connect</li>
-		<li><img src="icons/easternsun.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedEasternsun' />Eastern Sun Forum</li>
-		<li><img src="icons/planetDebian.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedPlanetDebian' />Planet Debian</li>
-		<li>
-			<img src="icons/reddit.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedReddit' />Reddit<br />
-			<a href="https://www.reddit.com/prefs/feeds/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="Private JSON feed from Reddit Profile.">&nbsp;</a><input id='feedRedditUrl' value='' />
-		</li>
-		<li><img src="icons/tagesschau.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedTagesschau' />Tagesschau</li>
-		<li>
-			<img src="icons/twitter.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedTwitter' />Twitter<br />
-			<a href="https://apps.twitter.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="API Key">&nbsp;</a><input id='feedTwitterKey' value='' /><br />
-			<a href="https://apps.twitter.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="API Secret">&nbsp;</a><input id='feedTwitterSecret' value='' /><br />
-			<a href="https://apps.twitter.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="Token">&nbsp;</a><input id='feedTwitterToken' value='' /><br />
-			<a href="https://apps.twitter.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="Token Secret">&nbsp;</a><input id='feedTwitterTokenSecret' value='' />
-		</li>
-			<img src="icons/wowhead.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedWowhead' />Wowhead<br />
-			<a href="https://www.wowhead.com/" target="_blank" style='margin-left: 20px;'><img src="help.png" width="16" height="16" title="(Personal) RSS feed from Wowhead.">&nbsp;</a><input id='feedWowheadUrl' value='' />
-		</li>
+<h2>Weather</h2>
+<div>
+	<label>Location</label><br />
+	<input id="weatherID" value="" /><br />
+	<span class="caption">Check <a href="https://weather.yahoo.com/" target="_blank">Yahoo! Weather</a> for available cities and propper formating.</span>
+</div>
+<div>
+	<label>Unit</label><br />
+	<input type="radio" name="weatherUnit" id="weatherTTf" value="f" />Fahrenheit
+	<input type="radio" name="weatherUnit" id="weatherTTc" value="c" />Celsius
+</div>
+
+<h2>Favorites</h2>
+<table id="links"><tr><td style="border-right: 1px solid black;">
+	<ul id="linksL">
+		<li><table><tr><td>
+			<label>Link</label><br />
+			<input id="linkL1l" value='' /><br />
+			<label>Description</label><br />
+			<input id="linkL1d" value='' />
+			</td><td><input type='checkbox' id='linkL1v' /></td></table></li>
+		<li><table><tr><td><label>Link</label><br /><input id="linkL2l" value='' /><br /><label>Description</label><br /><input id="linkL2d" value='' /></td><td><input type='checkbox' id='linkL2v' /></td></table></li>
+		<li><table><tr><td><label>Link</label><br /><input id="linkL3l" value='' /><br /><label>Description</label><br /><input id="linkL3d" value='' /></td><td><input type='checkbox' id='linkL3v' /></td></table></li>
+		<li><table><tr><td><label>Link</label><br /><input id="linkL4l" value='' /><br /><label>Description</label><br /><input id="linkL4d" value='' /></td><td><input type='checkbox' id='linkL4v' /></td></table></li>
 	</ul>
-</aside>
+</td><td>
+	<ul id="linksR">
+		<li><table><tr><td><input type='checkbox' id='linkR1v' /></td><td>
+			<label>Link</label><br />
+			<input id='linkR1l' value=''/><br />
+			<label>Description</label><br />
+			<input id="linkR1d" value='' />
+			</td></table></li>
+		<li><table><tr><td><input type='checkbox' id='linkR2v' /></td><td><label>Link</label><br /><input id='linkR2l' value=''/><br /><label>Description</label><br /><input id="linkR2d" value='' /></td></table></li>
+		<li><table><tr><td><input type='checkbox' id='linkR3v' /></td><td><label>Link</label><br /><input id='linkR3l' value=''/><br /><label>Description</label><br /><input id="linkR3d" value='' /></td></table></li>
+		<li><table><tr><td><input type='checkbox' id='linkR4v' /></td><td><label>Link</label><br /><input id='linkR4l' value=''/><br /><label>Description</label><br /><input id="linkR4d" value='' /></td></table></li>
+	</ul>
+</td></tr></table>
 
-<section>
-	<h2>Weather</h2>
-	<div id="weather">
-		<div><input id="weatherID" value='' />&nbsp;<a href="https://weather.yahoo.com/" target="_blank"><img src="help.png" width="16" height="16" title="Check Yahoo! Weather for available cities."></a></div>
-		<ul>
-			<li><input type="radio" name="weatherUnit" id="weatherTTf" value="f" />Fahrenheit</li>
-			<li><input type="radio" name="weatherUnit" id="weatherTTc" value="c" />Celsius</li>
-		</ul>
-	</div>
-	<h2>Links</h2>
-	<table id="links"><tr><td style="border-right: 1px solid black;">
-		<ul id="linksL">
-			<li><table><tr><td><input id="linkL1l" value='' /><input id="linkL1d" value='' /></td><td><input type='checkbox' id='linkL1v' /></td></table></li>
-			<li><table><tr><td><input id="linkL2l" value='' /><input id="linkL2d" value='' /></td><td><input type='checkbox' id='linkL2v' /></td></table></li>
-			<li><table><tr><td><input id="linkL3l" value='' /><input id="linkL3d" value='' /></td><td><input type='checkbox' id='linkL3v' /></td></table></li>
-			<li><table><tr><td><input id="linkL4l" value='' /><input id="linkL4d" value='' /></td><td><input type='checkbox' id='linkL4v' /></td></table></li>
-		</ul>
-	</td><td>
-		<ul id="linksR">
-			<li><table><tr><td><input type='checkbox' id='linkR1v' /></td><td><input id='linkR1l' value=''/><input id="linkR1d" value='' /></td></table></li>
-			<li><table><tr><td><input type='checkbox' id='linkR2v' /></td><td><input id='linkR2l' value=''/><input id="linkR2d" value='' /></td></table></li>
-			<li><table><tr><td><input type='checkbox' id='linkR3v' /></td><td><input id='linkR3l' value=''/><input id="linkR3d" value='' /></td></table></li>
-			<li><table><tr><td><input type='checkbox' id='linkR4v' /></td><td><input id='linkR4l' value=''/><input id="linkR4d" value='' /></td></table></li>
-		</ul>
-	</td></tr></table>
-	<span style="vertical-align: bottom;">
-	<div id="status"></div>
-	<button id="save">Save</button>
-	</span>
-</section>
+<h2>Feeds</h2>
+<ul id="feeds">
+	<li><img src="icons/bosch.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedConnections' />Bosch Connect</li>
+	<li><img src="icons/bosch.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedZunder' />Bosch Z&uuml;nder</li>
+	<li><img src="icons/easternsun.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedEasternsun' disabled />Eastern Sun Forum</li>
+	<li><img src="icons/planetDebian.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedPlanetDebian' />Planet Debian</li>
+	<li><img src="icons/reddit.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedReddit' />Reddit<div>
+		<input id='feedRedditUrl' value='' /><br />
+		<span class="caption">Private JSON feed from your <a href="https://www.reddit.com/prefs/feeds/" target="_blank">Reddit profile</a>.</span>
+	</div></li>
+	<li><img src="icons/tagesschau.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedTagesschau' />Tagesschau</li>
+	<li><img src="icons/twitter.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedTwitter' />Twitter<div>
+		<label>API Key</label><br />
+		<input id='feedTwitterKey' value='' /><br />
+		<label>API Secret</label><br />
+		<input id='feedTwitterSecret' value='' /><br />
+		<label>Token</label><br />
+		<input id='feedTwitterToken' value='' /><br />
+		<label>Token Secret</label><br />
+		<input id='feedTwitterTokenSecret' value='' /><br />
+		<span class="caption">Information for all fields above is provided by creating a new <a href="https://apps.twitter.com/" target="_blank">App in Twitter</a>.</span><br />
 
-<footer>
-	<div id="runtime"></div>
-</footer>
+	</div></li>
+	<li><img src="icons/wowhead.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedWowhead' />WoWhead</li>
+</ul>
+
+<span style="vertical-align: bottom;">
+<div id="status"></div>
+<button id="save">Save</button>
+</span>
 
 </body>
 </html>

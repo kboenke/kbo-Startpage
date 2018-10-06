@@ -1,13 +1,12 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="google" value="notranslate">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>kboStartpage</title>
-	<link rel="stylesheet" type="text/css" href="startpage.css">
-	<link rel="stylesheet" type="text/css" href="weather.css">
-	<script src="jQuery/jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="startpage.css" />
+	<link rel="stylesheet" type="text/css" href="weather.css" />
+	<script src="jQuery/jquery-3.3.1.min.js"></script>
 	<script src="oAuth/hmac-sha1.js"></script>
 	<script src="oAuth/enc-base64-min.js"></script>
 	<script src="simpleWeather/jquery.simpleWeather.min.js"></script>
@@ -15,23 +14,18 @@
 </head>
 <body>
 
-<aside>
-	<ul id="feeds">
-	</ul>
-</aside>
-
-<section>
-	<div id="weather"><!-- http://simpleweatherjs.com/ //--></div>
-	<table id="links"><tr><td style="border-right: 1px solid black;">
-		<ul id="linksL"></ul>
-	</td><td>
-		<ul id="linksR"></ul>
-	</td></tr></table>
-</section>
-
-<footer>
-	<div id="runtime"></div>
-</footer>
+<div class="content">
+	<div class="main">
+		<div class="weather" id="weather"><!-- http://simpleweatherjs.com/ //--></div>
+		<div class="links">
+			<table id="links"><tr>
+				<td style="border-right: 1px solid black;"><ul id="linksL"></ul></td>
+				<td><ul id="linksR"></ul></td>
+			</tr></table>
+		</div>
+	</div>
+	<div class="side"><ul id="feeds" class="feeds"></ul></div>
+</div>
 
 </body>
 </html>

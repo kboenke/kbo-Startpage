@@ -1,10 +1,4 @@
 document.addEventListener('DOMContentLoaded', initialize, false);
-window.addEventListener('unload', function(object){
-	chrome.storage.sync.set({'kboStartpage_lastUpdate': Date.now()}, function(){});
-console.log('Poof');
-});
-
-
 var feedData = [];
 var kboLastUpdate = 0;
 var kboConfig;
@@ -13,71 +7,72 @@ var kboConfig;
 function initialize(){
 	// Load Options
 	chrome.storage.sync.get({
-		WeatherID:		'Miami Beach, FL',
-		WeatherUnit:	'f',
-		LinkL1v:		false,
-		LinkL2v:		false,
-		LinkL3v:		false,
-		LinkL4v:		false,
-		LinkR1v:		false,
-		LinkR2v:		false,
-		LinkR3v:		false,
-		LinkR4v:		false,
-		LinkL1l:		'',
-		LinkL1d:		'',
-		LinkL2l:		'',
-		LinkL2d:		'',
-		LinkL3l:		'',
-		LinkL3d:		'',
-		LinkL4l:		'',
-		LinkL4d:		'',
-		LinkR1l:		'',
-		LinkR1d:		'',
-		LinkR2l:		'',
-		LinkR2d:		'',
-		LinkR3l:		'',
-		LinkR3d:		'',
-		LinkR4l:		'',
-		LinkR4d:		'',
-		FeedPlanetDebian:	true,
-		FeedReddit:		false,
-		FeedRedditUrl:	'',
-		FeedTagesschau:	true,
-		FeedTwitter:	false,
+		WeatherID:				'Miami Beach, FL',
+		WeatherUnit:			'f',
+		LinkL1v:				false,
+		LinkL2v:				false,
+		LinkL3v:				false,
+		LinkL4v:				false,
+		LinkR1v:				false,
+		LinkR2v:				false,
+		LinkR3v:				false,
+		LinkR4v:				false,
+		LinkL1l:				'',
+		LinkL1d:				'',
+		LinkL2l:				'',
+		LinkL2d:				'',
+		LinkL3l:				'',
+		LinkL3d:				'',
+		LinkL4l:				'',
+		LinkL4d:				'',
+		LinkR1l:				'',
+		LinkR1d:				'',
+		LinkR2l:				'',
+		LinkR2d:				'',
+		LinkR3l:				'',
+		LinkR3d:				'',
+		LinkR4l:				'',
+		LinkR4d:				'',
+		FeedPlanetDebian:		true,
+		FeedReddit:				false,
+		FeedRedditUrl:			'',
+		FeedTagesschau:			true,
+		FeedTwitter:			false,
 		FeedTwitterKey:			'',
 		FeedTwitterSecret:		'',
 		FeedTwitterToken:		'',
 		FeedTwitterTokenSecret:	'',
-		FeedWowhead:	false,
-		FeedWowheadUrl:	'',
+		FeedWowhead:			false,
+		FeedConnections:		false,
+		FeedZunder:				false
 	}, function(items){
 		kboConfig = {
-			WeatherID:		items.WeatherID,
-			WeatherUnit:	items.WeatherUnit,
-			LinkL1v:		items.LinkL1v,
-			LinkL2v:		items.LinkL2v,
-			LinkL3v:		items.LinkL3v,
-			LinkL4v:		items.LinkL4v,
-			LinkR1v:		items.LinkR1v,
-			LinkR2v:		items.LinkR2v,
-			LinkR3v:		items.LinkR3v,
-			LinkR4v:		items.LinkR4v,
-			LinkL1l:		items.LinkL1l,
-			LinkL1d:		items.LinkL1d,
-			LinkL2l:		items.LinkL2l,
-			LinkL2d:		items.LinkL2d,
-			LinkL3l:		items.LinkL3l,
-			LinkL3d:		items.LinkL3d,
-			LinkL4l:		items.LinkL4l,
-			LinkL4d:		items.LinkL4d,
-			LinkR1l:		items.LinkR1l,
-			LinkR1d:		items.LinkR1d,
-			LinkR2l:		items.LinkR2l,
-			LinkR2d:		items.LinkR2d,
-			LinkR3l:		items.LinkR3l,
-			LinkR3d:		items.LinkR3d,
-			LinkR4l:		items.LinkR4l,
-			LinkR4d:		items.LinkR4d,
+			WeatherID:				items.WeatherID,
+			WeatherUnit:			items.WeatherUnit,
+			LinkL1v:				items.LinkL1v,
+			LinkL2v:				items.LinkL2v,
+			LinkL3v:				items.LinkL3v,
+			LinkL4v:				items.LinkL4v,
+			LinkR1v:				items.LinkR1v,
+			LinkR2v:				items.LinkR2v,
+			LinkR3v:				items.LinkR3v,
+			LinkR4v:				items.LinkR4v,
+			LinkL1l:				items.LinkL1l,
+			LinkL1d:				items.LinkL1d,
+			LinkL2l:				items.LinkL2l,
+			LinkL2d:				items.LinkL2d,
+			LinkL3l:				items.LinkL3l,
+			LinkL3d:				items.LinkL3d,
+			LinkL4l:				items.LinkL4l,
+			LinkL4d:				items.LinkL4d,
+			LinkR1l:				items.LinkR1l,
+			LinkR1d:				items.LinkR1d,
+			LinkR2l:				items.LinkR2l,
+			LinkR2d:				items.LinkR2d,
+			LinkR3l:				items.LinkR3l,
+			LinkR3d:				items.LinkR3d,
+			LinkR4l:				items.LinkR4l,
+			LinkR4d:				items.LinkR4d,
 			FeedPlanetDebian:		items.FeedPlanetDebian,
 			FeedEasternsun:			items.FeedEasternsun,
 			FeedReddit:				items.FeedReddit,
@@ -91,26 +86,28 @@ function initialize(){
 			FeedWowhead:			items.FeedWowhead,
 			FeedWowheadUrl:			items.FeedWowheadUrl,
 			FeedConnections:		items.FeedConnections,
+			FeedZunder:				items.FeedZunder,
 		};
 		//Populate page
 		loadWeather();
 		loadLinks();
-console.log(kboConfig);
 		
 		// Attempt restore of last update
-		chrome.storage.sync.get('kboStartpage_lastUpdate', function(storedData){
+		chrome.storage.local.get('kboStartpage_lastUpdate', function(storedData){
 			if(storedData.kboStartpage_lastUpdate > 0){
 				kboLastUpdate = storedData.kboStartpage_lastUpdate;
 			}
 			loadFeeds();
 		});
+		// Save current timestamp for next page-load
+		chrome.storage.local.set({'kboStartpage_lastUpdate': Date.now()}, function(){});
 	});
 }
 
 /* Invoked by Initialize */
 function loadLinks(){
-	rawL = '<li><a href="{link}">{desc}</a>&nbsp;<img src="{favicon}" width=\'16\' height=\'16\'></li>';
-	rawR = '<li><img src="{favicon}" width=\'16\' height=\'16\'>&nbsp;<a href="{link}">{desc}</a></li>';
+	rawL = '<li><a href="{link}">{desc}</a>&nbsp;<img src="{favicon}" width=\'16\' height=\'16\' alt=\'\' \></li>';
+	rawR = '<li><img src="{favicon}" width=\'16\' height=\'16\' alt=\'\' \>&nbsp;<a href="{link}">{desc}</a></li>';
 	linkL = "";
 	linkR = "";
 	favicon = "http://www.google.com/s2/favicons?domain=";
@@ -167,8 +164,10 @@ function loadLinks(){
 	}
 	
 	//Populate page
-	document.getElementById('linksL').innerHTML = linkL;
-	document.getElementById('linksR').innerHTML = linkR;
+	//document.getElementById('linksL').innerHTML = linkL;
+	$("ul#linksL").html(linkL);
+	//document.getElementById('linksR').innerHTML = linkR;
+	$("ul#linksR").html(linkR);
 }
 
 
@@ -176,7 +175,7 @@ function loadLinks(){
 function loadFeeds(){
 	// Clear existing data
 	feedData = [];
-	document.getElementById("feeds").innerHTML = "<div id=\"loading\"><img src=\"loading.gif\" class=\"loading\" /></div>";
+	$("ul#feeds").html("<li class=\"loading\"><span style=\"display: inline-block; height: 80%;\"></span><img src=\"loading.gif\" class=\"loading\" /></li>");
 	
 	// Get data
 	if(kboConfig['FeedTwitter'])
@@ -192,7 +191,9 @@ function loadFeeds(){
 	if(kboConfig['FeedWowhead'])
 		loadWowhead();
 	if(kboConfig['FeedConnections'])
-		loadConnetions();
+		loadConnections();
+	if(kboConfig['FeedZunder'])
+		loadZunder();
 }
 
 
@@ -214,27 +215,25 @@ function updateContent(){
 		}
 	}while(swapped != false);
 	
-	// Limit output
-//	data = data.splice(0,40);
-	
 	// Parse data
 	var output = "";
 	for(i=0; i<data.length; i++){
 		cssClass = (data[i]['timestamp'] > kboLastUpdate) ? "newitem" : "olditem";
-		output += "<li class=\""+ cssClass +"\"><img src=icons/"+ data[i]['icon'] +" width='16' height='16' />&nbsp;<a href=\""+ data[i]['link'] +"\">"+ data[i]['value'] +"</a></li>";
+		output += "<li class=\""+ cssClass +"\"><img src=icons/"+ data[i]['icon'] +" width='16' height='16' alt='' />&nbsp;<a href=\""+ data[i]['link'] +"\">"+ data[i]['value'] +"</a></li>";
 	}
 	
 	// Inject into page
-	document.getElementById("feeds").innerHTML = output;
+	//document.getElementById("feeds").innerHTML = output;
+	$("ul#feeds").html(output);
 }
 
 
 /*
- * Function for loading data
+ * Functions for loading data
  */
 function loadTwitter(){
 	twitterURL =			"https://api.twitter.com/1.1/statuses/home_timeline.json";
-//	twitterURL =			"https://api.twitter.com/oauth/request_token";
+	//twitterURL =			"https://api.twitter.com/oauth/request_token";
 	twitterURLmethod =		"GET",
 	twitterKey =			kboConfig['FeedTwitterKey'];
 	twitterSecret =			kboConfig['FeedTwitterSecret'];
@@ -302,13 +301,13 @@ function loadReddit(){
 
 function loadTagesschau(){
 	parseRSS("https://www.tagesschau.de/xml/rss2", function(tagesschauData) {
-		$.each(tagesschauData.items, function(i, entry){
+		$.each(tagesschauData, function(i, entry){
 			feedData.push({
 				icon: "tagesschau.ico",
-				timestamp: (new Date(entry.pubDate)).getTime() - (6*3600*1000),
+				timestamp: (new Date(entry.pubDate)).getTime(),
 				link: entry.link,
 				value: entry.title
-			});
+				});
 		});
 		updateContent();
 	});
@@ -319,8 +318,8 @@ function loadEasternsun(){
 		$.each(easternsunData.entries, function(i, post){
 			feedData.push({
 				icon: "easternsun.png",
-				timestamp: (new Date(post.published)).getTime() - (6*3600*1000),
-				link: post.link,
+				timestamp: (new Date(post.published)).getTime(),
+				link: post.href,
 				value: post.title
 			});
 		});
@@ -329,12 +328,12 @@ function loadEasternsun(){
 }
 
 function loadPlanetDebian(){
-	parseRSS("http://planet.debian.org/atom.xml", function(planetDebianData) {
-		$.each(planetDebianData.items, function(i, post){
+	parseRSS("https://planet.debian.org/atom.xml", function(planetDebianData) {
+		$.each(planetDebianData, function(i, post){
 			feedData.push({
 				icon: "planetDebian.ico",
-				timestamp: (new Date(post.pubDate)).getTime(),
-				link: post.link,
+				timestamp: (new Date(post.updated)).getTime(),
+				link: post.href,
 				value: post.title
 			});
 		});
@@ -343,12 +342,12 @@ function loadPlanetDebian(){
 }
 
 function loadWowhead(){
-	parseRSS(kboConfig['FeedWowheadUrl'], function(wowheadData) {
-		$.each(wowheadData.items, function(i, post){
+	parseRSS("https://www.wowhead.com/news%26rss", function(wowheadData) {
+		$.each(wowheadData, function(i, post){
 			feedData.push({
 				icon: "wowhead.ico",
-				timestamp: (new Date(post.pubDate)).getTime() - (5*3600*1000),
-				link: post.link,
+				timestamp: (new Date(post.pubDate)).getTime(),
+				link: post.guid,
 				value: post.title
 			});
 		});
@@ -357,32 +356,65 @@ function loadWowhead(){
 }
 
 function loadConnections(){
-	parseRSS("https://connect.bosch.com/connections/opensocial/basic/rest/activitystreams/@me/@all/@all?shortStrings=true&rollup=true&format=atom", function(connectionsdData) {
-		$.each(connectionsdData.items, function(i, post){
+	$.getJSON("https://connect.bosch.com/connections/opensocial/basic/rest/activitystreams/@me/@all/@all?shortStrings=true&rollup=true&format=json", function(connectionsData) {
+		$(connectionsData.list).each(function(i, item){
 			feedData.push({
 				icon: "bosch.png",
-				timestamp: (new Date(post.updated)).getTime(),
-				link: post.link,
-				value: post.title
+				timestamp: (new Date(item.updated)).getTime(),
+				link: item.object.url,
+				value: $("<div>").html(item.connections.plainTitle).text()
 			});
 		});
 		updateContent();
 	});
 }
 
+function loadZunder(){
+	$.getJSON("https://inside-ws.bosch.com/bgnnewsservice/en/articles/?sortField=creationDate&sortOrder=DESC", function(zunderData) {
+		$.each(zunderData, function(i, item){
+			feedData.push({
+				icon: "bosch.png",
+				timestamp: (new Date(item.creationDate)).getTime(),
+				link: "http://bzo.bosch.com/" + item.url,
+				value: item.headline
+			});
+		});
+		updateContent();
+	});
+}
+
+
 /*
  * Helper Functions
  */
 function parseRSS(url, callback) {
 	$.ajax({
-		url: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url),
+//		url: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url),
 //		url: 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=?&num=20&q=' + encodeURIComponent(url),
 //		url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20rss%20where%20url%20in%20(select%20title%20from%20atom%20where%20url%3D'"+ encodeURIComponent(url) +"')&format=json&callback=",
-		dataType: 'json',
+//		dataType: 'json',
+		url: url,
 		success: function(data) {
-console.log(data);
-			callback(data);
-		}
+//console.log(data);
+			var _data = new Array();
+			$(["entry", "item", "post"]).each(function(_, key){
+				$(data).find(key).each(function(_, item){
+					var _item = {
+						title:		$(item).find("title").text(),
+						href:		$(item).find("link").attr("href"),
+						link:		$(item).find("link").text(),
+						guid:		$(item).find("guid").text(),
+						pubDate:	$(item).find("pubDate").text(),
+						updated:	$(item).find("updated").text()
+					};
+//console.log(item);
+//console.log(_item);
+					_data.push(_item);
+				});
+			});
+			callback(_data);
+		},
+		error: function(data) { console.log(data); }
 	});
 }
 
@@ -405,16 +437,15 @@ function loadWeather(){
 		woeid: '',
 		unit: kboConfig['WeatherUnit'],
 		success: function(weather) {
-			html = '<h2><i class="icon-'+weather.code+'" title="'+kboConfig['WeatherID']+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
-			html += '<ul>';
+			html = '<h2><i class="icon-'+weather.code+'" title="'+weather.currently+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
+			html += '<ul class="forecast">';
 			for(var i=1;i<Math.min(6,weather.forecast.length);i++) {
-				html += '<li><i class="icon-'+weather.forecast[i].code+'" style="font-size:2.5em"></i> '+weather.forecast[i].high+'&deg;'+weather.units.temp+'</li>';
+				title = weather.forecast[i].day + ": " + weather.forecast[i].text;
+				html += '<li><i class="icon-'+weather.forecast[i].code+'" style="font-size:2.5em" title="'+title+'"></i> '+weather.forecast[i].high+'&deg;'+weather.units.temp+'</li>';
 			}
 			html += '</ul>';
 			$("#weather").html(html);
 		},
-		error: function(error) {
-			$("#weather").html('<p>'+error+'</p>');
-		}
+		error: function(error) { $("#weather").html('<p>'+error+'</p>'); }
 	});
 }

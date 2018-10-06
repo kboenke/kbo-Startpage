@@ -1,5 +1,6 @@
 // https://developer.chrome.com/extensions/options
 document.addEventListener('DOMContentLoaded', initialize, false);
+window.onbeforeunload = save_options;
 function initialize(){
 	document.addEventListener('DOMContentLoaded', restore_options);
 	document.getElementById('save').addEventListener('click', save_options);
@@ -7,6 +8,7 @@ function initialize(){
 }
 
 function save_options(){
+console.log("Saving");
 	//Get values
 	var weatherID = document.getElementById('weatherID').value;
 	var weatherUnit = (document.getElementById('weatherTTf').checked) ? "f" : "c";
@@ -44,8 +46,8 @@ function save_options(){
 	var feedTwitterToken = document.getElementById('feedTwitterToken').value;
 	var feedTwitterTokenSecret = document.getElementById('feedTwitterTokenSecret').value;
 	var feedWowhead = (document.getElementById('feedWowhead').checked) ? true: false;
-	var feedWowheadUrl = document.getElementById('feedWowheadUrl').value;
 	var feedConnections = (document.getElementById('feedConnections').checked) ? true: false;
+	var feedZunder = (document.getElementById('feedZunder').checked) ? true: false;
 
 	//Store values
 	chrome.storage.sync.set({
@@ -85,8 +87,8 @@ function save_options(){
 			FeedTwitterToken:		feedTwitterToken,
 			FeedTwitterTokenSecret:	feedTwitterTokenSecret,
 			FeedWowhead:			feedWowhead,
-			FeedWowheadUrl:			feedWowheadUrl,
 			FeedConnections:		feedConnections,
+			FeedZunder:				feedZunder,
 		}, function() {
 			// Update status to let user know options were saved.
 			var status = document.getElementById('status');
@@ -137,11 +139,10 @@ function restore_options(){
 		FeedTwitterToken:		'',
 		FeedTwitterTokenSecret:	'',
 		FeedWowhead:			false,
-		FeedWowheadUrl:			'http://www.wowhead.com/news%26rss',
 		FeedConnections:		false,
+		FeedZunder:				false,
 	}, function(items){
 	//Set values
-console.log(items);
 		//Weather
 		document.getElementById('weatherID').value = items.WeatherID;
 		if(items.WeatherUnit == 'c'){
@@ -187,7 +188,7 @@ console.log(items);
 		document.getElementById('feedTwitterToken').value = items.FeedTwitterToken;
 		document.getElementById('feedTwitterTokenSecret').value = items.FeedTwitterTokenSecret;
 		document.getElementById('feedWowhead').checked = items.FeedWowhead;
-		document.getElementById('feedWowheadUrl').value = items.FeedWowheadUrl;
 		document.getElementById('feedConnections').checked = items.FeedConnections;
+		document.getElementById('feedZunder').checked = items.FeedZunder;
 	});
 }

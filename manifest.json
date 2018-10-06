@@ -2,21 +2,57 @@
 	"manifest_version":	2,
 	"name":			"kbo Startpage",
 	"description":		"Personalized startpage.",
-	"version":		"1.31",
-	"content_security_policy": "script-src 'self' https://query.yahooapis.com https://ajax.googleapis.com; object-src 'self'",
-	"options_page":		"options.html",
+	"icons":		{
+		"64":	"icons/lab64.png",
+		"32":	"icons/lab32.png"
+	},
+	"version":		"1.40",
+	"content_security_policy": "script-src 'self' https://query.yahooapis.com; object-src 'self'",
+	"applications": {
+		"gecko": {
+			"id": "{0917fcf7-bb50-4b20-af83-274d85af4312}"
+		}
+	},
+	"options_ui": {
+		"page": "options.html",
+		"browser_style": true,
+		"chrome_style": true
+	},
 	
-	"chrome_url_overrides" : {
+	"chrome_url_overrides": {
 		"newtab": "startpage.html"
+	},
+	"chrome_settings_overrides": {
+"search_provider": {
+        "name": "name.__MSG_url_domain__",
+        "keyword": "keyword.__MSG_url_domain__",
+        "search_url": "https://www.foo.__MSG_url_domain__/s?q={searchTerms}",
+        "favicon_url": "https://www.foo.__MSG_url_domain__/favicon.ico",
+        "suggest_url": "https://www.foo.__MSG_url_domain__/suggest?q={searchTerms}",
+        "instant_url": "https://www.foo.__MSG_url_domain__/instant?q={searchTerms}",
+        "image_url": "https://www.foo.__MSG_url_domain__/image?q={searchTerms}",
+        "search_url_post_params": "search_lang=__MSG_url_domain__",
+        "suggest_url_post_params": "suggest_lang=__MSG_url_domain__",
+        "instant_url_post_params": "instant_lang=__MSG_url_domain__",
+        "image_url_post_params": "image_lang=__MSG_url_domain__",
+        "alternate_urls": [
+          "http://www.moo.__MSG_url_domain__/s?q={searchTerms}",
+          "http://www.noo.__MSG_url_domain__/s?q={searchTerms}"
+        ],
+        "encoding": "UTF-8",
+        "is_default": true
+    },
+		"homepage": "startpage.html",
+		"startup_pages": ["startpage.html"]
 	},
 	"permissions": [
 		"https://api.twitter.com/*",
 		"https://www.reddit.com/*",
-		"https://www.feedly.com/*",
-		"https://ajax.googleapis.com/*",
 		"https://api.rss2json.com/*",
+		"https://www.tagesschau.de/xml/rss2",
+		"https://planet.debian.org/atom.xml",
 		"https://www.wowhead.com/*",
-		"https://connect.bosch.com/*",
+		"https://*.bosch.com/*",
 		"storage"
 	]
 }
