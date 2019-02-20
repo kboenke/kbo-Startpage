@@ -7,8 +7,9 @@ var kboConfig;
 function initialize(){
 	// Load Options
 	chrome.storage.sync.get({
-		WeatherID:				'Miami Beach, FL',
+		WeatherLoc:				'25.867377,-80.120379',
 		WeatherUnit:			'f',
+		WeatherApiKey:			'', 
 		LinkL1v:				false,
 		LinkL2v:				false,
 		LinkL3v:				false,
@@ -33,6 +34,7 @@ function initialize(){
 		LinkR3d:				'',
 		LinkR4l:				'',
 		LinkR4d:				'',
+		FeedEasternsun:			false,
 		FeedPlanetDebian:		true,
 		FeedReddit:				false,
 		FeedRedditUrl:			'',
@@ -47,8 +49,9 @@ function initialize(){
 		FeedZunder:				false
 	}, function(items){
 		kboConfig = {
-			WeatherID:				items.WeatherID,
+			WeatherLoc:				items.WeatherLoc,
 			WeatherUnit:			items.WeatherUnit,
+			WeatherApiKey:			items.WeatherApiKey,
 			LinkL1v:				items.LinkL1v,
 			LinkL2v:				items.LinkL2v,
 			LinkL3v:				items.LinkL3v,
@@ -73,8 +76,8 @@ function initialize(){
 			LinkR3d:				items.LinkR3d,
 			LinkR4l:				items.LinkR4l,
 			LinkR4d:				items.LinkR4d,
-			FeedPlanetDebian:		items.FeedPlanetDebian,
 			FeedEasternsun:			items.FeedEasternsun,
+			FeedPlanetDebian:		items.FeedPlanetDebian,
 			FeedReddit:				items.FeedReddit,
 			FeedRedditUrl:			items.FeedRedditUrl,
 			FeedTagesschau:			items.FeedTagesschau,
@@ -91,7 +94,7 @@ function initialize(){
 		//Populate page
 		loadWeather();
 		loadLinks();
-		
+
 		// Attempt restore of last update
 		chrome.storage.local.get('kboStartpage_lastUpdate', function(storedData){
 			if(storedData.kboStartpage_lastUpdate > 0){
@@ -99,8 +102,6 @@ function initialize(){
 			}
 			loadFeeds();
 		});
-		// Save current timestamp for next page-load
-		chrome.storage.local.set({'kboStartpage_lastUpdate': Date.now()}, function(){});
 	});
 }
 
@@ -111,7 +112,7 @@ function loadLinks(){
 	linkL = "";
 	linkR = "";
 	favicon = "http://www.google.com/s2/favicons?domain=";
-	
+
 	//Build linklists
 	if(kboConfig['LinkL1v']){
 		urlParts = (kboConfig['LinkL1l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
@@ -137,7 +138,7 @@ function loadLinks(){
 		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL4l'])).replace("{desc}", kboConfig['LinkL4d'])).replace("{favicon}", _favicon);
 		linkL+= linkBuilder;
 	}
-	
+
 	if(kboConfig['LinkR1v']){
 		urlParts = (kboConfig['LinkR1l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
 		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
@@ -162,7 +163,7 @@ function loadLinks(){
 		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR4l'])).replace("{desc}", kboConfig['LinkR4d'])).replace("{favicon}", _favicon);
 		linkR+= linkBuilder;
 	}
-	
+
 	//Populate page
 	//document.getElementById('linksL').innerHTML = linkL;
 	$("ul#linksL").html(linkL);
@@ -176,7 +177,7 @@ function loadFeeds(){
 	// Clear existing data
 	feedData = [];
 	$("ul#feeds").html("<li class=\"loading\"><span style=\"display: inline-block; height: 80%;\"></span><img src=\"loading.gif\" class=\"loading\" /></li>");
-	
+
 	// Get data
 	if(kboConfig['FeedTwitter'])
 		loadTwitter();
@@ -201,7 +202,7 @@ function loadFeeds(){
 function updateContent(){
 	// Copy data to avoid race-conditions
 	data = feedData;
-	
+
 	// Sort items
 	do{
 		var swapped = false;
@@ -214,17 +215,21 @@ function updateContent(){
 			}
 		}
 	}while(swapped != false);
-	
+
 	// Parse data
 	var output = "";
 	for(i=0; i<data.length; i++){
+		if(data[i]['timestamp'] > Date.now()){ continue; }
 		cssClass = (data[i]['timestamp'] > kboLastUpdate) ? "newitem" : "olditem";
 		output += "<li class=\""+ cssClass +"\"><img src=icons/"+ data[i]['icon'] +" width='16' height='16' alt='' />&nbsp;<a href=\""+ data[i]['link'] +"\">"+ data[i]['value'] +"</a></li>";
 	}
-	
+
 	// Inject into page
 	//document.getElementById("feeds").innerHTML = output;
 	$("ul#feeds").html(output);
+
+	// Save current timestamp for next page-load
+	chrome.storage.local.set({'kboStartpage_lastUpdate': Date.now()}, function(){});
 }
 
 
@@ -241,7 +246,7 @@ function loadTwitter(){
 	twitterTokenSecret =	kboConfig['FeedTwitterTokenSecret'];
 	twitterNonce =			getNonce(32);
 	twitterTimestamp =		Math.round(Date.now()/1000);
-	
+
 	// Generate oAuth Signature (https://dev.twitter.com/oauth/overview/creating-signatures)
 	twitterParameter = [
 		encodeURI('oauth_consumer_key='+twitterKey),
@@ -255,7 +260,7 @@ function loadTwitter(){
 	twitterSignatureBase =	twitterURLmethod +"&"+ encodeURIComponent(twitterURL) +"&"+ encodeURIComponent(twitterParameter.join("&"));
 	twitterSignatureKey =	encodeURIComponent(twitterSecret) +"&"+ encodeURIComponent(twitterTokenSecret);
 	twitterSignature =		encodeURIComponent(CryptoJS.HmacSHA1(twitterSignatureBase, twitterSignatureKey).toString(CryptoJS.enc.Base64));
-	
+
 	// Get tweets
 	$.ajax({
 		type:		twitterURLmethod,
@@ -314,13 +319,15 @@ function loadTagesschau(){
 }
 
 function loadEasternsun(){
-	parseRSS("http://easternsun.de/forum/feed.php?mode=topics", function(easternsunData) {
-		$.each(easternsunData.entries, function(i, post){
+console.log("!");
+	parseRSS("http://easternsun.de/forum/app.php/feed", function(easternsunData) {
+		$.each(easternsunData, function(i, post){
+			var _title = (post.title).substring((post.title).indexOf("•")+2, (post.title).length);
 			feedData.push({
 				icon: "easternsun.png",
-				timestamp: (new Date(post.published)).getTime(),
+				timestamp: (new Date(post.updated)).getTime(),
 				link: post.href,
-				value: post.title
+				value: _title
 			});
 		});
 		updateContent();
@@ -421,27 +428,29 @@ function parseRSS(url, callback) {
 function getNonce(length) {
 	var text = "";
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	for(var i = 0; i < length; i++) {
-		text += possible.charAt(Math.floor(Math.random() * possible.length));
-	}
+	for(var i = 0; i < length; i++) { text += possible.charAt(Math.floor(Math.random() * possible.length)); }
 	return text;
 }
+
 
 /*
  * Weather
  */
-
 function loadWeather(){
-	$.simpleWeather({
-		location: kboConfig['WeatherID'],
-		woeid: '',
-		unit: kboConfig['WeatherUnit'],
+	weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	$.simplerWeather({
+		location: kboConfig['WeatherLoc'],
+		units: kboConfig['WeatherUnit'],
+		apikey: kboConfig['WeatherApiKey'],
+		forecast: true,
+		forecastdays: 6,
 		success: function(weather) {
-			html = '<h2><i class="icon-'+weather.code+'" title="'+weather.currently+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
+			html = '<h2><i class="icon-'+weather.icon+'" title="'+weather.currently+'"></i> '+Math.round(weather.temp)+'&deg;'+weather.unit.toUpperCase()+'</h2>';
 			html += '<ul class="forecast">';
 			for(var i=1;i<Math.min(6,weather.forecast.length);i++) {
-				title = weather.forecast[i].day + ": " + weather.forecast[i].text;
-				html += '<li><i class="icon-'+weather.forecast[i].code+'" style="font-size:2.5em" title="'+title+'"></i> '+weather.forecast[i].high+'&deg;'+weather.units.temp+'</li>';
+				title = weekdays[(new Date(weather.forecast[i].date*1000)).getDay()] + ": " + weather.forecast[i].summary;
+				html += '<li><i class="icon-'+weather.forecast[i].icon+'" style="font-size:2.5em" title="'+title+'"></i> '+
+						Math.round(weather.forecast[i].high)+'&deg;'+weather.unit.toUpperCase()+'</li>';
 			}
 			html += '</ul>';
 			$("#weather").html(html);

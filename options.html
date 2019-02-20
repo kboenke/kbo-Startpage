@@ -12,14 +12,19 @@
 
 <h2>Weather</h2>
 <div>
-	<label>Location</label><br />
-	<input id="weatherID" value="" /><br />
-	<span class="caption">Check <a href="https://weather.yahoo.com/" target="_blank">Yahoo! Weather</a> for available cities and propper formating.</span>
+	<label>Location Coordinates</label><br />
+	<input id="weatherLoc" value="" /><br />
+	<span class="caption">Lat-Long Coordinates (comma-separated).</span>
 </div>
 <div>
 	<label>Unit</label><br />
 	<input type="radio" name="weatherUnit" id="weatherTTf" value="f" />Fahrenheit
 	<input type="radio" name="weatherUnit" id="weatherTTc" value="c" />Celsius
+</div>
+<div>
+	<label>DarkSky API Key</label><br />
+	<input id="weatherApiKey" value="" /><br />
+	<span class="caption">Sign up at <a href="https://darksky.net/dev/register" target="_blank">DarkSky.net</a> (skip Credit-Card signup).</span>
 </div>
 
 <h2>Favorites</h2>
@@ -53,7 +58,7 @@
 <ul id="feeds">
 	<li><img src="icons/bosch.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedConnections' />Bosch Connect</li>
 	<li><img src="icons/bosch.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedZunder' />Bosch Z&uuml;nder</li>
-	<li><img src="icons/easternsun.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedEasternsun' disabled />Eastern Sun Forum</li>
+	<li><img src="icons/easternsun.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedEasternsun' />Eastern Sun Forum</li>
 	<li><img src="icons/planetDebian.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedPlanetDebian' />Planet Debian</li>
 	<li><img src="icons/reddit.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedReddit' />Reddit<div>
 		<input id='feedRedditUrl' value='' /><br />

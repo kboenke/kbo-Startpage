@@ -42,11 +42,13 @@ div.side{
 	text-align: center;
 	text-transform: uppercase;
 }
-@media screen and (max-width: 500px) {
-	.weather{
-		height: 160px;
-	}
+@media screen and (max-width: 520px) {
+	.weather{ height: 160px; }
 	.forecast{ visibility: hidden; }
+}
+@media screen and (max-width: 400px) {
+	.weather { height: 120px; }
+	.weather i { display: none; }
 }
 @media screen and (min-width: 1000px) {
 	.weather{
@@ -61,11 +63,11 @@ div.side{
 	padding-bottom: 20px;
 }
 #links{ margin: 0 auto; } /* center-magic... */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 520px) {
 	.links{ padding-bottom: 10px; }
 }
 @media screen and (min-width: 1000px) {
-	.links{ padding: 40px 0; }
+	.links{ padding: 200px 0; }
 }
 
 .links table{ border: none; }
@@ -96,7 +98,7 @@ ul#feeds img{
 	margin-left: -20px;
 	margin-bottom: -2px;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 520px) {
 	ul#feeds{ margin: 1px 1px 0px -18px; }
 }
 @media screen and (min-width: 1000px) {
@@ -111,7 +113,7 @@ li.loading{
 	text-align: center;
 }
 li.loading img{ vertical-align: middle; }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 520px) {
 	li.loading{ margin-left: -8px; }
 }
 @media screen and (min-width: 1000px) {

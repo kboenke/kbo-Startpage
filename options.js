@@ -10,8 +10,9 @@ function initialize(){
 function save_options(){
 console.log("Saving");
 	//Get values
-	var weatherID = document.getElementById('weatherID').value;
+	var weatherLoc = document.getElementById('weatherLoc').value;
 	var weatherUnit = (document.getElementById('weatherTTf').checked) ? "f" : "c";
+	var weatherApiKey = document.getElementById('weatherApiKey').value;
 	var linkL1v = (document.getElementById('linkL1v').checked) ? true : false;
 	var linkL2v = (document.getElementById('linkL2v').checked) ? true : false;
 	var linkL3v = (document.getElementById('linkL3v').checked) ? true : false;
@@ -36,6 +37,7 @@ console.log("Saving");
 	var linkR3d = document.getElementById('linkR3d').value;
 	var linkR4l = document.getElementById('linkR4l').value;
 	var linkR4d = document.getElementById('linkR4d').value;
+	var feedEasternsun = (document.getElementById('feedEasternsun').checked) ? true: false;
 	var feedPlanetDebian = (document.getElementById('feedPlanetDebian').checked) ? true: false;
 	var feedReddit = (document.getElementById('feedReddit').checked) ? true: false;
 	var feedRedditUrl = document.getElementById('feedRedditUrl').value;
@@ -51,8 +53,9 @@ console.log("Saving");
 
 	//Store values
 	chrome.storage.sync.set({
-			WeatherID:		weatherID,
+			WeatherLoc:		weatherLoc,
 			WeatherUnit:	weatherUnit,
+			WeatherApiKey:	weatherApiKey, 
 			LinkL1v:		linkL1v,
 			LinkL2v:		linkL2v,
 			LinkL3v:		linkL3v,
@@ -77,6 +80,7 @@ console.log("Saving");
 			LinkR3d:		linkR3d,
 			LinkR4l:		linkR4l,
 			LinkR4d:		linkR4d,
+			FeedEasternsun:			feedEasternsun,
 			FeedPlanetDebian:		feedPlanetDebian,
 			FeedReddit:				feedReddit,
 			FeedRedditUrl:			feedRedditUrl,
@@ -103,8 +107,9 @@ console.log("Saving");
 function restore_options(){
 	//Read values
 	chrome.storage.sync.get({
-		WeatherID:		'Miami Beach, FL',
+		WeatherLoc:		'25.867377,-80.120379',
 		WeatherUnit:	'f',
+		WeatherApiKey:	'',
 		LinkL1v:		false,
 		LinkL2v:		false,
 		LinkL3v:		false,
@@ -113,22 +118,23 @@ function restore_options(){
 		LinkR2v:		false,
 		LinkR3v:		false,
 		LinkR4v:		false,
-		LinkL1l:		'http://',
+		LinkL1l:		'https://',
 		LinkL1d:		'',
-		LinkL2l:		'http://',
+		LinkL2l:		'https://',
 		LinkL2d:		'',
-		LinkL3l:		'http://',
+		LinkL3l:		'https://',
 		LinkL3d:		'',
-		LinkL4l:		'http://',
+		LinkL4l:		'https://',
 		LinkL4d:		'',
-		LinkR1l:		'http://',
+		LinkR1l:		'https://',
 		LinkR1d:		'',
-		LinkR2l:		'http://',
+		LinkR2l:		'https://',
 		LinkR2d:		'',
-		LinkR3l:		'http://',
+		LinkR3l:		'https://',
 		LinkR3d:		'',
-		LinkR4l:		'http://',
+		LinkR4l:		'https://',
 		LinkR4d:		'',
+		FeedEasternsun:			false,
 		FeedPlanetDebian:		true,
 		FeedReddit:				false,
 		FeedRedditUrl:			'',
@@ -144,7 +150,7 @@ function restore_options(){
 	}, function(items){
 	//Set values
 		//Weather
-		document.getElementById('weatherID').value = items.WeatherID;
+		document.getElementById('weatherLoc').value = items.WeatherLoc;
 		if(items.WeatherUnit == 'c'){
 			document.getElementById('weatherTTc').checked = true;
 			document.getElementById('weatherTTf').checked = false;
@@ -152,6 +158,7 @@ function restore_options(){
 			document.getElementById('weatherTTf').checked = true;
 			document.getElementById('weatherTTc').checked = false;
 		}
+		document.getElementById('weatherApiKey').value = items.WeatherApiKey;
 		//Links
 		document.getElementById('linkL1v').checked = items.LinkL1v;
 		document.getElementById('linkL2v').checked = items.LinkL2v;
@@ -178,6 +185,7 @@ function restore_options(){
 		document.getElementById('linkR3d').value = items.LinkR3d;
 		document.getElementById('linkR4d').value = items.LinkR4d;
 		//Feeds
+		document.getElementById('feedEasternsun').checked = items.FeedEasternsun;
 		document.getElementById('feedPlanetDebian').checked = items.FeedPlanetDebian;
 		document.getElementById('feedReddit').checked = items.FeedReddit;
 		document.getElementById('feedRedditUrl').value = items.FeedRedditUrl;

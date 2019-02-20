@@ -64,6 +64,20 @@
 .icon-46:before { content: "U"; }
 .icon-47:before { content: "S"; }
 
+.icon-clear-day:before { content: "1"; }
+.icon-clear-night:before { content: "6"; }
+.icon-rain:before { content: "I"; }
+.icon-snow:before { content: "W"; }
+.icon-sleet:before { content: "U"; }
+.icon-wind:before { content: "E"; }
+.icon-fog:before { content: "Z"; }
+.icon-cloudy:before { content: "3"; }
+.icon-partly-cloudy-day:before { content: "A"; }
+.icon-partly-cloudy-night:before { content: "a"; }
+.icon-hail:before { content: "W"; }
+.icon-thunderstorm:before { content: "Q"; }
+.icon-tornado:before { content: ":"; }
+
 #weather h2 {
 	margin: 0 0 8px;
 	font-size: 100px;
