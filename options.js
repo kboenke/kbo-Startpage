@@ -10,6 +10,7 @@ function initialize(){
 function save_options(){
 console.log("Saving");
 	//Get values
+	var darkmode = (document.getElementById('darkmode').checked) ? true : false;
 	var weatherLoc = document.getElementById('weatherLoc').value;
 	var weatherUnit = (document.getElementById('weatherTTf').checked) ? "f" : "c";
 	var weatherApiKey = document.getElementById('weatherApiKey').value;
@@ -37,22 +38,23 @@ console.log("Saving");
 	var linkR3d = document.getElementById('linkR3d').value;
 	var linkR4l = document.getElementById('linkR4l').value;
 	var linkR4d = document.getElementById('linkR4d').value;
-	var feedEasternsun = (document.getElementById('feedEasternsun').checked) ? true: false;
-	var feedPlanetDebian = (document.getElementById('feedPlanetDebian').checked) ? true: false;
-	var feedReddit = (document.getElementById('feedReddit').checked) ? true: false;
+	var feedEasternsun = (document.getElementById('feedEasternsun').checked) ? true : false;
+	var feedPlanetDebian = (document.getElementById('feedPlanetDebian').checked) ? true : false;
+	var feedReddit = (document.getElementById('feedReddit').checked) ? true : false;
 	var feedRedditUrl = document.getElementById('feedRedditUrl').value;
-	var feedTagesschau = (document.getElementById('feedTagesschau').checked) ? true: false;
-	var feedTwitter = (document.getElementById('feedTwitter').checked) ? true: false;
+	var feedTagesschau = (document.getElementById('feedTagesschau').checked) ? true : false;
+	var feedTwitter = (document.getElementById('feedTwitter').checked) ? true : false;
 	var feedTwitterKey = document.getElementById('feedTwitterKey').value;
 	var feedTwitterSecret = document.getElementById('feedTwitterSecret').value;
 	var feedTwitterToken = document.getElementById('feedTwitterToken').value;
 	var feedTwitterTokenSecret = document.getElementById('feedTwitterTokenSecret').value;
-	var feedWowhead = (document.getElementById('feedWowhead').checked) ? true: false;
-	var feedConnections = (document.getElementById('feedConnections').checked) ? true: false;
-	var feedZunder = (document.getElementById('feedZunder').checked) ? true: false;
+	var feedWowhead = (document.getElementById('feedWowhead').checked) ? true : false;
+	var feedConnections = (document.getElementById('feedConnections').checked) ? true : false;
+	var feedZunder = (document.getElementById('feedZunder').checked) ? true : false;
 
 	//Store values
 	chrome.storage.sync.set({
+			Darkmode:		darkmode, 
 			WeatherLoc:		weatherLoc,
 			WeatherUnit:	weatherUnit,
 			WeatherApiKey:	weatherApiKey, 
@@ -107,6 +109,7 @@ console.log("Saving");
 function restore_options(){
 	//Read values
 	chrome.storage.sync.get({
+		Darkmode:		false, 
 		WeatherLoc:		'25.867377,-80.120379',
 		WeatherUnit:	'f',
 		WeatherApiKey:	'',
@@ -149,6 +152,8 @@ function restore_options(){
 		FeedZunder:				false,
 	}, function(items){
 	//Set values
+		//Darkmode
+		document.getElementById('darkmode').checked = items.Darkmode;
 		//Weather
 		document.getElementById('weatherLoc').value = items.WeatherLoc;
 		if(items.WeatherUnit == 'c'){

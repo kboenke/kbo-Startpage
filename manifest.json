@@ -6,7 +6,7 @@
 		"64":	"icons/lab64.png",
 		"32":	"icons/lab32.png"
 	},
-	"version":		"1.5.3",
+	"version":		"1.6.0",
 	"applications": {
 		"gecko": {
 			"id": "{0917fcf7-bb50-4b20-af83-274d85af4312}"
@@ -22,25 +22,6 @@
 		"newtab": "startpage.html"
 	},
 	"chrome_settings_overrides": {
-"search_provider": {
-        "name": "name.__MSG_url_domain__",
-        "keyword": "keyword.__MSG_url_domain__",
-        "search_url": "https://www.foo.__MSG_url_domain__/s?q={searchTerms}",
-        "favicon_url": "https://www.foo.__MSG_url_domain__/favicon.ico",
-        "suggest_url": "https://www.foo.__MSG_url_domain__/suggest?q={searchTerms}",
-        "instant_url": "https://www.foo.__MSG_url_domain__/instant?q={searchTerms}",
-        "image_url": "https://www.foo.__MSG_url_domain__/image?q={searchTerms}",
-        "search_url_post_params": "search_lang=__MSG_url_domain__",
-        "suggest_url_post_params": "suggest_lang=__MSG_url_domain__",
-        "instant_url_post_params": "instant_lang=__MSG_url_domain__",
-        "image_url_post_params": "image_lang=__MSG_url_domain__",
-        "alternate_urls": [
-          "http://www.moo.__MSG_url_domain__/s?q={searchTerms}",
-          "http://www.noo.__MSG_url_domain__/s?q={searchTerms}"
-        ],
-        "encoding": "UTF-8",
-        "is_default": false
-    },
 		"homepage": "startpage.html",
 		"startup_pages": ["startpage.html"]
 	},

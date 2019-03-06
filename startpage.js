@@ -7,6 +7,7 @@ var kboConfig;
 function initialize(){
 	// Load Options
 	chrome.storage.sync.get({
+		Darkmode:				false,
 		WeatherLoc:				'25.867377,-80.120379',
 		WeatherUnit:			'f',
 		WeatherApiKey:			'', 
@@ -49,6 +50,7 @@ function initialize(){
 		FeedZunder:				false
 	}, function(items){
 		kboConfig = {
+			Darkmode: 				items.Darkmode,
 			WeatherLoc:				items.WeatherLoc,
 			WeatherUnit:			items.WeatherUnit,
 			WeatherApiKey:			items.WeatherApiKey,
@@ -91,6 +93,10 @@ function initialize(){
 			FeedConnections:		items.FeedConnections,
 			FeedZunder:				items.FeedZunder,
 		};
+		//Trigger Darkmode
+		if(kboConfig['Darkmode']){
+			$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css' />");
+		}
 		//Populate page
 		loadWeather();
 		loadLinks();
@@ -219,17 +225,18 @@ function updateContent(){
 	// Parse data
 	var output = "";
 	for(i=0; i<data.length; i++){
-		if(data[i]['timestamp'] > Date.now()){ continue; }
+		if(data[i]['timestamp'] > Date.now()){ continue; } // Skip items published in the future
 		cssClass = (data[i]['timestamp'] > kboLastUpdate) ? "newitem" : "olditem";
 		output += "<li class=\""+ cssClass +"\"><img src=icons/"+ data[i]['icon'] +" width='16' height='16' alt='' />&nbsp;<a href=\""+ data[i]['link'] +"\">"+ data[i]['value'] +"</a></li>";
 	}
 
 	// Inject into page
-	//document.getElementById("feeds").innerHTML = output;
 	$("ul#feeds").html(output);
 
-	// Save current timestamp for next page-load
-	chrome.storage.local.set({'kboStartpage_lastUpdate': Date.now()}, function(){});
+	// Save current timestamp for next page-load (60 seconds grace-period)
+	if((kboLastUpdate + (60*1000)) < Date.now()){
+		chrome.storage.local.set({'kboStartpage_lastUpdate': Date.now()}, function(){});
+	}
 }
 
 
@@ -319,7 +326,6 @@ function loadTagesschau(){
 }
 
 function loadEasternsun(){
-console.log("!");
 	parseRSS("http://easternsun.de/forum/app.php/feed", function(easternsunData) {
 		$.each(easternsunData, function(i, post){
 			var _title = (post.title).substring((post.title).indexOf("•")+2, (post.title).length);
