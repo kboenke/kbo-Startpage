@@ -7,7 +7,6 @@ var kboConfig;
 function initialize(){
 	// Load Options
 	chrome.storage.sync.get({
-		Darkmode:				false,
 		WeatherLoc:				'25.867377,-80.120379',
 		WeatherUnit:			'f',
 		WeatherApiKey:			'', 
@@ -50,7 +49,6 @@ function initialize(){
 		FeedZunder:				false
 	}, function(items){
 		kboConfig = {
-			Darkmode: 				items.Darkmode,
 			WeatherLoc:				items.WeatherLoc,
 			WeatherUnit:			items.WeatherUnit,
 			WeatherApiKey:			items.WeatherApiKey,
@@ -93,10 +91,14 @@ function initialize(){
 			FeedConnections:		items.FeedConnections,
 			FeedZunder:				items.FeedZunder,
 		};
+
 		//Trigger Darkmode
-		if(kboConfig['Darkmode']){
-			$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css' />");
-		}
+		chrome.storage.local.get({kboStartpage_darkmode: false}, function(storedData){
+			if(storedData.kboStartpage_darkmode === true){
+				$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css' />");
+			}
+		});
+
 		//Populate page
 		loadWeather();
 		loadLinks();

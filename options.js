@@ -8,9 +8,7 @@ function initialize(){
 }
 
 function save_options(){
-console.log("Saving");
 	//Get values
-	var darkmode = (document.getElementById('darkmode').checked) ? true : false;
 	var weatherLoc = document.getElementById('weatherLoc').value;
 	var weatherUnit = (document.getElementById('weatherTTf').checked) ? "f" : "c";
 	var weatherApiKey = document.getElementById('weatherApiKey').value;
@@ -54,7 +52,6 @@ console.log("Saving");
 
 	//Store values
 	chrome.storage.sync.set({
-			Darkmode:		darkmode, 
 			WeatherLoc:		weatherLoc,
 			WeatherUnit:	weatherUnit,
 			WeatherApiKey:	weatherApiKey, 
@@ -104,12 +101,16 @@ console.log("Saving");
 			}, 750);
 		}
 	);
+
+	// Handle Darkmode
+	var darkmode = (document.getElementById('darkmode').checked) ? true : false;
+	chrome.storage.local.set({'kboStartpage_darkmode': darkmode}, function(){});
+	console.log(darkmode);
 }
 
 function restore_options(){
 	//Read values
 	chrome.storage.sync.get({
-		Darkmode:		false, 
 		WeatherLoc:		'25.867377,-80.120379',
 		WeatherUnit:	'f',
 		WeatherApiKey:	'',
@@ -152,8 +153,6 @@ function restore_options(){
 		FeedZunder:				false,
 	}, function(items){
 	//Set values
-		//Darkmode
-		document.getElementById('darkmode').checked = items.Darkmode;
 		//Weather
 		document.getElementById('weatherLoc').value = items.WeatherLoc;
 		if(items.WeatherUnit == 'c'){
@@ -203,5 +202,12 @@ function restore_options(){
 		document.getElementById('feedWowhead').checked = items.FeedWowhead;
 		document.getElementById('feedConnections').checked = items.FeedConnections;
 		document.getElementById('feedZunder').checked = items.FeedZunder;
+	});
+
+	//Darkmode
+	chrome.storage.local.get({kboStartpage_darkmode: false}, function(storedData){
+		if(storedData.kboStartpage_darkmode === true){
+			document.getElementById('darkmode').checked = true;
+		}
 	});
 }
