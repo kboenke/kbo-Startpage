@@ -1,36 +1,25 @@
-div {
-	padding: 5px 0;
-}
-label {
-	font-weight: 700;
-}
-span.caption {
-	font-size: .8em;
-}
+div { padding: 5px 0; }
+label { font-weight: 700; }
+span.caption { font-size: .8em; }
 ul {
 	margin-top: 0;
 	padding-left: 25px;
 	list-style-type: none;
 }
-ul img{
-	margin-left: -20px;
-	margin-bottom: -2px;
-}
+ul img { margin-left: -20px; margin-bottom: -2px; }
 
-#links{
-	border: none;
-}
-#links td{
+#links { border: none; }
+#links td {
 	width: 50%;
 	padding: 0 6px 0 4px;
 	vertical-align: middle;
 }
-ul#linksL, ul#linksR{
+ul#linksL, ul#linksR {
 	padding: 0;
 	margin-left: 0;
 	vertical-align: middle;
 	list-style: none;
 }
-ul#linksL li, ul#linksR li{ padding-bottom: 5px; }
-ul#linksL{ text-align: right; }
-ul#linksR{ text-align: left; }
+ul#linksL li, ul#linksR li { padding-bottom: 5px; }
+ul#linksL { text-align: right; }
+ul#linksR { text-align: left; }

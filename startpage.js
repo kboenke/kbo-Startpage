@@ -184,7 +184,8 @@ function loadLinks(){
 function loadFeeds(){
 	// Clear existing data
 	feedData = [];
-	$("ul#feeds").html("<li class=\"loading\"><span style=\"display: inline-block; height: 80%;\"></span><img src=\"loading.gif\" class=\"loading\" /></li>");
+	$("ul#feeds").css("display", "none");
+	$("ul#spinner").css("display", "inherit");
 
 	// Get data
 	if(kboConfig['FeedTwitter'])
@@ -233,6 +234,8 @@ function updateContent(){
 	}
 
 	// Inject into page
+	$("ul#spinner").css("display", "none");
+	$("ul#feeds").css("display", "inherit");
 	$("ul#feeds").html(output);
 
 	// Save current timestamp for next page-load (60 seconds grace-period)

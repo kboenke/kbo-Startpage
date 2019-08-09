@@ -1,26 +1,19 @@
 {
 	"manifest_version":	2,
-	"name":			"kbo Startpage",
-	"description":		"Personalized startpage.",
-	"icons":		{
-		"64":	"icons/lab64.png",
-		"32":	"icons/lab32.png"
+	"name":	 "kbo Startpage",
+	"description": "Personalized startpage.",
+	"icons": {
+		"64": "icons/kbo-64.png",
+		"32": "icons/kbo-32.png"
 	},
-	"version":		"1.6.1",
-	"applications": {
-		"gecko": {
-			"id": "{0917fcf7-bb50-4b20-af83-274d85af4312}"
-		}
-	},
+	"version": "1.6.6",
+	"applications": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"options_ui": {
 		"page": "options.html",
 		"browser_style": true,
 		"chrome_style": true
 	},
-	
-	"chrome_url_overrides": {
-		"newtab": "startpage.html"
-	},
+	"chrome_url_overrides": { "newtab": "startpage.html" },
 	"chrome_settings_overrides": {
 		"homepage": "startpage.html",
 		"startup_pages": ["startpage.html"]

@@ -6,9 +6,10 @@
 	<title>kboStartpage</title>
 	<link rel="stylesheet" type="text/css" href="startpage.css" />
 	<link rel="stylesheet" type="text/css" href="weather.css" />
-	<script src="jQuery/jquery-3.3.1.min.js"></script>
-	<script src="oAuth/hmac-sha1.js"></script>
-	<script src="oAuth/enc-base64-min.js"></script>
+	<link rel="icon" type="image/vnd.microsoft.icon" href="icons/favicon.png" />
+	<script src="jQuery/jquery-3.4.1.min.js"></script>
+	<script src="CryptoJS/hmac-sha1.js"></script>
+	<script src="CryptoJS/enc-base64.min.js"></script>
 	<script src="simplerWeather/jquery.simplerWeather.min.js"></script>
 	<script src="startpage.js"></script>
 </head>
@@ -16,7 +17,7 @@
 
 <div class="content">
 	<div class="main">
-		<div class="weather" id="weather"><!-- http://simpleweatherjs.com/ //--></div>
+		<div class="weather" id="weather"></div>
 		<div class="links">
 			<table id="links"><tr>
 				<td id="separator"><ul id="linksL"></ul></td>
@@ -24,7 +25,10 @@
 			</tr></table>
 		</div>
 	</div>
-	<div class="side"><ul id="feeds" class="feeds"></ul></div>
+	<div class="side">
+			<ul id="spinner" class="feeds"><li class="loading"><span style="display: inline-block; height: 80%;"></span><svg width="32" height="32" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg"><polygon points="9,61 61,61 61,37 57,37 57,57 13,57 13,13 37,13 37,9 9,9" fill="#353535" /><animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 0 0" to="360 0 0" dur="5s" repeatCount="indefinite" /></svg></li></ul>
+			<ul id="feeds" class="feeds" style="display: none;"></ul>
+	</div>
 </div>
 
 </body>
