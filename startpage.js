@@ -91,23 +91,23 @@ function initialize(){
 			FeedConnections:		items.FeedConnections,
 			FeedZunder:				items.FeedZunder,
 		};
-
+		
 		//Trigger Darkmode
 		chrome.storage.local.get({kboStartpage_darkmode: false}, function(storedData){
 			if(storedData.kboStartpage_darkmode === true){
 				$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css' />");
 			}
 		});
-
+		
 		//Populate page
 		loadWeather();
 		loadLinks();
-
+		
 		// Attempt restore of last update
 		chrome.storage.local.get('kboStartpage_lastUpdate', function(storedData){
-			if(storedData.kboStartpage_lastUpdate > 0){
+			if(storedData.kboStartpage_lastUpdate > 0)
 				kboLastUpdate = storedData.kboStartpage_lastUpdate;
-			}
+			console.log("Last update was " + ((Date.now() - kboLastUpdate)/1000).toFixed(0) + " seconds ago.");
 			loadFeeds();
 		});
 	});
@@ -115,67 +115,32 @@ function initialize(){
 
 /* Invoked by Initialize */
 function loadLinks(){
-	rawL = '<li><a href="{link}">{desc}</a>&nbsp;<img src="{favicon}" width=\'16\' height=\'16\' alt=\'\' \></li>';
-	rawR = '<li><img src="{favicon}" width=\'16\' height=\'16\' alt=\'\' \>&nbsp;<a href="{link}">{desc}</a></li>';
+	rawL = "<li><a href='{0}'>{1}</a>&nbsp;<img src='{2}' width='16' height='16' alt='' \></li>";
+	rawR = "<li><img src='{2}' width='16' height='16' alt='' \>&nbsp;<a href='{0}'>{1}</a></li>";
 	linkL = "";
 	linkR = "";
-	favicon = "http://www.google.com/s2/favicons?domain=";
-
+	
 	//Build linklists
-	if(kboConfig['LinkL1v']){
-		urlParts = (kboConfig['LinkL1l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL1l'])).replace("{desc}", kboConfig['LinkL1d'])).replace("{favicon}", _favicon);
-		linkL+= linkBuilder;
-	}
-	if(kboConfig['LinkL2v']){
-		urlParts = (kboConfig['LinkL2l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL2l'])).replace("{desc}", kboConfig['LinkL2d'])).replace("{favicon}", _favicon);
-		linkL+= linkBuilder;
-	}
-	if(kboConfig['LinkL3v']){
-		urlParts = (kboConfig['LinkL3l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL3l'])).replace("{desc}", kboConfig['LinkL3d'])).replace("{favicon}", _favicon);
-		linkL+= linkBuilder;
-	}
-	if(kboConfig['LinkL4v']){
-		urlParts = (kboConfig['LinkL4l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-		linkBuilder = ((rawL.replace("{link}", kboConfig['LinkL4l'])).replace("{desc}", kboConfig['LinkL4d'])).replace("{favicon}", _favicon);
-		linkL+= linkBuilder;
-	}
-
-	if(kboConfig['LinkR1v']){
-		urlParts = (kboConfig['LinkR1l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR1l'])).replace("{desc}", kboConfig['LinkR1d'])).replace("{favicon}", _favicon);
-		linkR+= linkBuilder;
-	}
-	if(kboConfig['LinkR2v']){
-		urlParts = (kboConfig['LinkR2l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR2l'])).replace("{desc}", kboConfig['LinkR2d'])).replace("{favicon}", _favicon);
-		linkR+= linkBuilder;
-	}
-	if(kboConfig['LinkR3v']){
-		urlParts = (kboConfig['LinkR3l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR3l'])).replace("{desc}", kboConfig['LinkR3d'])).replace("{favicon}", _favicon);
-		linkR+= linkBuilder;
-	}
-	if(kboConfig['LinkR4v']){
-		urlParts = (kboConfig['LinkR4l'].replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-		_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-		linkBuilder = ((rawR.replace("{link}", kboConfig['LinkR4l'])).replace("{desc}", kboConfig['LinkR4d'])).replace("{favicon}", _favicon);
-		linkR+= linkBuilder;
-	}
-
+	if(kboConfig['LinkL1v'])
+		linkL += String.format(rawL, kboConfig['LinkL1l'], kboConfig['LinkL1d'], getFavicon(kboConfig['LinkL1l']));
+	if(kboConfig['LinkL2v'])
+		linkL += String.format(rawL, kboConfig['LinkL2l'], kboConfig['LinkL2d'], getFavicon(kboConfig['LinkL2l']));
+	if(kboConfig['LinkL3v'])
+		linkL += String.format(rawL, kboConfig['LinkL3l'], kboConfig['LinkL3d'], getFavicon(kboConfig['LinkL3l']));
+	if(kboConfig['LinkL4v'])
+		linkL += String.format(rawL, kboConfig['LinkL4l'], kboConfig['LinkL4d'], getFavicon(kboConfig['LinkL4l']));
+	
+	if(kboConfig['LinkR1v'])
+		linkR += String.format(rawR, kboConfig['LinkR1l'], kboConfig['LinkR1d'], getFavicon(kboConfig['LinkR1l']));
+	if(kboConfig['LinkR2v'])
+		linkR += String.format(rawR, kboConfig['LinkR2l'], kboConfig['LinkR2d'], getFavicon(kboConfig['LinkR2l']));
+	if(kboConfig['LinkR3v'])
+		linkR += String.format(rawR, kboConfig['LinkR3l'], kboConfig['LinkR3d'], getFavicon(kboConfig['LinkR3l']));
+	if(kboConfig['LinkR4v'])
+		linkR += String.format(rawR, kboConfig['LinkR4l'], kboConfig['LinkR4d'], getFavicon(kboConfig['LinkR4l']));
+	
 	//Populate page
-	//document.getElementById('linksL').innerHTML = linkL;
 	$("ul#linksL").html(linkL);
-	//document.getElementById('linksR').innerHTML = linkR;
 	$("ul#linksR").html(linkR);
 }
 
@@ -186,7 +151,7 @@ function loadFeeds(){
 	feedData = [];
 	$("ul#feeds").css("display", "none");
 	$("ul#spinner").css("display", "inherit");
-
+	
 	// Get data
 	if(kboConfig['FeedTwitter'])
 		loadTwitter();
@@ -211,7 +176,7 @@ function loadFeeds(){
 function updateContent(){
 	// Copy data to avoid race-conditions
 	data = feedData;
-
+	
 	// Sort items
 	do{
 		var swapped = false;
@@ -224,30 +189,54 @@ function updateContent(){
 			}
 		}
 	}while(swapped != false);
-
+	
 	// Parse data
 	var output = "";
 	for(i=0; i<data.length; i++){
 		if(data[i]['timestamp'] > Date.now()){ continue; } // Skip items published in the future
 		cssClass = (data[i]['timestamp'] > kboLastUpdate) ? "newitem" : "olditem";
-		output += "<li class=\""+ cssClass +"\"><img src=icons/"+ data[i]['icon'] +" width='16' height='16' alt='' />&nbsp;<a href=\""+ data[i]['link'] +"\">"+ data[i]['value'] +"</a></li>";
+		html = "<li class='{0}'><img src='icons/{1}' width='16' height='16' alt='' />&nbsp;<a href='{2}'>{3}</a></li>";
+		output += String.format(html, cssClass, data[i]['icon'], data[i]['link'], data[i]['value']);
 	}
-
+	
 	// Inject into page
 	$("ul#spinner").css("display", "none");
 	$("ul#feeds").css("display", "inherit");
 	$("ul#feeds").html(output);
-
+	
 	// Save current timestamp for next page-load (60 seconds grace-period)
-	if((kboLastUpdate + (60*1000)) < Date.now()){
+	if((kboLastUpdate + (60*1000)) < Date.now())
 		chrome.storage.local.set({'kboStartpage_lastUpdate': Date.now()}, function(){});
-	}
 }
 
 
 /*
  * Functions for loading data
  */
+
+function loadWeather(){
+	weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	$.simplerWeather({
+		location: kboConfig['WeatherLoc'],
+		units: kboConfig['WeatherUnit'],
+		apikey: kboConfig['WeatherApiKey'],
+		forecast: true,
+		forecastdays: 6,
+		success: function(weather) {
+			html = "<h2><i class='icon-{0}' title='{1}'></i> {2}&deg;{3}</h2><ul class='forecast'>";
+			_html = String.format(html, weather.icon, weather.currently, Math.round(weather.temp), weather.unit.toUpperCase());
+			for(var i=1;i<Math.min(6,weather.forecast.length);i++) {
+				title = weekdays[(new Date(weather.forecast[i].date*1000)).getDay()] + ": " + weather.forecast[i].summary;
+				html = "<li><i class='icon-{0}' style='font-size:2.5em' title='{1}'></i> {2}&deg;{3}</li>";
+				_html += String.format(html, weather.forecast[i].icon, title, Math.round(weather.forecast[i].high), weather.unit.toUpperCase());
+			}
+			_html += '</ul>';
+			$("#weather").html(_html);
+		},
+		error: function(error) { $("#weather").html('<p>'+error+'</p>'); }
+	});
+}
+
 function loadTwitter(){
 	twitterURL =			"https://api.twitter.com/1.1/statuses/home_timeline.json";
 	//twitterURL =			"https://api.twitter.com/oauth/request_token";
@@ -269,10 +258,10 @@ function loadTwitter(){
 		encodeURI('oauth_version='+"1.0")
 	];
 	twitterParameter.sort();
-	twitterSignatureBase =	twitterURLmethod +"&"+ encodeURIComponent(twitterURL) +"&"+ encodeURIComponent(twitterParameter.join("&"));
-	twitterSignatureKey =	encodeURIComponent(twitterSecret) +"&"+ encodeURIComponent(twitterTokenSecret);
-	twitterSignature =		encodeURIComponent(CryptoJS.HmacSHA1(twitterSignatureBase, twitterSignatureKey).toString(CryptoJS.enc.Base64));
-
+	twitterSignatureBase = twitterURLmethod +"&"+ encodeURIComponent(twitterURL) +"&"+ encodeURIComponent(twitterParameter.join("&"));
+	twitterSignatureKey = encodeURIComponent(twitterSecret) +"&"+ encodeURIComponent(twitterTokenSecret);
+	twitterSignature = encodeURIComponent(CryptoJS.HmacSHA1(twitterSignatureBase, twitterSignatureKey).toString(CryptoJS.enc.Base64));
+	
 	// Get tweets
 	$.ajax({
 		type:		twitterURLmethod,
@@ -405,6 +394,7 @@ function loadZunder(){
 /*
  * Helper Functions
  */
+
 function parseRSS(url, callback) {
 	$.ajax({
 //		url: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url),
@@ -413,7 +403,6 @@ function parseRSS(url, callback) {
 //		dataType: 'json',
 		url: url,
 		success: function(data) {
-//console.log(data);
 			var _data = new Array();
 			$(["entry", "item", "post"]).each(function(_, key){
 				$(data).find(key).each(function(_, item){
@@ -425,8 +414,6 @@ function parseRSS(url, callback) {
 						pubDate:	$(item).find("pubDate").text(),
 						updated:	$(item).find("updated").text()
 					};
-//console.log(item);
-//console.log(_item);
 					_data.push(_item);
 				});
 			});
@@ -443,29 +430,18 @@ function getNonce(length) {
 	return text;
 }
 
+function getFavicon(url){
+	favicon = "http://www.google.com/s2/favicons?domain=";
+	urlParts = (url.replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
+	_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+	return _favicon;
+}
 
-/*
- * Weather
- */
-function loadWeather(){
-	weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	$.simplerWeather({
-		location: kboConfig['WeatherLoc'],
-		units: kboConfig['WeatherUnit'],
-		apikey: kboConfig['WeatherApiKey'],
-		forecast: true,
-		forecastdays: 6,
-		success: function(weather) {
-			html = '<h2><i class="icon-'+weather.icon+'" title="'+weather.currently+'"></i> '+Math.round(weather.temp)+'&deg;'+weather.unit.toUpperCase()+'</h2>';
-			html += '<ul class="forecast">';
-			for(var i=1;i<Math.min(6,weather.forecast.length);i++) {
-				title = weekdays[(new Date(weather.forecast[i].date*1000)).getDay()] + ": " + weather.forecast[i].summary;
-				html += '<li><i class="icon-'+weather.forecast[i].icon+'" style="font-size:2.5em" title="'+title+'"></i> '+
-						Math.round(weather.forecast[i].high)+'&deg;'+weather.unit.toUpperCase()+'</li>';
-			}
-			html += '</ul>';
-			$("#weather").html(html);
-		},
-		error: function(error) { $("#weather").html('<p>'+error+'</p>'); }
-	});
+String.format = function() {
+	var s = arguments[0];
+	for (var i = 0; i < arguments.length - 1; i++) {       
+		var reg = new RegExp("\\{" + i + "\\}", "gm");             
+		s = s.replace(reg, arguments[i + 1]);
+	}
+	return s;
 }
