@@ -12,5 +12,4 @@ Install via [Chrome Web Store](https://chrome.google.com/webstore/detail/kbo-sta
 
 
 ## Attributions
-- Appliation-Icon by [Design Modo](http://www.myiconfinder.com/Designmodo)
 - Weather Information provided by [DarkSky](https://darksky.net/)
