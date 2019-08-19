@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', initialize, false);
 var feedData = [];
 var kboLastUpdate = 0;
+var kboLastRendered = 0;
 var kboConfig;
 
 /* To be called after page is loaded */
@@ -103,11 +104,12 @@ function initialize(){
 		loadWeather();
 		loadLinks();
 		
-		// Attempt restore of last update
+		// Attempt restore of timestamps
+		chrome.storage.local.get('kboStartpage_lastRendered', function(storedData){
+			kboLastRendered = storedData.kboStartpage_lastRendered;
+		});
 		chrome.storage.local.get('kboStartpage_lastUpdate', function(storedData){
-			if(storedData.kboStartpage_lastUpdate > 0)
-				kboLastUpdate = storedData.kboStartpage_lastUpdate;
-			console.log("Last update was " + ((Date.now() - kboLastUpdate)/1000).toFixed(0) + " seconds ago.");
+			kboLastUpdate = storedData.kboStartpage_lastUpdate;
 			loadFeeds();
 		});
 	});
@@ -115,10 +117,10 @@ function initialize(){
 
 /* Invoked by Initialize */
 function loadLinks(){
-	rawL = "<li><a href='{0}'>{1}</a>&nbsp;<img src='{2}' width='16' height='16' alt='' \></li>";
-	rawR = "<li><img src='{2}' width='16' height='16' alt='' \>&nbsp;<a href='{0}'>{1}</a></li>";
-	linkL = "";
-	linkR = "";
+	var rawL = "<li><a href='{0}'>{1}</a>&nbsp;<img src='{2}' width='16' height='16' alt='' \></li>";
+	var rawR = "<li><img src='{2}' width='16' height='16' alt='' \>&nbsp;<a href='{0}'>{1}</a></li>";
+	var linkL = "";
+	var linkR = "";
 	
 	//Build linklists
 	if(kboConfig['LinkL1v'])
@@ -175,7 +177,7 @@ function loadFeeds(){
 /* To be called after data has been retrieved */
 function updateContent(){
 	// Copy data to avoid race-conditions
-	data = feedData;
+	var data = feedData;
 	
 	// Sort items
 	do{
@@ -188,25 +190,26 @@ function updateContent(){
 				swapped = true;
 			}
 		}
-	}while(swapped != false);
+	}while(swapped);
 	
 	// Parse data
 	var output = "";
 	for(i=0; i<data.length; i++){
 		if(data[i]['timestamp'] > Date.now()){ continue; } // Skip items published in the future
-		cssClass = (data[i]['timestamp'] > kboLastUpdate) ? "newitem" : "olditem";
-		html = "<li class='{0}'><img src='icons/{1}' width='16' height='16' alt='' />&nbsp;<a href='{2}'>{3}</a></li>";
+		var cssClass = (data[i]['timestamp'] > kboLastUpdate) ? "newitem" : "olditem";
+		var html = "<li class='{0}'><img src='icons/{1}' width='16' height='16' alt='' />&nbsp;<a href='{2}'>{3}</a></li>";
 		output += String.format(html, cssClass, data[i]['icon'], data[i]['link'], data[i]['value']);
 	}
 	
 	// Inject into page
+	$("ul#feeds").html(output);
 	$("ul#spinner").css("display", "none");
 	$("ul#feeds").css("display", "inherit");
-	$("ul#feeds").html(output);
 	
-	// Save current timestamp for next page-load (60 seconds grace-period)
-	if((kboLastUpdate + (60*1000)) < Date.now())
-		chrome.storage.local.set({'kboStartpage_lastUpdate': Date.now()}, function(){});
+	// Update timestamps
+	if((kboLastRendered > 0) && (kboLastRendered > kboLastUpdate + (60*1000)))
+		chrome.storage.local.set({ 'kboStartpage_lastUpdate': Date.now() }, function() {});
+	chrome.storage.local.set({ 'kboStartpage_lastRendered': Date.now() }, function(){});
 }
 
 
@@ -223,8 +226,8 @@ function loadWeather(){
 		forecast: true,
 		forecastdays: 6,
 		success: function(weather) {
-			html = "<h2><i class='icon-{0}' title='{1}'></i> {2}&deg;{3}</h2><ul class='forecast'>";
-			_html = String.format(html, weather.icon, weather.currently, Math.round(weather.temp), weather.unit.toUpperCase());
+			var html = "<h2><i class='icon-{0}' title='{1}'></i> {2}&deg;{3}</h2><ul class='forecast'>";
+			var _html = String.format(html, weather.icon, weather.currently, Math.round(weather.temp), weather.unit.toUpperCase());
 			for(var i=1;i<Math.min(6,weather.forecast.length);i++) {
 				title = weekdays[(new Date(weather.forecast[i].date*1000)).getDay()] + ": " + weather.forecast[i].summary;
 				html = "<li><i class='icon-{0}' style='font-size:2.5em' title='{1}'></i> {2}&deg;{3}</li>";
@@ -266,7 +269,7 @@ function loadTwitter(){
 	$.ajax({
 		type:		twitterURLmethod,
 		url:		twitterURL,
-		headers:	{
+		headers: {
 			'Authorization': 'OAuth '+
 				'oauth_consumer_key="'+ twitterKey +'", '+
 				'oauth_nonce="'+ twitterNonce +'", '+
@@ -275,33 +278,40 @@ function loadTwitter(){
 				'oauth_timestamp="'+ twitterTimestamp +'", '+
 				'oauth_token="'+ twitterToken +'", '+
 				'oauth_version="1.0"'
-		}
-	}).done(function(twitterData){
-		// Retrieve tweets
-		$.each(twitterData, function(i, tweet){
-			feedData.push({
-				icon: "twitter.png",
-				timestamp: (new Date(tweet.created_at)).getTime(),
-				link: "https://twitter.com/"+ tweet.user.screen_name +"/status/"+ tweet.id_str,
-				value: tweet.text
+		},
+		success: function(twitterData){
+			// Retrieve tweets
+			$.each(twitterData, function(i, tweet){
+				feedData.push({
+					icon: "twitter.png",
+					timestamp: (new Date(tweet.created_at)).getTime(),
+					link: "https://twitter.com/"+ tweet.user.screen_name +"/status/"+ tweet.id_str,
+					value: tweet.text
+				});
 			});
-		});
-		updateContent();
+			updateContent();
+		},
+		error: function(data){ console.log(data)}
 	});
 }
 
 function loadReddit(){
 	// Get Threads
-	$.getJSON(kboConfig['FeedRedditUrl'], function(redditData) {
-		$.each(redditData.data.children, function(i, thread){
-			feedData.push({
-				icon: "reddit.png",
-				timestamp: thread.data.created_utc * 1000,
-				link: "https://www.reddit.com/"+ thread.data.permalink,
-				value: thread.data.title
+	$.ajax({
+		dataType:	"json",
+		url:		kboConfig['FeedRedditUrl'],
+		success: function(data){
+			$.each(data.data.children, function(i, thread){
+				feedData.push({
+					icon: "reddit.png",
+					timestamp: thread.data.created_utc * 1000,
+					link: "https://www.reddit.com/"+ thread.data.permalink,
+					value: thread.data.title
+				});
 			});
-		});
-		updateContent();
+			updateContent();
+		},
+		error: function(data){ console.log(data); }
 	});
 }
 
@@ -363,6 +373,23 @@ function loadWowhead(){
 }
 
 function loadConnections(){
+	$.ajax({
+		dataType:	"json",
+		url:		"https://connect.bosch.com/connections/opensocial/basic/rest/activitystreams/@me/@all/@all?shortStrings=true&rollup=true&format=json",
+		success: function(data){
+			$(data.list).each(function(i, item){
+				feedData.push({
+					icon: "bosch.png",
+					timestamp: (new Date(item.updated)).getTime(),
+					link: item.object.url,
+					value: $("<div>").html(item.connections.plainTitle).text()
+				});
+			});
+			updateContent();
+		},
+		error: function(data){ console.log(data); }
+	});
+/*
 	$.getJSON("https://connect.bosch.com/connections/opensocial/basic/rest/activitystreams/@me/@all/@all?shortStrings=true&rollup=true&format=json", function(connectionsData) {
 		$(connectionsData.list).each(function(i, item){
 			feedData.push({
@@ -374,9 +401,27 @@ function loadConnections(){
 		});
 		updateContent();
 	});
+*/
 }
 
 function loadZunder(){
+	$.ajax({
+		dataType:	"json",
+		url:		"https://inside-ws.bosch.com/bgnnewsservice/en/articles/?sortField=creationDate&sortOrder=DESC",
+		success: function(data){
+			$.each(zunderData, function(i, item){
+				feedData.push({
+					icon: "bosch.png",
+					timestamp: (new Date(item.creationDate)).getTime(),
+					link: "http://bzo.bosch.com/" + item.url,
+					value: item.headline
+				});
+			});
+			updateContent();
+		},
+		error: function(data){ console.log(data); }
+	});
+/*
 	$.getJSON("https://inside-ws.bosch.com/bgnnewsservice/en/articles/?sortField=creationDate&sortOrder=DESC", function(zunderData) {
 		$.each(zunderData, function(i, item){
 			feedData.push({
@@ -388,6 +433,7 @@ function loadZunder(){
 		});
 		updateContent();
 	});
+*/
 }
 
 
@@ -431,9 +477,9 @@ function getNonce(length) {
 }
 
 function getFavicon(url){
-	favicon = "http://www.google.com/s2/favicons?domain=";
-	urlParts = (url.replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-	_favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
+	var favicon = "http://www.google.com/s2/favicons?domain=";
+	var urlParts = (url.replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
+	var _favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
 	return _favicon;
 }
 

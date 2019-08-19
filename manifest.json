@@ -1,13 +1,17 @@
 {
-	"manifest_version":	2,
-	"name":	 "kbo Startpage",
+	"manifest_version": 2,
+	"author": "Kai Boenke",
+	"name": "kbo Startpage",
 	"description": "Personalized startpage.",
+	"version": "1.6.8",
+	"applications": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"icons": {
+		"128": "icons/kbo-128.png",
+		"96": "icons/kbo-96.png",
 		"64": "icons/kbo-64.png",
+		"48": "icons/kbo-48.png",
 		"32": "icons/kbo-32.png"
 	},
-	"version": "1.6.7",
-	"applications": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"options_ui": {
 		"page": "options.html",
 		"browser_style": true,
