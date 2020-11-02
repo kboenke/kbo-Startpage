@@ -3,7 +3,7 @@
 	"author": "Kai Boenke",
 	"name": "kbo Startpage",
 	"description": "Personalized startpage.",
-	"version": "1.6.8",
+	"version": "1.7.0",
 	"applications": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"icons": {
 		"128": "icons/kbo-128.png",
@@ -26,6 +26,7 @@
 		"https://api.darksky.net/forecast/*",
 		"https://api.twitter.com/*",
 		"https://www.reddit.com/*",
+		"http://rss.slashdot.org/Slashdot/*",
 		"https://www.tagesschau.de/xml/rss2",
 		"http://easternsun.de/forum/*",
 		"https://planet.debian.org/atom.xml",

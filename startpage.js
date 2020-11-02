@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', initialize, false);
 var feedData = [];
 var kboLastUpdate = 0;
-var kboLastRendered = 0;
 var kboConfig;
 
 /* To be called after page is loaded */
@@ -39,6 +38,7 @@ function initialize(){
 		FeedPlanetDebian:		true,
 		FeedReddit:				false,
 		FeedRedditUrl:			'',
+		FeedSlashdot:			false,
 		FeedTagesschau:			true,
 		FeedTwitter:			false,
 		FeedTwitterKey:			'',
@@ -81,6 +81,7 @@ function initialize(){
 			FeedPlanetDebian:		items.FeedPlanetDebian,
 			FeedReddit:				items.FeedReddit,
 			FeedRedditUrl:			items.FeedRedditUrl,
+			FeedSlashdot:			items.FeedSlashdot,
 			FeedTagesschau:			items.FeedTagesschau,
 			FeedTwitter:			items.FeedTwitter,
 			FeedTwitterKey:			items.FeedTwitterKey,
@@ -95,24 +96,23 @@ function initialize(){
 		
 		//Trigger Darkmode
 		chrome.storage.local.get({kboStartpage_darkmode: false}, function(storedData){
-			if(storedData.kboStartpage_darkmode === true){
+			if(storedData.kboStartpage_darkmode === true)
 				$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css' />");
-			}
 		});
 		
-		//Populate page
-		loadWeather();
+		//Populate main page
 		loadLinks();
+		loadWeather();
 		
 		// Attempt restore of timestamps
-		chrome.storage.local.get('kboStartpage_lastRendered', function(storedData){
-			kboLastRendered = storedData.kboStartpage_lastRendered;
-		});
 		chrome.storage.local.get('kboStartpage_lastUpdate', function(storedData){
-			kboLastUpdate = storedData.kboStartpage_lastUpdate;
+			kboLastUpdate = storedData.kboStartpage_lastUpdate || 0;
 			loadFeeds();
 		});
 	});
+	
+	// Schedule automatic refresh
+	var refresh = setInterval(function(){ loadFeeds(); }, 60*1000);
 }
 
 /* Invoked by Initialize */
@@ -150,7 +150,7 @@ function loadLinks(){
 /* Invoked by Initialize */
 function loadFeeds(){
 	// Clear existing data
-	feedData = [];
+	feedData.length = 0;
 	$("ul#feeds").css("display", "none");
 	$("ul#spinner").css("display", "inherit");
 	
@@ -159,6 +159,8 @@ function loadFeeds(){
 		loadTwitter();
 	if(kboConfig['FeedReddit'])
 		loadReddit();
+	if(kboConfig['FeedSlashdot'])
+		loadSlashdot();
 	if(kboConfig['FeedTagesschau'])
 		loadTagesschau();
 	if(kboConfig['FeedEasternsun'])
@@ -171,6 +173,11 @@ function loadFeeds(){
 		loadConnections();
 	if(kboConfig['FeedZunder'])
 		loadZunder();
+
+	// Update timestamp only after 10 seconds, to avoid "throwing updates away"
+	var updateTimestamp = setTimeout(function(){
+		chrome.storage.local.set({ 'kboStartpage_lastUpdate': Date.now() }, function(){});
+	}, 10*1000);
 }
 
 
@@ -205,11 +212,6 @@ function updateContent(){
 	$("ul#feeds").html(output);
 	$("ul#spinner").css("display", "none");
 	$("ul#feeds").css("display", "inherit");
-	
-	// Update timestamps
-	if((kboLastRendered > 0) && (kboLastRendered > kboLastUpdate + (60*1000)))
-		chrome.storage.local.set({ 'kboStartpage_lastUpdate': Date.now() }, function() {});
-	chrome.storage.local.set({ 'kboStartpage_lastRendered': Date.now() }, function(){});
 }
 
 
@@ -301,7 +303,7 @@ function loadReddit(){
 		dataType:	"json",
 		url:		kboConfig['FeedRedditUrl'],
 		success: function(data){
-			$.each(data.data.children, function(i, thread){
+			$.each(data.data.children, function(i, thread) {
 				feedData.push({
 					icon: "reddit.png",
 					timestamp: thread.data.created_utc * 1000,
@@ -315,6 +317,20 @@ function loadReddit(){
 	});
 }
 
+function loadSlashdot(){
+	parseRSS("http://rss.slashdot.org/Slashdot/slashdotMain", function(slashdotData) {
+		$.each(slashdotData, function(i, entry){
+			feedData.push({
+				icon: "slashdot.png",
+				timestamp: (new Date(entry.date)).getTime(),
+				link: entry.link,
+				value: entry.title
+			});
+		});
+		updateContent();
+	});
+}
+
 function loadTagesschau(){
 	parseRSS("https://www.tagesschau.de/xml/rss2", function(tagesschauData) {
 		$.each(tagesschauData, function(i, entry){
@@ -323,7 +339,7 @@ function loadTagesschau(){
 				timestamp: (new Date(entry.pubDate)).getTime(),
 				link: entry.link,
 				value: entry.title
-				});
+			});
 		});
 		updateContent();
 	});
@@ -458,7 +474,8 @@ function parseRSS(url, callback) {
 						link:		$(item).find("link").text(),
 						guid:		$(item).find("guid").text(),
 						pubDate:	$(item).find("pubDate").text(),
-						updated:	$(item).find("updated").text()
+						updated:	$(item).find("updated").text(),
+						date:		$(item).find("dc\\:date").text()
 					};
 					_data.push(_item);
 				});
@@ -485,8 +502,8 @@ function getFavicon(url){
 
 String.format = function() {
 	var s = arguments[0];
-	for (var i = 0; i < arguments.length - 1; i++) {       
-		var reg = new RegExp("\\{" + i + "\\}", "gm");             
+	for (var i = 0; i < arguments.length - 1; i++) {
+		var reg = new RegExp("\\{" + i + "\\}", "gm");
 		s = s.replace(reg, arguments[i + 1]);
 	}
 	return s;

@@ -40,6 +40,7 @@ function save_options(){
 	var feedPlanetDebian = (document.getElementById('feedPlanetDebian').checked) ? true : false;
 	var feedReddit = (document.getElementById('feedReddit').checked) ? true : false;
 	var feedRedditUrl = document.getElementById('feedRedditUrl').value;
+	var feedSlashdot = (document.getElementById('feedSlashdot').checked) ? true : false;
 	var feedTagesschau = (document.getElementById('feedTagesschau').checked) ? true : false;
 	var feedTwitter = (document.getElementById('feedTwitter').checked) ? true : false;
 	var feedTwitterKey = document.getElementById('feedTwitterKey').value;
@@ -83,6 +84,7 @@ function save_options(){
 			FeedPlanetDebian:		feedPlanetDebian,
 			FeedReddit:				feedReddit,
 			FeedRedditUrl:			feedRedditUrl,
+			FeedSlashdot:			feedSlashdot,
 			FeedTagesschau:			feedTagesschau,
 			FeedTwitter:			feedTwitter,
 			FeedTwitterKey:			feedTwitterKey,
@@ -142,6 +144,7 @@ function restore_options(){
 		FeedPlanetDebian:		true,
 		FeedReddit:				false,
 		FeedRedditUrl:			'',
+		FeedSlashdot:			false,
 		FeedTagesschau:			true,
 		FeedTwitter:			false,
 		FeedTwitterKey:			'',
@@ -193,6 +196,7 @@ function restore_options(){
 		document.getElementById('feedPlanetDebian').checked = items.FeedPlanetDebian;
 		document.getElementById('feedReddit').checked = items.FeedReddit;
 		document.getElementById('feedRedditUrl').value = items.FeedRedditUrl;
+		document.getElementById('feedSlashdot').checked = items.FeedSlashdot;
 		document.getElementById('feedTagesschau').checked = items.FeedTagesschau;
 		document.getElementById('feedTwitter').checked = items.FeedTwitter;
 		document.getElementById('feedTwitterKey').value = items.FeedTwitterKey;
