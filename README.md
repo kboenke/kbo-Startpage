@@ -13,3 +13,6 @@ Install via [Chrome Web Store](https://chrome.google.com/webstore/detail/kbo-sta
 
 ## Attributions
 - Weather Information provided by [DarkSky](https://darksky.net/)
+
+## Privacy Policy
+No data is being transferred or stored. Settings are maintained and stored by the webbrowser.
