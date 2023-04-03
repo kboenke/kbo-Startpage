@@ -7,87 +7,33 @@ var kboConfig;
 function initialize(){
 	// Load Options
 	chrome.storage.sync.get({
-		WeatherLoc:				'25.867377,-80.120379',
-		WeatherUnit:			'f',
-		WeatherApiKey:			'', 
-		LinkL1v:				false,
-		LinkL2v:				false,
-		LinkL3v:				false,
-		LinkL4v:				false,
-		LinkR1v:				false,
-		LinkR2v:				false,
-		LinkR3v:				false,
-		LinkR4v:				false,
-		LinkL1l:				'',
-		LinkL1d:				'',
-		LinkL2l:				'',
-		LinkL2d:				'',
-		LinkL3l:				'',
-		LinkL3d:				'',
-		LinkL4l:				'',
-		LinkL4d:				'',
-		LinkR1l:				'',
-		LinkR1d:				'',
-		LinkR2l:				'',
-		LinkR2d:				'',
-		LinkR3l:				'',
-		LinkR3d:				'',
-		LinkR4l:				'',
-		LinkR4d:				'',
+		WeatherLoc: '25.867377,-80.120379', WeatherUnit: 'f',
+		LinkL1v: false, LinkL2v: false, LinkL3v: false, LinkL4v: false, LinkL1l: '', LinkL1d: '', LinkL2l: '', LinkL2d: '', LinkL3l: '', LinkL3d: '', LinkL4l: '', LinkL4d: '',
+		LinkR1v: false, LinkR2v: false, LinkR3v: false, LinkR4v: false, LinkR1l: '', LinkR1d: '', LinkR2l: '', LinkR2d: '', LinkR3l: '', LinkR3d: '', LinkR4l: '', LinkR4d: '',
 		FeedEasternsun:			false,
 		FeedPlanetDebian:		true,
 		FeedReddit:				false,
 		FeedRedditUrl:			'',
 		FeedSlashdot:			false,
 		FeedTagesschau:			true,
-		FeedTwitter:			false,
-		FeedTwitterKey:			'',
-		FeedTwitterSecret:		'',
-		FeedTwitterToken:		'',
-		FeedTwitterTokenSecret:	'',
+		FeedTwitter:			false, FeedTwitterKey: '', FeedTwitterSecret: '', FeedTwitterToken: '', FeedTwitterTokenSecret:	'',
 		FeedWowhead:			false,
 		FeedConnections:		false,
 		FeedZunder:				false
 	}, function(items){
 		kboConfig = {
-			WeatherLoc:				items.WeatherLoc,
-			WeatherUnit:			items.WeatherUnit,
-			WeatherApiKey:			items.WeatherApiKey,
-			LinkL1v:				items.LinkL1v,
-			LinkL2v:				items.LinkL2v,
-			LinkL3v:				items.LinkL3v,
-			LinkL4v:				items.LinkL4v,
-			LinkR1v:				items.LinkR1v,
-			LinkR2v:				items.LinkR2v,
-			LinkR3v:				items.LinkR3v,
-			LinkR4v:				items.LinkR4v,
-			LinkL1l:				items.LinkL1l,
-			LinkL1d:				items.LinkL1d,
-			LinkL2l:				items.LinkL2l,
-			LinkL2d:				items.LinkL2d,
-			LinkL3l:				items.LinkL3l,
-			LinkL3d:				items.LinkL3d,
-			LinkL4l:				items.LinkL4l,
-			LinkL4d:				items.LinkL4d,
-			LinkR1l:				items.LinkR1l,
-			LinkR1d:				items.LinkR1d,
-			LinkR2l:				items.LinkR2l,
-			LinkR2d:				items.LinkR2d,
-			LinkR3l:				items.LinkR3l,
-			LinkR3d:				items.LinkR3d,
-			LinkR4l:				items.LinkR4l,
-			LinkR4d:				items.LinkR4d,
+			WeatherLoc: items.WeatherLoc, WeatherUnit: items.WeatherUnit,
+			LinkL1v: items.LinkL1v, LinkL2v: items.LinkL2v, LinkL3v: items.LinkL3v, LinkL4v: items.LinkL4v,
+			LinkL1l: items.LinkL1l, LinkL1d: items.LinkL1d, LinkL2l: items.LinkL2l, LinkL2d: items.LinkL2d, LinkL3l: items.LinkL3l, LinkL3d: items.LinkL3d, LinkL4l: items.LinkL4l, LinkL4d: items.LinkL4d,
+			LinkR1v: items.LinkR1v, LinkR2v: items.LinkR2v, LinkR3v: items.LinkR3v, LinkR4v: items.LinkR4v,
+			LinkR1l: items.LinkR1l, LinkR1d: items.LinkR1d, LinkR2l: items.LinkR2l, LinkR2d: items.LinkR2d, LinkR3l: items.LinkR3l, LinkR3d: items.LinkR3d, LinkR4l: items.LinkR4l, LinkR4d: items.LinkR4d,
 			FeedEasternsun:			items.FeedEasternsun,
 			FeedPlanetDebian:		items.FeedPlanetDebian,
 			FeedReddit:				items.FeedReddit,
 			FeedRedditUrl:			items.FeedRedditUrl,
 			FeedSlashdot:			items.FeedSlashdot,
 			FeedTagesschau:			items.FeedTagesschau,
-			FeedTwitter:			items.FeedTwitter,
-			FeedTwitterKey:			items.FeedTwitterKey,
-			FeedTwitterSecret:		items.FeedTwitterSecret,
-			FeedTwitterToken:		items.FeedTwitterToken,
-			FeedTwitterTokenSecret:	items.FeedTwitterTokenSecret,
+			FeedTwitter: items.FeedTwitter, FeedTwitterKey: items.FeedTwitterKey, FeedTwitterSecret: items.FeedTwitterSecret, FeedTwitterToken: items.FeedTwitterToken, FeedTwitterTokenSecret: items.FeedTwitterTokenSecret,
 			FeedWowhead:			items.FeedWowhead,
 			FeedWowheadUrl:			items.FeedWowheadUrl,
 			FeedConnections:		items.FeedConnections,
@@ -95,9 +41,10 @@ function initialize(){
 		};
 		
 		//Trigger Darkmode
-		chrome.storage.local.get({kboStartpage_darkmode: false}, function(storedData){
-			if(storedData.kboStartpage_darkmode === true)
-				$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css' />");
+		chrome.storage.local.get({kboStartpage_scheme: 'auto'}, function(storedData){
+			if	(	(storedData.kboStartpage_scheme == 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+				|| (storedData.kboStartpage_scheme == 'dark') )
+					$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css' />");
 		});
 		
 		//Populate main page
@@ -155,29 +102,21 @@ function loadFeeds(){
 	$("ul#spinner").css("display", "inherit");
 	
 	// Get data
-	if(kboConfig['FeedTwitter'])
-		loadTwitter();
-	if(kboConfig['FeedReddit'])
-		loadReddit();
-	if(kboConfig['FeedSlashdot'])
-		loadSlashdot();
-	if(kboConfig['FeedTagesschau'])
-		loadTagesschau();
-	if(kboConfig['FeedEasternsun'])
-		loadEasternsun();
-	if(kboConfig['FeedPlanetDebian'])
-		loadPlanetDebian();
-	if(kboConfig['FeedWowhead'])
-		loadWowhead();
-	if(kboConfig['FeedConnections'])
-		loadConnections();
-	if(kboConfig['FeedZunder'])
-		loadZunder();
+	if(kboConfig['FeedTwitter'])		loadTwitter();
+	if(kboConfig['FeedReddit'])			loadReddit();
+	if(kboConfig['FeedSlashdot'])		loadSlashdot();
+	if(kboConfig['FeedTagesschau'])		loadTagesschau();
+	if(kboConfig['FeedEasternsun'])		loadEasternsun();
+	if(kboConfig['FeedPlanetDebian'])	loadPlanetDebian();
+	if(kboConfig['FeedWowhead'])		loadWowhead();
+	if(kboConfig['FeedConnections'])	loadConnections();
+	if(kboConfig['FeedZunder'])			loadZunder();
 
 	// Update timestamp only after 10 seconds, to avoid "throwing updates away"
+	var _delay = 10*1000;
 	var updateTimestamp = setTimeout(function(){
-		chrome.storage.local.set({ 'kboStartpage_lastUpdate': Date.now() }, function(){});
-	}, 10*1000);
+		chrome.storage.local.set({ 'kboStartpage_lastUpdate': Date.now() - _delay }, function(){});
+	}, _delay);
 }
 
 
@@ -221,24 +160,27 @@ function updateContent(){
 
 function loadWeather(){
 	weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	$.simplerWeather({
-		location: kboConfig['WeatherLoc'],
-		units: kboConfig['WeatherUnit'],
-		apikey: kboConfig['WeatherApiKey'],
-		forecast: true,
-		forecastdays: 6,
-		success: function(weather) {
+	var _coord = kboConfig['WeatherLoc'].split(",");
+	var _tempunit = (kboConfig['WeatherUnit'] == "c") ? "celsius" : "fahrenheit";
+	var _url = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}&hourly=temperature_2m,weathercode&daily=weathercode,temperature_2m_max&temperature_unit={2}&timeformat=unixtime&timezone=auto"
+	$.ajax({
+		'accepts': "application/json",
+		'url': 		String.format(_url, _coord[0].trim(), _coord[1].trim(), _tempunit),
+		'error':	 function(error){ $("#weather").html('<p>'+error+'</p>'); }
+	}).done(function(weather){
 			var html = "<h2><i class='icon-{0}' title='{1}'></i> {2}&deg;{3}</h2><ul class='forecast'>";
-			var _html = String.format(html, weather.icon, weather.currently, Math.round(weather.temp), weather.unit.toUpperCase());
-			for(var i=1;i<Math.min(6,weather.forecast.length);i++) {
-				title = weekdays[(new Date(weather.forecast[i].date*1000)).getDay()] + ": " + weather.forecast[i].summary;
+			var _tempunit = weather.daily_units.temperature_2m_max.substring(1);
+			var _html = String.format(html, translateWeathercode(weather.hourly.weathercode[0]).icon, translateWeathercode(weather.hourly.weathercode[0]).descr, Math.round(weather.hourly.temperature_2m[0]), _tempunit);
+			for(var i=1;i<Math.min(6,weather.daily.weathercode.length);i++) {
 				html = "<li><i class='icon-{0}' style='font-size:2.5em' title='{1}'></i> {2}&deg;{3}</li>";
-				_html += String.format(html, weather.forecast[i].icon, title, Math.round(weather.forecast[i].high), weather.unit.toUpperCase());
+				__icon = translateWeathercode(weather.daily.weathercode[i]).icon;
+				__descr = translateWeathercode(weather.daily.weathercode[i]).descr;
+				__title = weekdays[(new Date(weather.daily.time[i]*1000)).getDay()] + ": " + __descr;
+				__temp = Math.round(weather.daily.temperature_2m_max[i]);
+				_html += String.format(html, __icon, __title, __temp, _tempunit);
 			}
 			_html += '</ul>';
 			$("#weather").html(_html);
-		},
-		error: function(error) { $("#weather").html('<p>'+error+'</p>'); }
 	});
 }
 
@@ -375,7 +317,7 @@ function loadPlanetDebian(){
 }
 
 function loadWowhead(){
-	parseRSS("https://www.wowhead.com/news%26rss", function(wowheadData) {
+	parseRSS("https://www.wowhead.com/news/rss/all", function(wowheadData) {
 		$.each(wowheadData, function(i, post){
 			feedData.push({
 				icon: "wowhead.ico",
@@ -405,25 +347,12 @@ function loadConnections(){
 		},
 		error: function(data){ console.log(data); }
 	});
-/*
-	$.getJSON("https://connect.bosch.com/connections/opensocial/basic/rest/activitystreams/@me/@all/@all?shortStrings=true&rollup=true&format=json", function(connectionsData) {
-		$(connectionsData.list).each(function(i, item){
-			feedData.push({
-				icon: "bosch.png",
-				timestamp: (new Date(item.updated)).getTime(),
-				link: item.object.url,
-				value: $("<div>").html(item.connections.plainTitle).text()
-			});
-		});
-		updateContent();
-	});
-*/
 }
 
 function loadZunder(){
 	$.ajax({
 		dataType:	"json",
-		url:		"https://inside-ws.bosch.com/bgnnewsservice/en/articles/?sortField=creationDate&sortOrder=DESC",
+		url:		"https://inside-ws.bosch.com/bgnnewsservice/en/articles/?sortField=creationDate&sortOrder=DESC&articlesFilter=ONLY_NEWS_ARTICLES&size=18",
 		success: function(data){
 			$.each(zunderData, function(i, item){
 				feedData.push({
@@ -437,19 +366,6 @@ function loadZunder(){
 		},
 		error: function(data){ console.log(data); }
 	});
-/*
-	$.getJSON("https://inside-ws.bosch.com/bgnnewsservice/en/articles/?sortField=creationDate&sortOrder=DESC", function(zunderData) {
-		$.each(zunderData, function(i, item){
-			feedData.push({
-				icon: "bosch.png",
-				timestamp: (new Date(item.creationDate)).getTime(),
-				link: "http://bzo.bosch.com/" + item.url,
-				value: item.headline
-			});
-		});
-		updateContent();
-	});
-*/
 }
 
 
@@ -459,10 +375,6 @@ function loadZunder(){
 
 function parseRSS(url, callback) {
 	$.ajax({
-//		url: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url),
-//		url: 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=?&num=20&q=' + encodeURIComponent(url),
-//		url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20rss%20where%20url%20in%20(select%20title%20from%20atom%20where%20url%3D'"+ encodeURIComponent(url) +"')&format=json&callback=",
-//		dataType: 'json',
 		url: url,
 		success: function(data) {
 			var _data = new Array();
@@ -507,4 +419,39 @@ String.format = function() {
 		s = s.replace(reg, arguments[i + 1]);
 	}
 	return s;
+}
+
+function translateWeathercode(weathercode){
+	var _weather = {"icon": "star", "descr": "Unknown"};
+	switch(weathercode){
+		case 0:		_weather.icon = "1"; _weather.descr = "Clear sky"; break;
+		case 1:		_weather.icon = "2"; _weather.descr = "Mainly clear"; break;
+		case 2:		_weather.icon = "A"; _weather.descr = "Partly cloudy"; break;
+		case 3:		_weather.icon = "3"; _weather.descr = "Overcast"; break;
+		case 45:	_weather.icon = "B"; _weather.descr = "Fog"; break;
+		case 48:	_weather.icon = "Z"; _weather.descr = "Depositing rime fog"; break;
+		case 51:	_weather.icon = "F"; _weather.descr = "Light drizzle"; break;
+		case 53:	_weather.icon = "G"; _weather.descr = "Drizzle"; break;
+		case 55:	_weather.icon = "G"; _weather.descr = "Dense drizzle"; break;
+		case 56:	_weather.icon = "L"; _weather.descr = "Light freezing drizzle"; break;
+		case 57:	_weather.icon = "M"; _weather.descr = "Dense freezing drizzle"; break;
+		case 61:	_weather.icon = "J"; _weather.descr = "Slight rain"; break;
+		case 63:	_weather.icon = "K"; _weather.descr = "Rain"; break;
+		case 65:	_weather.icon = "K"; _weather.descr = "Heavy rain"; break;
+		case 66:	_weather.icon = "V"; _weather.descr = "Light freezing rain"; break;
+		case 67:	_weather.icon = "W"; _weather.descr = "Heavy freezing rain"; break;
+		case 71:	_weather.icon = "H"; _weather.descr = "Slight snowfall"; break;
+		case 73:	_weather.icon = "I"; _weather.descr = "Snowfall"; break;
+		case 75:	_weather.icon = "I"; _weather.descr = "Heavy snowfall"; break;
+		case 77:	_weather.icon = "I"; _weather.descr = "Snow grains"; break;
+		case 80:	_weather.icon = "T"; _weather.descr = "Slight showers"; break;
+		case 81:	_weather.icon = "U"; _weather.descr = "Showers"; break;
+		case 82:	_weather.icon = "U"; _weather.descr = "Violent showers"; break;
+		case 85:	_weather.icon = "V"; _weather.descr = "Slight snow showers"; break;
+		case 86:	_weather.icon = "W"; _weather.descr = "Heavy snow showers"; break;
+		case 95:	_weather.icon = "S"; _weather.descr = "Thunderstorms"; break;
+		case 96:	_weather.icon = "P"; _weather.descr = "Thunderstorms with slight hail"; break;
+		case 99:	_weather.icon = "Q"; _weather.descr = "Thunderstorms with heavy hail"; break;
+	}
+	return _weather;
 }

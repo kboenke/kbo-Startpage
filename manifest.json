@@ -3,7 +3,7 @@
 	"author": "Kai Boenke",
 	"name": "kbo Startpage",
 	"description": "Personalized startpage.",
-	"version": "1.7.0",
+	"version": "1.8.0",
 	"applications": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"icons": {
 		"128": "icons/kbo-128.png",
@@ -18,19 +18,19 @@
 		"chrome_style": true
 	},
 	"chrome_url_overrides": { "newtab": "startpage.html" },
-	"chrome_settings_overrides": {
-		"homepage": "startpage.html",
-		"startup_pages": ["startpage.html"]
-	},
+//	"chrome_settings_overrides": {
+//		"homepage": "startpage.html",
+//		"startup_pages": ["startpage.html"]
+//	},
 	"permissions": [
-		"https://api.darksky.net/forecast/*",
+		"https://api.open-meteo.com/*",
 		"https://api.twitter.com/*",
 		"https://www.reddit.com/*",
 		"http://rss.slashdot.org/Slashdot/*",
 		"https://www.tagesschau.de/xml/rss2",
 		"http://easternsun.de/forum/*",
 		"https://planet.debian.org/atom.xml",
-		"https://www.wowhead.com/*",
+		"https://www.wowhead.com/news/rss/*",
 		"https://*.bosch.com/*",
 		"storage"
 	]

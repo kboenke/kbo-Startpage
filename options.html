@@ -11,7 +11,11 @@
 <body>
 
 <h2>Dark-Mode</h2>
-<div><input type='checkbox' id='darkmode' />Switch to darkmode</div>
+<div>
+	<input type='radio' name='scheme' id='scheme_automatic' />Follow Browser-Settings<br />
+	<input type='radio' name='scheme' id='scheme_lightmode' />Always light<br />
+	<input type='radio' name='scheme' id='scheme_darkmode' />Always dark
+</div>
 
 <h2>Weather</h2>
 <div>
@@ -23,11 +27,6 @@
 	<label>Unit</label><br />
 	<input type="radio" name="weatherUnit" id="weatherTTf" value="f" />Fahrenheit
 	<input type="radio" name="weatherUnit" id="weatherTTc" value="c" />Celsius
-</div>
-<div>
-	<label>DarkSky API Key</label><br />
-	<input id="weatherApiKey" value="" /><br />
-	<span class="caption">Sign up at <a href="https://darksky.net/dev/register" target="_blank">DarkSky.net</a> (skip Credit-Card signup).</span>
 </div>
 
 <h2>Favorites</h2>
@@ -67,9 +66,13 @@
 		<input id='feedRedditUrl' value='' /><br />
 		<span class="caption">Private JSON feed from your <a href="https://www.reddit.com/prefs/feeds/" target="_blank">Reddit profile</a>.</span>
 	</div></li>
-	<li><img src="icons/slashdot.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedSlashdot' />Slashdot</li>
+	<li><img src="icons/slashdot.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedSlashdot' />Slashdot</li>
 	<li><img src="icons/tagesschau.ico" width='16' height='16' />&nbsp;<input type='checkbox' id='feedTagesschau' />Tagesschau</li>
 	<li><img src="icons/twitter.png" width='16' height='16' />&nbsp;<input type='checkbox' id='feedTwitter' />Twitter<div>
+<!--
+		<label>Username</label><br />
+		<input id='feedTwitterUser' value='' /><br />
+//-->
 		<label>API Key</label><br />
 		<input id='feedTwitterKey' value='' /><br />
 		<label>API Secret</label><br />

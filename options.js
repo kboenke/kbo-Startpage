@@ -11,7 +11,6 @@ function save_options(){
 	//Get values
 	var weatherLoc = document.getElementById('weatherLoc').value;
 	var weatherUnit = (document.getElementById('weatherTTf').checked) ? "f" : "c";
-	var weatherApiKey = document.getElementById('weatherApiKey').value;
 	var linkL1v = (document.getElementById('linkL1v').checked) ? true : false;
 	var linkL2v = (document.getElementById('linkL2v').checked) ? true : false;
 	var linkL3v = (document.getElementById('linkL3v').checked) ? true : false;
@@ -55,7 +54,6 @@ function save_options(){
 	chrome.storage.sync.set({
 			WeatherLoc:		weatherLoc,
 			WeatherUnit:	weatherUnit,
-			WeatherApiKey:	weatherApiKey, 
 			LinkL1v:		linkL1v,
 			LinkL2v:		linkL2v,
 			LinkL3v:		linkL3v,
@@ -105,9 +103,10 @@ function save_options(){
 	);
 
 	// Handle Darkmode
-	var darkmode = (document.getElementById('darkmode').checked) ? true : false;
-	chrome.storage.local.set({'kboStartpage_darkmode': darkmode}, function(){});
-	console.log(darkmode);
+	var scheme = (document.getElementById('scheme_automatic').checked) ? "auto" : false;
+	if (scheme != "auto") scheme = (document.getElementById('scheme_darkmode').checked) ? "dark" : "light";
+	chrome.storage.local.set({'kboStartpage_scheme': scheme}, function(){});
+console.log(scheme);
 }
 
 function restore_options(){
@@ -115,7 +114,6 @@ function restore_options(){
 	chrome.storage.sync.get({
 		WeatherLoc:		'25.867377,-80.120379',
 		WeatherUnit:	'f',
-		WeatherApiKey:	'',
 		LinkL1v:		false,
 		LinkL2v:		false,
 		LinkL3v:		false,
@@ -147,6 +145,7 @@ function restore_options(){
 		FeedSlashdot:			false,
 		FeedTagesschau:			true,
 		FeedTwitter:			false,
+		FeedTwitterUser:		'',
 		FeedTwitterKey:			'',
 		FeedTwitterSecret:		'',
 		FeedTwitterToken:		'',
@@ -165,7 +164,6 @@ function restore_options(){
 			document.getElementById('weatherTTf').checked = true;
 			document.getElementById('weatherTTc').checked = false;
 		}
-		document.getElementById('weatherApiKey').value = items.WeatherApiKey;
 		//Links
 		document.getElementById('linkL1v').checked = items.LinkL1v;
 		document.getElementById('linkL2v').checked = items.LinkL2v;
@@ -209,9 +207,11 @@ function restore_options(){
 	});
 
 	//Darkmode
-	chrome.storage.local.get({kboStartpage_darkmode: false}, function(storedData){
-		if(storedData.kboStartpage_darkmode === true){
-			document.getElementById('darkmode').checked = true;
+	chrome.storage.local.get({kboStartpage_scheme: 'auto'}, function(storedData){
+		switch(storedData.kboStartpage_scheme){
+			case "auto":	document.getElementById('scheme_automatic').checked = true; break;
+			case "dark":	document.getElementById('scheme_darkmode').checked = true; break;
+			case "light":	document.getElementById('scheme_lightmode').checked = true; break;
 		}
 	});
 }

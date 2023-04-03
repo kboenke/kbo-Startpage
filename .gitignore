@@ -2,4 +2,8 @@
 *.sublime-workspace
 CryptoJS
 jQuery
-simplerWeather
+Changelist
+weathermap.rtf
+*.pem
+*.crx
+*.zip
