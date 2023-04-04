@@ -1,7 +1,5 @@
 *.sublime-project
 *.sublime-workspace
-CryptoJS
-jQuery
 Changelist
 weathermap.rtf
 *.pem

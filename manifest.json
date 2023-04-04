@@ -3,7 +3,7 @@
 	"author": "Kai Boenke",
 	"name": "kbo Startpage",
 	"description": "Personalized startpage.",
-	"version": "1.8.0",
+	"version": "1.8.1",
 	"applications": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"icons": {
 		"128": "icons/kbo-128.png",
