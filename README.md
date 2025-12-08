@@ -22,7 +22,7 @@ Install via the [Chrome Web Store](https://chrome.google.com/webstore/detail/kbo
 This project is licensed under the MIT License.
 
 Third-party dependencies are used under their respective open-source licenses.
-See [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES.md) for license information.
+See [Third Part Licenses](THIRD_PARTY_LICENSES.md) for license information.
 
 
 ## Security and Encryption
