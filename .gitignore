@@ -5,3 +5,4 @@ weathermap.rtf
 *.pem
 *.crx
 *.zip
+**/.DS_Store
