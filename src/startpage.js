@@ -44,7 +44,7 @@ function initialize(){
 		chrome.storage.local.get({kboStartpage_scheme: 'auto'}, function(storedData){
 			if	(	(storedData.kboStartpage_scheme == 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)
 				|| (storedData.kboStartpage_scheme == 'dark') )
-					$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css' />");
+					$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css'>");
 		});
 		
 		//Populate main page
@@ -59,13 +59,13 @@ function initialize(){
 	});
 	
 	// Schedule automatic refresh
-	var refresh = setInterval(function(){ loadFeeds(); }, 60*1000);
+	setInterval(function(){ loadFeeds(); }, 60*1000);
 }
 
 /* Invoked by Initialize */
 function loadLinks(){
-	var rawL = "<li><a href='{0}'>{1}</a>&nbsp;<img src='{2}' width='16' height='16' alt='' \></li>";
-	var rawR = "<li><img src='{2}' width='16' height='16' alt='' \>&nbsp;<a href='{0}'>{1}</a></li>";
+	var rawL = "<li><a href='{0}'>{1}</a>&nbsp;<img src='{2}' width='16' height='16' alt=''></li>";
+	var rawR = "<li><img src='{2}' width='16' height='16' alt=''> &nbsp;<a href='{0}'>{1}</a></li>";
 	var linkL = "";
 	var linkR = "";
 	
@@ -114,7 +114,7 @@ function loadFeeds(){
 
 	// Update timestamp only after 10 seconds, to avoid "throwing updates away"
 	var _delay = 10*1000;
-	var updateTimestamp = setTimeout(function(){
+	setTimeout(function(){
 		chrome.storage.local.set({ 'kboStartpage_lastUpdate': Date.now() - _delay }, function(){});
 	}, _delay);
 }
@@ -128,7 +128,7 @@ function updateContent(){
 	// Sort items
 	do{
 		var swapped = false;
-		for(i=0; i<data.length-1; i++){
+		for(let i=0; i<data.length-1; i++){
 			if(data[i]['timestamp'] < data[i+1]['timestamp']){
 				var swap = data[i];
 				data[i] = data[i+1];
@@ -140,7 +140,7 @@ function updateContent(){
 	
 	// Parse data
 	var output = "";
-	for(i=0; i<data.length; i++){
+	for(let i=0; i<data.length; i++){
 		if(data[i]['timestamp'] > Date.now()){ continue; } // Skip items published in the future
 		var cssClass = (data[i]['timestamp'] > kboLastUpdate) ? "newitem" : "olditem";
 		var html = "<li class='{0}'><img src='icons/{1}' width='16' height='16' alt='' />&nbsp;<a href='{2}'>{3}</a></li>";
@@ -159,7 +159,7 @@ function updateContent(){
  */
 
 function loadWeather(){
-	weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 	var _coord = kboConfig['WeatherLoc'].split(",");
 	var _tempunit = (kboConfig['WeatherUnit'] == "c") ? "celsius" : "fahrenheit";
 	var _url = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}&hourly=temperature_2m,weathercode&daily=weathercode,temperature_2m_max&temperature_unit={2}&timeformat=unixtime&timezone=auto"
@@ -173,10 +173,10 @@ function loadWeather(){
 			var _html = String.format(html, translateWeathercode(weather.hourly.weathercode[0]).icon, translateWeathercode(weather.hourly.weathercode[0]).descr, Math.round(weather.hourly.temperature_2m[0]), _tempunit);
 			for(var i=1;i<Math.min(6,weather.daily.weathercode.length);i++) {
 				html = "<li><i class='icon-{0}' style='font-size:2.5em' title='{1}'></i> {2}&deg;{3}</li>";
-				__icon = translateWeathercode(weather.daily.weathercode[i]).icon;
-				__descr = translateWeathercode(weather.daily.weathercode[i]).descr;
-				__title = weekdays[(new Date(weather.daily.time[i]*1000)).getDay()] + ": " + __descr;
-				__temp = Math.round(weather.daily.temperature_2m_max[i]);
+				let __icon = translateWeathercode(weather.daily.weathercode[i]).icon;
+				let __descr = translateWeathercode(weather.daily.weathercode[i]).descr;
+				let __title = weekdays[(new Date(weather.daily.time[i]*1000)).getDay()] + ": " + __descr;
+				let __temp = Math.round(weather.daily.temperature_2m_max[i]);
 				_html += String.format(html, __icon, __title, __temp, _tempunit);
 			}
 			_html += '</ul>';
@@ -185,18 +185,18 @@ function loadWeather(){
 }
 
 function loadTwitter(){
-	twitterURL =			"https://api.twitter.com/1.1/statuses/home_timeline.json";
-	//twitterURL =			"https://api.twitter.com/oauth/request_token";
-	twitterURLmethod =		"GET",
-	twitterKey =			kboConfig['FeedTwitterKey'];
-	twitterSecret =			kboConfig['FeedTwitterSecret'];
-	twitterToken =			kboConfig['FeedTwitterToken'];
-	twitterTokenSecret =	kboConfig['FeedTwitterTokenSecret'];
-	twitterNonce =			getNonce(32);
-	twitterTimestamp =		Math.round(Date.now()/1000);
+	var twitterURL =			"https://api.twitter.com/1.1/statuses/home_timeline.json";
+	//twitterURL =				"https://api.twitter.com/oauth/request_token";
+	var twitterURLmethod =		"GET";
+	var twitterKey =			kboConfig['FeedTwitterKey'];
+	var twitterSecret =			kboConfig['FeedTwitterSecret'];
+	var twitterToken =			kboConfig['FeedTwitterToken'];
+	var twitterTokenSecret =	kboConfig['FeedTwitterTokenSecret'];
+	var twitterNonce =			getNonce(32);
+	var twitterTimestamp =		Math.round(Date.now()/1000);
 
 	// Generate oAuth Signature (https://dev.twitter.com/oauth/overview/creating-signatures)
-	twitterParameter = [
+	var twitterParameter = [
 		encodeURI('oauth_consumer_key='+twitterKey),
 		encodeURI('oauth_nonce='+twitterNonce),
 		encodeURI('oauth_signature_method='+"HMAC-SHA1"),
@@ -205,9 +205,9 @@ function loadTwitter(){
 		encodeURI('oauth_version='+"1.0")
 	];
 	twitterParameter.sort();
-	twitterSignatureBase = twitterURLmethod +"&"+ encodeURIComponent(twitterURL) +"&"+ encodeURIComponent(twitterParameter.join("&"));
-	twitterSignatureKey = encodeURIComponent(twitterSecret) +"&"+ encodeURIComponent(twitterTokenSecret);
-	twitterSignature = encodeURIComponent(CryptoJS.HmacSHA1(twitterSignatureBase, twitterSignatureKey).toString(CryptoJS.enc.Base64));
+	var twitterSignatureBase = twitterURLmethod +"&"+ encodeURIComponent(twitterURL) +"&"+ encodeURIComponent(twitterParameter.join("&"));
+	var twitterSignatureKey = encodeURIComponent(twitterSecret) +"&"+ encodeURIComponent(twitterTokenSecret);
+	var twitterSignature = encodeURIComponent(CryptoJS.HmacSHA1(twitterSignatureBase, twitterSignatureKey).toString(CryptoJS.enc.Base64));
 	
 	// Get tweets
 	$.ajax({
@@ -354,7 +354,7 @@ function loadZunder(){
 		dataType:	"json",
 		url:		"https://inside-ws.bosch.com/bgnnewsservice/en/articles/?sortField=creationDate&sortOrder=DESC&articlesFilter=ONLY_NEWS_ARTICLES&size=18",
 		success: function(data){
-			$.each(zunderData, function(i, item){
+			$.each(data, function(i, item){
 				feedData.push({
 					icon: "bosch.png",
 					timestamp: (new Date(item.creationDate)).getTime(),
