@@ -9,7 +9,7 @@
     "chrome": "readonly",
     "$": "readonly",
     "jQuery": "readonly",
-    "CryptoJS": "readonly",
+    "CryptoJS": "readonly"
   },
   "rules": {
     "no-unused-vars": "warn",
