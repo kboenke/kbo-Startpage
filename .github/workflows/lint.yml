@@ -1,4 +1,4 @@
-name: Check HTML/CSS and JavaScript
+name: Syntax Checks
 
 on:
   push:
@@ -49,6 +49,7 @@ jobs:
           else
             echo "No package.json found; cannot run JS lint."
             exit 1
+          fi
 
       - name: Lint JavaScript
         run: npm run lint:js
