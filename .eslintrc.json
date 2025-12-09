@@ -5,6 +5,11 @@
   },
   "extends": "eslint:recommended",
   "plugins": ["jquery"],
+  "globals": {
+    "chrome": "readonly",
+    "$": "readonly",
+    "jQuery": "readonly"
+  },
   "rules": {
     "no-unused-vars": "warn",
     "no-undef": "warn"
