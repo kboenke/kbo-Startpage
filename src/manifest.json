@@ -1,9 +1,9 @@
 {
 	"manifest_version": 2,
 	"author": "Kai Boenke",
-	"name": "kbo Startpage",
+	"name": "kbo-Startpage",
 	"description": "A personalized startpage.",
-	"version": "1.9.0",
+	"version": "1.9.0-dev",
 	"applications": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"icons": {
 		"128": "icons/kbo-128.png",
