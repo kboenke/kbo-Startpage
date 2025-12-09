@@ -4,7 +4,7 @@ li.newitem { color: #999999 !important; }
 li.olditem { color: silver !important; }
 .links { color: white !important; }
 .links #separator { border-right: 1px solid white ! important; }
-.links img { filter: invert(); }
+.links img { filter: invert(1); }
 #weather h2 { color: #999999 ! important; }
 #weather li { color: #999999 ! important; }
 #weather i { color: silver ! important; }
