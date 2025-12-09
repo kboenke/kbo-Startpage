@@ -1,0 +1,15 @@
+{
+  "__comment": "Node.js dependencies required for linting workflow",
+  "name": "kbo-startpage",
+  "version": "1.0.0",
+  "description": "Startpage Chrome extension",
+  "main": "src/startpage.js",
+  "scripts": {
+    "lint:js": "eslint src/*.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-plugin-jquery": "^1.5.1",
+    "jquery": "^3.7.1"
+  }
+}
