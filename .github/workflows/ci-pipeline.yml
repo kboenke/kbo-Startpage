@@ -1,4 +1,4 @@
-name: Syntax Checks
+name: CI Pipeline
 
 on:
   push:
@@ -52,3 +52,23 @@ jobs:
 
       - name: Lint JavaScript
         run: npm run lint:js
+
+  gitleaks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          # Important: fetch full history so Gitleaks can scan commits properly
+          fetch-depth: 0
+
+      - name: Run Gitleaks (scan working tree and git history)
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          # 'repo-path' is the path where the repo is checked out
+          repo-path: .
+          # Set to 'true' to fail the job when leaks are found
+          fail: true
+          # Optional: provide your own config if you want to customize rules
+          # config-path: .github/gitleaks.toml

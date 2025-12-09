@@ -1,5 +1,6 @@
 # kbo-Startpage
 
+[![CI Workflow](https://github.com/kboenke/kbo-Startpage/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/kboenke/kbo-Startpage/actions/workflows/ci-pipeline.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A customizable personal startpage featuring up to eight user-defined shortcut links and optional feed integrations from curated sources.
