@@ -8,10 +8,10 @@
   "globals": {
     "chrome": "readonly",
     "$": "readonly",
-    "jQuery": "readonly"
+    "jQuery": "readonly",
+    "CryptoJS": "readonly",
   },
   "rules": {
-    "CryptoJS": "readonly",
     "no-unused-vars": "warn",
     "no-undef": "warn"
   }
