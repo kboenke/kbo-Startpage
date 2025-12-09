@@ -1,3 +1,11 @@
+:root {
+	--bg-color: white;
+	--link-color: black;
+	--hover-color: black;
+	--newitem-color: #666666;
+	--olditem-color: silver;
+}
+
 html { height: 100%; }
 body{
 	width: 100%;
@@ -61,7 +69,7 @@ div.side { flex: 30%; }
 	padding: 0 6px 0 4px;
 	vertical-align: middle;
 }
-.links #separator { border-right: 1px solid black; }
+.links #separator { border-right: 1px solid var(--link-color); }
 ul#linksL, ul#linksR {
 	padding: 0;
 	margin-left: 0;
@@ -86,9 +94,10 @@ ul.feeds img { margin-left: -20px; margin-bottom: -2px; }
 @media screen and (min-width: 1000px) {
 	ul.feeds { margin: 1px 1px 0px -3px; }
 }
-ul.feeds a:hover { color: #000000; }
-li.newitem{ color: #666666; }
-li.olditem{ color: silver; }
+
+ul.feeds a:hover { color: var(--hover-color); }
+li.newitem{ color: var(--newitem-color); }
+li.olditem{ color: var(--olditem-color); }
 
 li.loading { margin-left: -30px; text-align: center; }
 li.loading img { vertical-align: middle; }

@@ -1,10 +1,20 @@
-body { background-color: black !important; }
-ul#feeds a:hover { color: #ffffff !important; }
-li.newitem { color: #999999 !important; }
-li.olditem { color: silver !important; }
-.links { color: white !important; }
-.links #separator { border-right: 1px solid white ! important; }
+:root {
+	--bg-color-dark: #000000 !important;
+	--link-color-dark: #ffffff !important;
+	--hover-color-dark: #ffffff !important;
+	--newitem-color-dark: #999999 !important;
+	--olditem-color-dark: silver !important;
+}
+
+body { background-color: var(--bg-color-dark); }
+
+#weather h2 { color: var(--newitem-color-dark) ! important; }
+#weather li { color: var(--newitem-color-dark) ! important; }
+#weather i { color: var(--olditem-color-dark) ! important; }
+
+ul#feeds a:hover { color: var(--hover-color-dark); }
+li.newitem { color: var(--newitem-color-dark); }
+li.olditem { color: var(--olditem-color-dark); }
+.links { color: var(--link-color-dark); }
+.links #separator { border-right: 1px solid var(--link-color-dark) ! important; }
 .links img { filter: invert(1); }
-#weather h2 { color: #999999 ! important; }
-#weather li { color: #999999 ! important; }
-#weather i { color: silver ! important; }
