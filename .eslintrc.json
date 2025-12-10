@@ -8,8 +8,7 @@
   "globals": {
     "chrome": "readonly",
     "$": "readonly",
-    "jQuery": "readonly",
-    "CryptoJS": "readonly"
+    "jQuery": "readonly"
   },
   "rules": {
     "no-unused-vars": "warn",

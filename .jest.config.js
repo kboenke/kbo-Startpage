@@ -3,8 +3,7 @@ module.exports = {
   testMatch: ['**/test/**/*.test.js'],
   collectCoverageFrom: [
     'src/**/*.js',
-    '!src/jQuery/**',
-    '!src/CryptoJS/**'
+    '!src/jQuery/**'
   ],
   coverageThreshold: {
     global: {

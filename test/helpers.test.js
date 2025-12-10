@@ -14,23 +14,9 @@ global.chrome = {
 	}
 };
 
-// Mock jQuery - needs to support both $() and $.ajax(), $.each()
-const mockJQuery = jest.fn(() => ({
-	html: jest.fn().mockReturnThis(),
-	css: jest.fn().mockReturnThis(),
-	append: jest.fn().mockReturnThis(),
-	find: jest.fn().mockReturnThis(),
-	each: jest.fn()
-}));
 mockJQuery.ajax = jest.fn();
 mockJQuery.each = jest.fn();
 global.$ = mockJQuery;
-
-// Mock CryptoJS
-global.CryptoJS = {
-	HmacSHA1: jest.fn(),
-	enc: { Base64: {} }
-};
 
 // Read and execute the startpage.js file to get the actual functions
 const startpageCode = fs.readFileSync(

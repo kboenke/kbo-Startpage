@@ -11,7 +11,6 @@ Install via the [Chrome Web Store](https://chrome.google.com/webstore/detail/kbo
 
 
 ## Libraries Used
-- [CryptoJS](https://github.com/sytelus/CryptoJS)
 - [jQuery](https://jquery.com/)
 
 
@@ -20,7 +19,7 @@ Install via the [Chrome Web Store](https://chrome.google.com/webstore/detail/kbo
 
 
 ## Licenses
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
 
 Third-party dependencies are used under their respective open-source licenses.
 See [Third Part Licenses](THIRD_PARTY_LICENSES.md) for license information.
