@@ -24,9 +24,9 @@ const kboStartpageCode = fs.readFileSync(
 	path.join(__dirname, '../src/kboStartpage.js'),
 	'utf8'
 );
-// Evaluate the code and extract the class
-eval(kboStartpageCode);
-// The class should now be available in this scope
+// Create a function that will evaluate and return the class
+const loadClass = new Function(kboStartpageCode + '; return kboStartpage;');
+const kboStartpage = loadClass();
 
 describe('kboStartpage class', () => {
 	beforeEach(() => {
