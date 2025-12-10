@@ -26,10 +26,13 @@ div.content {
 	flex-wrap: wrap;
 	flex-direction: column;
 }
-div.main { flex: 70%; }
-div.side { flex: 30%; }
+div.main { flex: 7 1 0%; }
+div.side { flex: 3 1 0%; }
 @media screen and (min-width: 1000px) {
-	div.content { flex-direction: row; }
+	div.content { 
+		flex-direction: row;
+		flex-wrap: nowrap;
+	}
 }
 
 
