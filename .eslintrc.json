@@ -3,6 +3,10 @@
     "browser": true,
     "es2021": true
   },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "script"
+  },
   "extends": "eslint:recommended",
   "plugins": ["jquery"],
   "globals": {
