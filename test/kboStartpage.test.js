@@ -93,23 +93,22 @@ describe('kboStartpage class', () => {
 				FeedReddit: true
 			};
 
-			chrome.storage.sync.get.mockImplementation((defaults, callback) => {
-				callback({ ...defaults, ...mockData });
-			});
-			chrome.storage.local.get.mockImplementation((defaults, callback) => {
-				callback(defaults);
-			});
-
-			const settings = new kboStartpage(() => {
-				expect(settings.data.WeatherLoc).toBe('40.7128,-74.0060');
-				expect(settings.data.WeatherUnit).toBe('c');
-				expect(settings.data.LinkL1v).toBe(false);
-				expect(settings.data.FeedReddit).toBe(true);
-				done();
-			});
+		chrome.storage.sync.get.mockImplementation((defaults, callback) => {
+			callback({ ...defaults, ...mockData });
+		});
+		chrome.storage.local.get.mockImplementation((defaults, callback) => {
+			callback(defaults);
 		});
 
-		test('loads meta from chrome.storage.local', (done) => {
+		let settings;
+		settings = new kboStartpage(() => {
+			expect(settings.data.WeatherLoc).toBe('40.7128,-74.0060');
+			expect(settings.data.WeatherUnit).toBe('c');
+			expect(settings.data.LinkL1v).toBe(false);
+			expect(settings.data.FeedReddit).toBe(true);
+			done();
+		});
+	});		test('loads meta from chrome.storage.local', (done) => {
 			const mockMeta = {
 				mode: 'dark',
 				lastUpdate: 1234567890
@@ -138,26 +137,25 @@ describe('kboStartpage class', () => {
 			chrome.storage.local.get.mockImplementation((defaults, callback) => {
 				callback(defaults);
 			});
-			chrome.storage.sync.set.mockImplementation((data, callback) => {
-				if (callback) callback();
-			});
-			chrome.storage.local.set.mockImplementation((data, callback) => {
-				if (callback) callback();
-			});
-
-			const settings = new kboStartpage(() => {
-				settings.data.WeatherLoc = '51.5074,-0.1278';
-				settings.save(() => {
-					expect(chrome.storage.sync.set).toHaveBeenCalledWith(
-						settings.data,
-						expect.any(Function)
-					);
-					done();
-				});
-			});
+		chrome.storage.sync.set.mockImplementation((data, callback) => {
+			if (callback) callback();
+		});
+		chrome.storage.local.set.mockImplementation((data, callback) => {
+			if (callback) callback();
 		});
 
-		test('calls chrome.storage.local.set with meta', (done) => {
+		let settings;
+		settings = new kboStartpage(() => {
+			settings.data.WeatherLoc = '51.5074,-0.1278';
+			settings.save(() => {
+				expect(chrome.storage.sync.set).toHaveBeenCalledWith(
+					settings.data,
+					expect.any(Function)
+				);
+				done();
+			});
+		});
+	});		test('calls chrome.storage.local.set with meta', (done) => {
 			chrome.storage.sync.get.mockImplementation((defaults, callback) => {
 				callback(defaults);
 			});
@@ -192,48 +190,48 @@ describe('kboStartpage class', () => {
 			chrome.storage.local.get.mockImplementation((defaults, callback) => {
 				callback(defaults);
 			});
-			chrome.storage.local.set.mockImplementation((data, callback) => {
-				if (callback) callback();
-			});
-
-			const settings = new kboStartpage(() => {
-				const beforeTime = Date.now();
-				settings.updateTimestamp();
-				const afterTime = Date.now();
-				
-				expect(settings.meta.lastUpdate).toBeGreaterThanOrEqual(beforeTime);
-				expect(settings.meta.lastUpdate).toBeLessThanOrEqual(afterTime);
-				expect(chrome.storage.local.set).toHaveBeenCalled();
-				done();
-			});
+		chrome.storage.local.set.mockImplementation((data, callback) => {
+			if (callback) callback();
 		});
 
-		test('updates lastUpdate to provided timestamp', (done) => {
+		let settings;
+		settings = new kboStartpage(() => {
+			const beforeTime = Date.now();
+			settings.updateTimestamp();
+			const afterTime = Date.now();
+			
+			expect(settings.meta.lastUpdate).toBeGreaterThanOrEqual(beforeTime);
+			expect(settings.meta.lastUpdate).toBeLessThanOrEqual(afterTime);
+			expect(chrome.storage.local.set).toHaveBeenCalled();
+			done();
+		});
+	});		test('updates lastUpdate to provided timestamp', (done) => {
 			chrome.storage.sync.get.mockImplementation((defaults, callback) => {
 				callback(defaults);
 			});
 			chrome.storage.local.get.mockImplementation((defaults, callback) => {
 				callback(defaults);
 			});
-			chrome.storage.local.set.mockImplementation((data, callback) => {
-				if (callback) callback();
-			});
+		chrome.storage.local.set.mockImplementation((data, callback) => {
+			if (callback) callback();
+		});
 
-			const settings = new kboStartpage(() => {
-				const customTime = 1234567890000;
-				settings.updateTimestamp(customTime);
-				
-				expect(settings.meta.lastUpdate).toBe(customTime);
-				expect(chrome.storage.local.set).toHaveBeenCalledWith(
-					expect.objectContaining({ lastUpdate: customTime }),
-					undefined
-				);
-				done();
-			});
+		let settings;
+		settings = new kboStartpage(() => {
+			const customTime = 1234567890000;
+			settings.updateTimestamp(customTime);
+			
+			expect(settings.meta.lastUpdate).toBe(customTime);
+			expect(chrome.storage.local.set).toHaveBeenCalledWith(
+				expect.objectContaining({ lastUpdate: customTime }),
+				undefined
+			);
+			done();
 		});
 	});
+});
 
-	describe('Data structure validation', () => {
+describe('Data structure validation', () => {
 		test('has all required weather settings', () => {
 			const settings = new kboStartpage();
 			
