@@ -2,9 +2,6 @@
  * Unit tests for kboStartpage class
  */
 
-const fs = require('fs');
-const path = require('path');
-
 // Mock the Chrome API
 global.chrome = {
 	storage: {
@@ -20,13 +17,7 @@ global.chrome = {
 };
 
 // Load the kboStartpage class
-const kboStartpageCode = fs.readFileSync(
-	path.join(__dirname, '../src/kboStartpage.js'),
-	'utf8'
-);
-// Create a function that will evaluate and return the class
-const loadClass = new Function(kboStartpageCode + '; return kboStartpage;');
-const kboStartpage = loadClass();
+const kboStartpage = require('../src/kboStartpage.js');
 
 describe('kboStartpage class', () => {
 	beforeEach(() => {

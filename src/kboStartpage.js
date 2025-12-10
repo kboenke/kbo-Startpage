@@ -81,3 +81,9 @@ class kboStartpage {
 	}
 
 }
+
+
+// Export-Functionality requried for Unit-Tests
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = kboStartpage;
+}
