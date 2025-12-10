@@ -1,59 +1,21 @@
 document.addEventListener('DOMContentLoaded', initialize, false);
 var feedData = [];
-var kboLastUpdate = 0;
-var kboConfig;
+var settings;
 
 /* To be called after page is loaded */
 function initialize(){
-	// Load Options
-	chrome.storage.sync.get({
-		WeatherLoc: '25.867377,-80.120379', WeatherUnit: 'f',
-		LinkL1v: true, LinkL2v: true, LinkL3v: false, LinkL4v: false, LinkL1l: 'https://www.zeit.de/', LinkL1d: 'Die ZEIT', LinkL2l: 'https://www.nytimes.com', LinkL2d: 'New York Times', LinkL3l: '', LinkL3d: '', LinkL4l: '', LinkL4d: '',
-		LinkR1v: true, LinkR2v: true, LinkR3v: true, LinkR4v: false, LinkR1l: 'https://www.golem.de/', LinkR1d: 'Golem.de', LinkR2l: 'https://www.heise.de/ix/news/', LinkR2d: 'iX News', LinkR3l: 'https://www.rockpapershotgun.com/latest', LinkR3d: 'Rock Paper Shotgun', LinkR4l: '', LinkR4d: '',
-		FeedEasternsun:			false,
-		FeedPlanetDebian:		true,
-		FeedReddit:				false,
-		FeedRedditUrl:			'',
-		FeedSlashdot:			false,
-		FeedTagesschau:			true,
-		FeedWowhead:			false,
-		FeedConnections:		false,
-		FeedZunder:				false
-	}, function(items){
-		kboConfig = {
-			WeatherLoc: items.WeatherLoc, WeatherUnit: items.WeatherUnit,
-			LinkL1v: items.LinkL1v, LinkL2v: items.LinkL2v, LinkL3v: items.LinkL3v, LinkL4v: items.LinkL4v,
-			LinkL1l: items.LinkL1l, LinkL1d: items.LinkL1d, LinkL2l: items.LinkL2l, LinkL2d: items.LinkL2d, LinkL3l: items.LinkL3l, LinkL3d: items.LinkL3d, LinkL4l: items.LinkL4l, LinkL4d: items.LinkL4d,
-			LinkR1v: items.LinkR1v, LinkR2v: items.LinkR2v, LinkR3v: items.LinkR3v, LinkR4v: items.LinkR4v,
-			LinkR1l: items.LinkR1l, LinkR1d: items.LinkR1d, LinkR2l: items.LinkR2l, LinkR2d: items.LinkR2d, LinkR3l: items.LinkR3l, LinkR3d: items.LinkR3d, LinkR4l: items.LinkR4l, LinkR4d: items.LinkR4d,
-			FeedEasternsun:			items.FeedEasternsun,
-			FeedPlanetDebian:		items.FeedPlanetDebian,
-			FeedReddit:				items.FeedReddit,
-			FeedRedditUrl:			items.FeedRedditUrl,
-			FeedSlashdot:			items.FeedSlashdot,
-			FeedTagesschau:			items.FeedTagesschau,
-			FeedWowhead:			items.FeedWowhead,
-			FeedWowheadUrl:			items.FeedWowheadUrl,
-			FeedConnections:		items.FeedConnections,
-			FeedZunder:				items.FeedZunder,
-		};
+	// Load settings
+	settings = new kboStartpage(function(){
+		// Trigger Darkmode
+		if ((settings.meta.mode == 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+			|| (settings.meta.mode == 'dark')) {
+			$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css'>");
+		}
 		
-		//Trigger Darkmode
-		chrome.storage.local.get({kboStartpage_scheme: 'auto'}, function(storedData){
-			if	(	(storedData.kboStartpage_scheme == 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-				|| (storedData.kboStartpage_scheme == 'dark') )
-					$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css'>");
-		});
-		
-		//Populate main page
+		// Populate main page
 		loadLinks();
 		loadWeather();
-		
-		// Attempt restore of timestamps
-		chrome.storage.local.get('kboStartpage_lastUpdate', function(storedData){
-			kboLastUpdate = storedData.kboStartpage_lastUpdate || 0;
-			loadFeeds();
-		});
+		loadFeeds();
 	});
 	
 	// Schedule automatic refresh
@@ -68,23 +30,23 @@ function loadLinks(){
 	var linkR = "";
 	
 	//Build linklists
-	if(kboConfig['LinkL1v'])
-		linkL += String.format(rawL, kboConfig['LinkL1l'], kboConfig['LinkL1d'], getFavicon(kboConfig['LinkL1l']));
-	if(kboConfig['LinkL2v'])
-		linkL += String.format(rawL, kboConfig['LinkL2l'], kboConfig['LinkL2d'], getFavicon(kboConfig['LinkL2l']));
-	if(kboConfig['LinkL3v'])
-		linkL += String.format(rawL, kboConfig['LinkL3l'], kboConfig['LinkL3d'], getFavicon(kboConfig['LinkL3l']));
-	if(kboConfig['LinkL4v'])
-		linkL += String.format(rawL, kboConfig['LinkL4l'], kboConfig['LinkL4d'], getFavicon(kboConfig['LinkL4l']));
+	if(settings.data.LinkL1v)
+		linkL += String.format(rawL, settings.data.LinkL1l, settings.data.LinkL1d, getFavicon(settings.data.LinkL1l));
+	if(settings.data.LinkL2v)
+		linkL += String.format(rawL, settings.data.LinkL2l, settings.data.LinkL2d, getFavicon(settings.data.LinkL2l));
+	if(settings.data.LinkL3v)
+		linkL += String.format(rawL, settings.data.LinkL3l, settings.data.LinkL3d, getFavicon(settings.data.LinkL3l));
+	if(settings.data.LinkL4v)
+		linkL += String.format(rawL, settings.data.LinkL4l, settings.data.LinkL4d, getFavicon(settings.data.LinkL4l));
 	
-	if(kboConfig['LinkR1v'])
-		linkR += String.format(rawR, kboConfig['LinkR1l'], kboConfig['LinkR1d'], getFavicon(kboConfig['LinkR1l']));
-	if(kboConfig['LinkR2v'])
-		linkR += String.format(rawR, kboConfig['LinkR2l'], kboConfig['LinkR2d'], getFavicon(kboConfig['LinkR2l']));
-	if(kboConfig['LinkR3v'])
-		linkR += String.format(rawR, kboConfig['LinkR3l'], kboConfig['LinkR3d'], getFavicon(kboConfig['LinkR3l']));
-	if(kboConfig['LinkR4v'])
-		linkR += String.format(rawR, kboConfig['LinkR4l'], kboConfig['LinkR4d'], getFavicon(kboConfig['LinkR4l']));
+	if(settings.data.LinkR1v)
+		linkR += String.format(rawR, settings.data.LinkR1l, settings.data.LinkR1d, getFavicon(settings.data.LinkR1l));
+	if(settings.data.LinkR2v)
+		linkR += String.format(rawR, settings.data.LinkR2l, settings.data.LinkR2d, getFavicon(settings.data.LinkR2l));
+	if(settings.data.LinkR3v)
+		linkR += String.format(rawR, settings.data.LinkR3l, settings.data.LinkR3d, getFavicon(settings.data.LinkR3l));
+	if(settings.data.LinkR4v)
+		linkR += String.format(rawR, settings.data.LinkR4l, settings.data.LinkR4d, getFavicon(settings.data.LinkR4l));
 	
 	//Populate page
 	$("ul#linksL").html(linkL);
@@ -100,19 +62,19 @@ function loadFeeds(){
 	$("ul#spinner").css("display", "inherit");
 	
 	// Get data
-	if(kboConfig['FeedReddit'])			loadReddit();
-	if(kboConfig['FeedSlashdot'])		loadSlashdot();
-	if(kboConfig['FeedTagesschau'])		loadTagesschau();
-	if(kboConfig['FeedEasternsun'])		loadEasternsun();
-	if(kboConfig['FeedPlanetDebian'])	loadPlanetDebian();
-	if(kboConfig['FeedWowhead'])		loadWowhead();
-	if(kboConfig['FeedConnections'])	loadConnections();
-	if(kboConfig['FeedZunder'])			loadZunder();
+	if(settings.data.FeedReddit)		loadReddit();
+	if(settings.data.FeedSlashdot)		loadSlashdot();
+	if(settings.data.FeedTagesschau)	loadTagesschau();
+	if(settings.data.FeedEasternsun)	loadEasternsun();
+	if(settings.data.FeedPlanetDebian)	loadPlanetDebian();
+	if(settings.data.FeedWowhead)		loadWowhead();
+	if(settings.data.FeedConnections)	loadConnections();
+	if(settings.data.FeedZunder)		loadZunder();
 
 	// Update timestamp only after 10 seconds, to avoid "throwing updates away"
 	var _delay = 10*1000;
 	setTimeout(function(){
-		chrome.storage.local.set({ 'kboStartpage_lastUpdate': Date.now() - _delay }, function(){});
+		settings.updateTimestamp(Date.now() - _delay);
 	}, _delay);
 }
 
@@ -139,7 +101,7 @@ function updateContent(){
 	var output = "";
 	for(let i=0; i<data.length; i++){
 		if(data[i]['timestamp'] > Date.now()){ continue; } // Skip items published in the future
-		var cssClass = (data[i]['timestamp'] > kboLastUpdate) ? "newitem" : "olditem";
+		var cssClass = (data[i]['timestamp'] > settings.meta.lastUpdate) ? "newitem" : "olditem";
 		var html = "<li class='{0}'><img src='icons/{1}' width='16' height='16' alt='' />&nbsp;<a href='{2}'>{3}</a></li>";
 		output += String.format(html, cssClass, data[i]['icon'], data[i]['link'], data[i]['value']);
 	}
@@ -157,8 +119,8 @@ function updateContent(){
 
 function loadWeather(){
 	var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	var _coord = kboConfig['WeatherLoc'].split(",");
-	var _tempunit = (kboConfig['WeatherUnit'] == "c") ? "celsius" : "fahrenheit";
+	var _coord = settings.data.WeatherLoc.split(",");
+	var _tempunit = (settings.data.WeatherUnit == "c") ? "celsius" : "fahrenheit";
 	var _url = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}&hourly=temperature_2m,weathercode&daily=weathercode,temperature_2m_max&temperature_unit={2}&timeformat=unixtime&timezone=auto"
 	$.ajax({
 		'accepts': "application/json",
@@ -185,7 +147,7 @@ function loadReddit(){
 	// Get Threads
 	$.ajax({
 		dataType:	"json",
-		url:		kboConfig['FeedRedditUrl'],
+		url:		settings.data.FeedRedditUrl,
 		success: function(data){
 			$.each(data.data.children, function(i, thread) {
 				feedData.push({
