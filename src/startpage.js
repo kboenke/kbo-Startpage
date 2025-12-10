@@ -408,9 +408,10 @@ function getNonce(length) {
 function getFavicon(url){
 	var favicon = "http://www.google.com/s2/favicons?domain=";
 	var urlParts = (url.replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-	var _favicon = (urlParts[0].endsWith('bosch.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-	_favicon = (urlParts[0].endsWith('boschdevcloud.com')) ? "icons/bosch.png" : favicon.concat(urlParts[0]);
-	return _favicon;
+	if (urlParts[0].endsWith('bosch.com') || urlParts[0].endsWith('boschdevcloud.com')) {
+		return "icons/bosch.png";
+	}
+	return favicon.concat(urlParts[0]);
 }
 
 String.format = function() {
