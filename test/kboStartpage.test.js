@@ -24,7 +24,10 @@ const kboStartpageCode = fs.readFileSync(
 	path.join(__dirname, '../src/kboStartpage.js'),
 	'utf8'
 );
-eval(kboStartpageCode);
+// Use indirect eval to ensure kboStartpage is in global scope
+const evalGlobal = eval;
+evalGlobal(kboStartpageCode);
+const kboStartpage = global.kboStartpage || evalGlobal('kboStartpage');
 
 describe('kboStartpage class', () => {
 	beforeEach(() => {

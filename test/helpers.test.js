@@ -14,6 +14,7 @@ global.chrome = {
 	}
 };
 
+const mockJQuery = function() {};
 mockJQuery.ajax = jest.fn();
 mockJQuery.each = jest.fn();
 global.$ = mockJQuery;

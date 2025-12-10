@@ -1,5 +1,6 @@
 // https://developer.chrome.com/extensions/options
 
+/* global kboStartpage */
 var settings;
 
 document.addEventListener('DOMContentLoaded', initialize, false);
