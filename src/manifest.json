@@ -22,7 +22,6 @@
 	},
 	"host_permissions": [
 		"https://api.open-meteo.com/*",
-		"https://api.twitter.com/*",
 		"https://www.reddit.com/*",
 		"http://rss.slashdot.org/Slashdot/*",
 		"https://www.tagesschau.de/xml/rss2",

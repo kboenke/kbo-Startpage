@@ -41,11 +41,6 @@ function save_options(){
 	var feedRedditUrl = document.getElementById('feedRedditUrl').value;
 	var feedSlashdot = (document.getElementById('feedSlashdot').checked) ? true : false;
 	var feedTagesschau = (document.getElementById('feedTagesschau').checked) ? true : false;
-	var feedTwitter = (document.getElementById('feedTwitter').checked) ? true : false;
-	var feedTwitterKey = document.getElementById('feedTwitterKey').value;
-	var feedTwitterSecret = document.getElementById('feedTwitterSecret').value;
-	var feedTwitterToken = document.getElementById('feedTwitterToken').value;
-	var feedTwitterTokenSecret = document.getElementById('feedTwitterTokenSecret').value;
 	var feedWowhead = (document.getElementById('feedWowhead').checked) ? true : false;
 	var feedConnections = (document.getElementById('feedConnections').checked) ? true : false;
 	var feedZunder = (document.getElementById('feedZunder').checked) ? true : false;
@@ -84,11 +79,6 @@ function save_options(){
 			FeedRedditUrl:			feedRedditUrl,
 			FeedSlashdot:			feedSlashdot,
 			FeedTagesschau:			feedTagesschau,
-			FeedTwitter:			feedTwitter,
-			FeedTwitterKey:			feedTwitterKey,
-			FeedTwitterSecret:		feedTwitterSecret,
-			FeedTwitterToken:		feedTwitterToken,
-			FeedTwitterTokenSecret:	feedTwitterTokenSecret,
 			FeedWowhead:			feedWowhead,
 			FeedConnections:		feedConnections,
 			FeedZunder:				feedZunder,
@@ -144,12 +134,6 @@ function restore_options(){
 		FeedRedditUrl:			'',
 		FeedSlashdot:			false,
 		FeedTagesschau:			true,
-		FeedTwitter:			false,
-		FeedTwitterUser:		'',
-		FeedTwitterKey:			'',
-		FeedTwitterSecret:		'',
-		FeedTwitterToken:		'',
-		FeedTwitterTokenSecret:	'',
 		FeedWowhead:			false,
 		FeedConnections:		false,
 		FeedZunder:				false,
@@ -196,11 +180,6 @@ function restore_options(){
 		document.getElementById('feedRedditUrl').value = items.FeedRedditUrl;
 		document.getElementById('feedSlashdot').checked = items.FeedSlashdot;
 		document.getElementById('feedTagesschau').checked = items.FeedTagesschau;
-		document.getElementById('feedTwitter').checked = items.FeedTwitter;
-		document.getElementById('feedTwitterKey').value = items.FeedTwitterKey;
-		document.getElementById('feedTwitterSecret').value = items.FeedTwitterSecret;
-		document.getElementById('feedTwitterToken').value = items.FeedTwitterToken;
-		document.getElementById('feedTwitterTokenSecret').value = items.FeedTwitterTokenSecret;
 		document.getElementById('feedWowhead').checked = items.FeedWowhead;
 		document.getElementById('feedConnections').checked = items.FeedConnections;
 		document.getElementById('feedZunder').checked = items.FeedZunder;

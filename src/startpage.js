@@ -8,15 +8,14 @@ function initialize(){
 	// Load Options
 	chrome.storage.sync.get({
 		WeatherLoc: '25.867377,-80.120379', WeatherUnit: 'f',
-		LinkL1v: false, LinkL2v: false, LinkL3v: false, LinkL4v: false, LinkL1l: '', LinkL1d: '', LinkL2l: '', LinkL2d: '', LinkL3l: '', LinkL3d: '', LinkL4l: '', LinkL4d: '',
-		LinkR1v: false, LinkR2v: false, LinkR3v: false, LinkR4v: false, LinkR1l: '', LinkR1d: '', LinkR2l: '', LinkR2d: '', LinkR3l: '', LinkR3d: '', LinkR4l: '', LinkR4d: '',
+		LinkL1v: true, LinkL2v: true, LinkL3v: false, LinkL4v: false, LinkL1l: 'https://www.zeit.de/', LinkL1d: 'Die ZEIT', LinkL2l: 'https://www.nytimes.com', LinkL2d: 'New York Times', LinkL3l: '', LinkL3d: '', LinkL4l: '', LinkL4d: '',
+		LinkR1v: true, LinkR2v: true, LinkR3v: true, LinkR4v: false, LinkR1l: 'https://www.golem.de/', LinkR1d: 'Golem.de', LinkR2l: 'https://www.heise.de/ix/news/', LinkR2d: 'iX News', LinkR3l: 'https://www.rockpapershotgun.com/latest', LinkR3d: 'Rock Paper Shotgun', LinkR4l: '', LinkR4d: '',
 		FeedEasternsun:			false,
 		FeedPlanetDebian:		true,
 		FeedReddit:				false,
 		FeedRedditUrl:			'',
 		FeedSlashdot:			false,
 		FeedTagesschau:			true,
-		FeedTwitter:			false, FeedTwitterKey: '', FeedTwitterSecret: '', FeedTwitterToken: '', FeedTwitterTokenSecret:	'',
 		FeedWowhead:			false,
 		FeedConnections:		false,
 		FeedZunder:				false
@@ -33,7 +32,6 @@ function initialize(){
 			FeedRedditUrl:			items.FeedRedditUrl,
 			FeedSlashdot:			items.FeedSlashdot,
 			FeedTagesschau:			items.FeedTagesschau,
-			FeedTwitter: items.FeedTwitter, FeedTwitterKey: items.FeedTwitterKey, FeedTwitterSecret: items.FeedTwitterSecret, FeedTwitterToken: items.FeedTwitterToken, FeedTwitterTokenSecret: items.FeedTwitterTokenSecret,
 			FeedWowhead:			items.FeedWowhead,
 			FeedWowheadUrl:			items.FeedWowheadUrl,
 			FeedConnections:		items.FeedConnections,
@@ -102,7 +100,6 @@ function loadFeeds(){
 	$("ul#spinner").css("display", "inherit");
 	
 	// Get data
-	if(kboConfig['FeedTwitter'])		loadTwitter();
 	if(kboConfig['FeedReddit'])			loadReddit();
 	if(kboConfig['FeedSlashdot'])		loadSlashdot();
 	if(kboConfig['FeedTagesschau'])		loadTagesschau();
@@ -181,61 +178,6 @@ function loadWeather(){
 			}
 			_html += '</ul>';
 			$("#weather").html(_html);
-	});
-}
-
-function loadTwitter(){
-	var twitterURL =			"https://api.twitter.com/1.1/statuses/home_timeline.json";
-	//twitterURL =				"https://api.twitter.com/oauth/request_token";
-	var twitterURLmethod =		"GET";
-	var twitterKey =			kboConfig['FeedTwitterKey'];
-	var twitterSecret =			kboConfig['FeedTwitterSecret'];
-	var twitterToken =			kboConfig['FeedTwitterToken'];
-	var twitterTokenSecret =	kboConfig['FeedTwitterTokenSecret'];
-	var twitterNonce =			getNonce(32);
-	var twitterTimestamp =		Math.round(Date.now()/1000);
-
-	// Generate oAuth Signature (https://dev.twitter.com/oauth/overview/creating-signatures)
-	var twitterParameter = [
-		encodeURI('oauth_consumer_key='+twitterKey),
-		encodeURI('oauth_nonce='+twitterNonce),
-		encodeURI('oauth_signature_method='+"HMAC-SHA1"),
-		encodeURI('oauth_timestamp='+twitterTimestamp),
-		encodeURI('oauth_token='+twitterToken),
-		encodeURI('oauth_version='+"1.0")
-	];
-	twitterParameter.sort();
-	var twitterSignatureBase = twitterURLmethod +"&"+ encodeURIComponent(twitterURL) +"&"+ encodeURIComponent(twitterParameter.join("&"));
-	var twitterSignatureKey = encodeURIComponent(twitterSecret) +"&"+ encodeURIComponent(twitterTokenSecret);
-	var twitterSignature = encodeURIComponent(CryptoJS.HmacSHA1(twitterSignatureBase, twitterSignatureKey).toString(CryptoJS.enc.Base64));
-	
-	// Get tweets
-	$.ajax({
-		type:		twitterURLmethod,
-		url:		twitterURL,
-		headers: {
-			'Authorization': 'OAuth '+
-				'oauth_consumer_key="'+ twitterKey +'", '+
-				'oauth_nonce="'+ twitterNonce +'", '+
-				'oauth_signature="'+ twitterSignature +'", '+
-				'oauth_signature_method="HMAC-SHA1", '+
-				'oauth_timestamp="'+ twitterTimestamp +'", '+
-				'oauth_token="'+ twitterToken +'", '+
-				'oauth_version="1.0"'
-		},
-		success: function(twitterData){
-			// Retrieve tweets
-			$.each(twitterData, function(i, tweet){
-				feedData.push({
-					icon: "twitter.png",
-					timestamp: (new Date(tweet.created_at)).getTime(),
-					link: "https://twitter.com/"+ tweet.user.screen_name +"/status/"+ tweet.id_str,
-					value: tweet.text
-				});
-			});
-			updateContent();
-		},
-		error: function(data){ console.log(data)}
 	});
 }
 
