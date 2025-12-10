@@ -303,14 +303,6 @@ function parseRSS(url, callback) {
 	});
 }
 
-// eslint-disable-next-line no-unused-vars
-function getNonce(length) {
-	var text = "";
-	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	for(var i = 0; i < length; i++) { text += possible.charAt(Math.floor(Math.random() * possible.length)); }
-	return text;
-}
-
 function getFavicon(url){
 	var favicon = "http://www.google.com/s2/favicons?domain=";
 	var urlParts = (url.replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]

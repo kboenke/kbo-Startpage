@@ -28,7 +28,7 @@ const startpageCode = fs.readFileSync(
 // This is a bit hacky but allows us to test the actual code
 eval(startpageCode);
 
-// Now getNonce, getFavicon, translateWeathercode, and String.format are available
+// Now getFavicon, translateWeathercode, and String.format are available
 // from the actual source file
 
 describe('String.format()', () => {
@@ -60,35 +60,6 @@ describe('String.format()', () => {
 	test('handles no placeholders', () => {
 		const result = String.format('No placeholders here');
 		expect(result).toBe('No placeholders here');
-	});
-});
-
-describe('getNonce()', () => {
-	test('generates string of correct length', () => {
-		expect(getNonce(10)).toHaveLength(10);
-		expect(getNonce(32)).toHaveLength(32);
-		expect(getNonce(64)).toHaveLength(64);
-	});
-
-	test('generates string with only alphanumeric characters', () => {
-		const nonce = getNonce(100);
-		expect(nonce).toMatch(/^[A-Za-z0-9]+$/);
-	});
-
-	test('generates different values on subsequent calls', () => {
-		const nonce1 = getNonce(32);
-		const nonce2 = getNonce(32);
-		expect(nonce1).not.toBe(nonce2);
-	});
-
-	test('handles length of 1', () => {
-		const nonce = getNonce(1);
-		expect(nonce).toHaveLength(1);
-		expect(nonce).toMatch(/^[A-Za-z0-9]$/);
-	});
-
-	test('handles length of 0', () => {
-		expect(getNonce(0)).toBe('');
 	});
 });
 
