@@ -67,13 +67,8 @@ jobs:
 
       - name: Run Gitleaks (scan working tree and git history)
         uses: gitleaks/gitleaks-action@v2
-        with:
-          # 'repo-path' is the path where the repo is checked out
-          repo-path: .
-          # Set to 'true' to fail the job when leaks are found
-          fail: true
-          # Optional: provide your own config if you want to customize rules
-          # config-path: .github/gitleaks.toml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
   unit_testing:

@@ -1,3 +1,4 @@
+/* global kboStartpage */
 document.addEventListener('DOMContentLoaded', initialize, false);
 var feedData = [];
 var settings;
@@ -302,6 +303,7 @@ function parseRSS(url, callback) {
 	});
 }
 
+// eslint-disable-next-line no-unused-vars
 function getNonce(length) {
 	var text = "";
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
