@@ -5,6 +5,7 @@
 	"description": "A personalized startpage.",
 	"version": "1.9.0",
 	"browser_specific_settings": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
+	"data_collection_permissions": "none",
 	"icons": {
 		"128": "icons/kbo-128.png",
 		"96": "icons/kbo-96.png",
