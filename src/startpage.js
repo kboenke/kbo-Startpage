@@ -1,4 +1,4 @@
-/* global kboStartpage */
+/* global kboSettings */
 document.addEventListener('DOMContentLoaded', initialize, false);
 var feedData = [];
 var settings;

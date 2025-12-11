@@ -80,5 +80,5 @@ class kboSettings {
 // Export-Functionality requried for Unit-Tests
 /* global module */
 if (typeof module !== 'undefined' && module.exports) {
-	module.exports = kboStartpage;
+	module.exports = kboSettings;
 }
