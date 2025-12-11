@@ -17,8 +17,7 @@ class kboSettings {
 		LinkR4v: false, LinkR4d: '', LinkR4l: 'https://',
 		FeedEasternsun: false,
 		FeedPlanetDebian: true,
-		FeedReddit: false,
-		FeedRedditUrl: '',
+		FeedReddit: false, FeedRedditUrl: '',
 		FeedSlashdot: false,
 		FeedTagesschau: true,
 		FeedWowhead: false,
@@ -34,8 +33,7 @@ class kboSettings {
 
 	// Initialize settings and load from storage (if available)
 	constructor(callback) {
-		this.#loadSettings(callback);
-		this.#loadMetaData(callback);
+		this.#loadSettingsAndMetaData(callback);
 	}
 
 	// Save all data to storage
@@ -55,9 +53,13 @@ class kboSettings {
 	/* Private Methods */
 
 	// Load settings from chrome storage
-	#loadSettings(callback) {
-		chrome.storage.sync.get(this.data, (items) => {
-			this.data = items;
+	#loadSettingsAndMetaData(callback) {
+		Promise.all([
+			new Promise(resolve => chrome.storage.sync.get(this.data, resolve)),
+			new Promise(resolve => chrome.storage.local.get(this.meta, resolve))
+		]).then(([syncData, localData]) => {
+			this.data = syncData;
+			this.meta = localData;
 			if (callback) callback();
 		});
 	}
@@ -65,14 +67,6 @@ class kboSettings {
 	// Save settings to chrome storage
 	#storeSettings(callback) {
 		chrome.storage.sync.set(this.data, callback);
-	}
-
-	// Load meta information from chrome local storage
-	#loadMetaData(callback) {
-		chrome.storage.local.get(this.meta, (items) => {
-			this.meta = items;
-			if (callback) callback();
-		});
 	}
 
 	// Save meta information to chrome local storage
