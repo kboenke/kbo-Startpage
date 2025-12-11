@@ -1,5 +1,6 @@
 # kbo-Startpage
 
+[![CD Workflow](https://github.com/kboenke/kbo-Startpage/actions/workflows/cd-pipeline.yml/badge.svg)](https://github.com/kboenke/kbo-Startpage/actions/workflows/cd-pipeline.yml)
 [![CI Workflow](https://github.com/kboenke/kbo-Startpage/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/kboenke/kbo-Startpage/actions/workflows/ci-pipeline.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
