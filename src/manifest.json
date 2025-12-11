@@ -1,10 +1,10 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"author": "Kai Boenke",
-	"name": "kbo Startpage",
-	"description": "Personalized startpage.",
-	"version": "1.8.1",
-	"applications": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
+	"name": "kbo-Startpage",
+	"description": "A personalized startpage.",
+	"version": "1.9.0-dev",
+	"browser_specific_settings": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"icons": {
 		"128": "icons/kbo-128.png",
 		"96": "icons/kbo-96.png",
@@ -13,25 +13,22 @@
 		"32": "icons/kbo-32.png"
 	},
 	"options_ui": {
-		"page": "options.html",
-		"browser_style": true,
-		"chrome_style": true
+		"page": "options.html"
 	},
 	"chrome_url_overrides": { "newtab": "startpage.html" },
-//	"chrome_settings_overrides": {
-//		"homepage": "startpage.html",
-//		"startup_pages": ["startpage.html"]
-//	},
-	"permissions": [
+	"chrome_settings_overrides": {
+		"homepage": "startpage.html",
+		"startup_pages": ["startpage.html"]
+	},
+	"host_permissions": [
 		"https://api.open-meteo.com/*",
-		"https://api.twitter.com/*",
 		"https://www.reddit.com/*",
 		"http://rss.slashdot.org/Slashdot/*",
 		"https://www.tagesschau.de/xml/rss2",
 		"http://easternsun.de/forum/*",
 		"https://planet.debian.org/atom.xml",
 		"https://www.wowhead.com/news/rss/*",
-		"https://*.bosch.com/*",
-		"storage"
-	]
+		"https://*.bosch.com/*"
+	],
+	"permissions": ["storage"]
 }

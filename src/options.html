@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8">
+	<title>kboSettings Options</title>
+	<link rel="stylesheet" type="text/css" href="options.css">
+	<script src="kboSettings.js"></script>
+	<script src="options.js"></script>
+</head>
+<body>
+
+<h2>Dark-Mode</h2>
+<div>
+	<input type='radio' name='scheme' id='mode_automatic'>Follow Browser-Settings<br>
+	<input type='radio' name='scheme' id='mode_light'>Always light<br>
+	<input type='radio' name='scheme' id='mode_dark'>Always dark
+</div>
+
+<h2>Weather</h2>
+<div>
+	<label>Location Coordinates</label><br>
+	<input id="weatherLoc" value=""><br>
+	<span class="caption">Lat-Long Coordinates (comma-separated).</span>
+</div>
+<div>
+	<label>Unit</label><br>
+	<input type="radio" name="weatherUnit" id="weatherTTf" value="f">Fahrenheit
+	<input type="radio" name="weatherUnit" id="weatherTTc" value="c">Celsius
+</div>
+
+<h2>Favorites</h2>
+<table id="links"><tr><td style="border-right: 1px solid black;">
+	<ul id="linksL">
+		<li><table><tr><td>
+			<label>Link</label><br>
+			<input id="linkL1l" value=''><br>
+			<label>Description</label><br>
+			<input id="linkL1d" value=''>
+			</td><td><input type='checkbox' id='linkL1v'></td></table></li>
+		<li><table><tr><td><label>Link</label><br><input id="linkL2l" value=''><br><label>Description</label><br><input id="linkL2d" value=''></td><td><input type='checkbox' id='linkL2v'></td></table></li>
+		<li><table><tr><td><label>Link</label><br><input id="linkL3l" value=''><br><label>Description</label><br><input id="linkL3d" value=''></td><td><input type='checkbox' id='linkL3v'></td></table></li>
+		<li><table><tr><td><label>Link</label><br><input id="linkL4l" value=''><br><label>Description</label><br><input id="linkL4d" value=''></td><td><input type='checkbox' id='linkL4v'></td></table></li>
+	</ul>
+</td><td>
+	<ul id="linksR">
+		<li><table><tr><td><input type='checkbox' id='linkR1v'></td><td>
+			<label>Link</label><br>
+			<input id='linkR1l' value=''><br>
+			<label>Description</label><br>
+			<input id="linkR1d" value=''>
+			</td></table></li>
+		<li><table><tr><td><input type='checkbox' id='linkR2v'></td><td><label>Link</label><br><input id='linkR2l' value=''><br><label>Description</label><br><input id="linkR2d" value=''></td></table></li>
+		<li><table><tr><td><input type='checkbox' id='linkR3v'></td><td><label>Link</label><br><input id='linkR3l' value=''><br><label>Description</label><br><input id="linkR3d" value=''></td></table></li>
+		<li><table><tr><td><input type='checkbox' id='linkR4v'></td><td><label>Link</label><br><input id='linkR4l' value=''><br><label>Description</label><br><input id="linkR4d" value=''></td></table></li>
+	</ul>
+</td></tr></table>
+
+<h2>Feeds</h2>
+<ul id="feeds">
+	<li><img src="icons/bosch.png" width='16' height='16' alt="Icon">&nbsp;<input type='checkbox' id='feedConnections'>Bosch Connect</li>
+	<li><img src="icons/bosch.png" width='16' height='16' alt="Icon">&nbsp;<input type='checkbox' id='feedZunder'>Bosch Z&uuml;nder</li>
+	<li><img src="icons/easternsun.png" width='16' height='16' alt="Icon">&nbsp;<input type='checkbox' id='feedEasternsun'>Eastern Sun Forum</li>
+	<li><img src="icons/planetDebian.ico" width='16' height='16' alt="Icon">&nbsp;<input type='checkbox' id='feedPlanetDebian'>Planet Debian</li>
+	<li><img src="icons/reddit.png" width='16' height='16' alt="Icon">&nbsp;<input type='checkbox' id='feedReddit'>Reddit<div>
+		<input id='feedRedditUrl' value=''><br>
+		<span class="caption">Private JSON feed from your <a href="https://www.reddit.com/prefs/feeds/" target="_blank">Reddit profile</a>.</span>
+	</div></li>
+	<li><img src="icons/slashdot.png" width='16' height='16' alt="Icon">&nbsp;<input type='checkbox' id='feedSlashdot'>Slashdot</li>
+	<li><img src="icons/tagesschau.ico" width='16' height='16' alt="Icon">&nbsp;<input type='checkbox' id='feedTagesschau'>Tagesschau</li>
+	<li><img src="icons/wowhead.ico" width='16' height='16' alt="Icon">&nbsp;<input type='checkbox' id='feedWowhead'>WoWhead</li>
+</ul>
+
+<div style="vertical-align: bottom;">
+	<div id="status"></div>
+	<button id="save">Save Changes</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master]
+
+jobs:
+  validate_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Validate version format
+        run: |
+          # Extract version from manifest.json
+          VERSION=$(jq -r '.version' src/manifest.json)
+          echo "Found version: $VERSION"
+          
+          # Check if version matches the pattern number.number.number
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ Error: Version '$VERSION' is not in the correct format."
+            echo "Expected format: number.number.number (e.g., 1.9.0)"
+            echo "Development versions with suffixes like '-dev' are not allowed in CD pipeline."
+            exit 1
+          fi
+          
+          echo "✅ Version format is valid for a release-version: $VERSION"
+
+  package_and_release:
+    runs-on: ubuntu-latest
+    needs: validate_version
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      contents: write
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from manifest
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' src/manifest.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building package for version: $VERSION"
+
+      - name: Create package archive
+        run: |
+          cd src
+          zip -r ../kbo-startpage-${{ steps.get_version.outputs.version }}.zip . \
+            -x "*.DS_Store" -x "__MACOSX/*"
+          cd ..
+          echo "📦 Created package: kbo-startpage-${{ steps.get_version.outputs.version }}.zip"
+          ls -lh kbo-startpage-${{ steps.get_version.outputs.version }}.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: Release v${{ steps.get_version.outputs.version }}
+          body: |
+            ## kbo-Startpage v${{ steps.get_version.outputs.version }}
+            
+            **Recommended:** Install from the official extension stores:
+            - [Chrome Web Store](https://chrome.google.com/webstore/detail/kbo-startpage/gicgeooakklhiccdfbbdgfcgkedknjjm)
+            - [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/kbo-startpage/piofojnppchngkbjagaejolmjldgkdle)
+            - [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/kbo-startpage/)
+            
+            ### Manual Install
+            
+            If you prefer to install manually from this release package:
+            
+            **Chrome:**
+            1. Download `kbo-startpage-${{ steps.get_version.outputs.version }}.zip`
+            2. Unzip the file to a folder on your computer
+            3. Open Chrome and navigate to `chrome://extensions/`
+            4. Enable "Developer mode" (toggle in top-right corner)
+            5. Click "Load unpacked"
+            6. Select the unzipped folder
+            
+            **Edge:**
+            1. Download `kbo-startpage-${{ steps.get_version.outputs.version }}.zip`
+            2. Unzip the file to a folder on your computer
+            3. Open Edge and navigate to `edge://extensions/`
+            4. Enable "Developer mode" (toggle in bottom-left corner)
+            5. Click "Load unpacked"
+            6. Select the unzipped folder
+            
+            **Firefox:**
+            1. Download `kbo-startpage-${{ steps.get_version.outputs.version }}.zip`
+            2. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
+            3. Click "Load Temporary Add-on"
+            4. Select the zip file (or any file inside the unzipped folder)
+            5. Note: Temporary add-ons are removed when Firefox restarts
+          files: |
+            kbo-startpage-${{ steps.get_version.outputs.version }}.zip
+          draft: false
+          prerelease: false

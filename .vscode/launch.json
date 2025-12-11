@@ -1,0 +1,25 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Extension in Firefox",
+			"type": "firefox",
+			"request": "launch",
+			"reAttach": true,
+			"addonPath": "${workspaceFolder}/src",
+			"pathMappings": [{
+				"url": "moz-extension://",
+				"path": "${workspaceFolder}/src"
+			}]
+		},
+		{
+			"name": "Debug Options Page in Firefox",
+			"type": "firefox",
+			"request": "launch",
+			"reAttach": true,
+			"addonPath": "${workspaceFolder}/src",
+			"url": "about:addons",
+			"webRoot": "${workspaceFolder}/src"
+		}
+	]
+}

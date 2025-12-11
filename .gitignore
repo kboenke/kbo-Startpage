@@ -1,7 +1,7 @@
+*.crx
+*.pem
 *.sublime-project
 *.sublime-workspace
-Changelist
-weathermap.rtf
-*.pem
-*.crx
 *.zip
+**/.DS_Store
+**/.MacOSX
