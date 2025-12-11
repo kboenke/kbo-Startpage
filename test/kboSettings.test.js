@@ -1,5 +1,5 @@
 /**
- * Unit tests for kboStartpage class
+ * Unit tests for kboSettings class
  */
 
 // Mock the Chrome API
@@ -16,10 +16,10 @@ global.chrome = {
 	}
 };
 
-// Load the kboStartpage class
-const kboStartpage = require('../src/kboStartpage.js');
+// Load the kboSettings class
+const kboSettings = require('../src/kboSettings.js');
 
-describe('kboStartpage class', () => {
+describe('kboSettings class', () => {
 	beforeEach(() => {
 		// Clear all mock calls before each test
 		jest.clearAllMocks();
@@ -27,7 +27,7 @@ describe('kboStartpage class', () => {
 
 	describe('Constructor and initialization', () => {
 		test('initializes with default data values', () => {
-			const settings = new kboStartpage();
+			const settings = new kboSettings();
 			
 			expect(settings.data).toBeDefined();
 			expect(settings.data.WeatherLoc).toBe('25.867377,-80.120379');
@@ -38,7 +38,7 @@ describe('kboStartpage class', () => {
 		});
 
 		test('initializes with default meta values', () => {
-			const settings = new kboStartpage();
+			const settings = new kboSettings();
 			
 			expect(settings.meta).toBeDefined();
 			expect(settings.meta.mode).toBe('auto');
@@ -50,7 +50,7 @@ describe('kboStartpage class', () => {
 				callback(defaults);
 			});
 
-			new kboStartpage();
+			new kboSettings();
 			
 			expect(chrome.storage.sync.get).toHaveBeenCalled();
 		});
@@ -60,7 +60,7 @@ describe('kboStartpage class', () => {
 				callback(defaults);
 			});
 
-			new kboStartpage();
+			new kboSettings();
 			
 			expect(chrome.storage.local.get).toHaveBeenCalled();
 		});
@@ -74,7 +74,7 @@ describe('kboStartpage class', () => {
 			});
 
 			const mockCallback = jest.fn();
-			new kboStartpage(mockCallback);
+			new kboSettings(mockCallback);
 			
 			// Callback should be called after async operations
 			setTimeout(() => {
@@ -101,7 +101,7 @@ describe('kboStartpage class', () => {
 		});
 
 		let settings;
-		settings = new kboStartpage(() => {
+		settings = new kboSettings(() => {
 			expect(settings.data.WeatherLoc).toBe('40.7128,-74.0060');
 			expect(settings.data.WeatherUnit).toBe('c');
 			expect(settings.data.LinkL1v).toBe(false);
@@ -121,7 +121,7 @@ describe('kboStartpage class', () => {
 				callback({ ...defaults, ...mockMeta });
 			});
 
-			const settings = new kboStartpage(() => {
+			const settings = new kboSettings(() => {
 				expect(settings.meta.mode).toBe('dark');
 				expect(settings.meta.lastUpdate).toBe(1234567890);
 				done();
@@ -145,7 +145,7 @@ describe('kboStartpage class', () => {
 		});
 
 		let settings;
-		settings = new kboStartpage(() => {
+		settings = new kboSettings(() => {
 			settings.data.WeatherLoc = '51.5074,-0.1278';
 			settings.save(() => {
 				expect(chrome.storage.sync.set).toHaveBeenCalledWith(
@@ -169,7 +169,7 @@ describe('kboStartpage class', () => {
 				if (callback) callback();
 			});
 
-			const settings = new kboStartpage(() => {
+			const settings = new kboSettings(() => {
 				settings.meta.mode = 'light';
 				settings.save(() => {
 					expect(chrome.storage.local.set).toHaveBeenCalledWith(
@@ -195,7 +195,7 @@ describe('kboStartpage class', () => {
 		});
 
 		let settings;
-		settings = new kboStartpage(() => {
+		settings = new kboSettings(() => {
 			const beforeTime = Date.now();
 			settings.updateTimestamp();
 			const afterTime = Date.now();
@@ -217,7 +217,7 @@ describe('kboStartpage class', () => {
 		});
 
 		let settings;
-		settings = new kboStartpage(() => {
+		settings = new kboSettings(() => {
 			const customTime = 1234567890000;
 			settings.updateTimestamp(customTime);
 			
@@ -233,14 +233,14 @@ describe('kboStartpage class', () => {
 
 describe('Data structure validation', () => {
 		test('has all required weather settings', () => {
-			const settings = new kboStartpage();
+			const settings = new kboSettings();
 			
 			expect(settings.data).toHaveProperty('WeatherLoc');
 			expect(settings.data).toHaveProperty('WeatherUnit');
 		});
 
 		test('has all required link settings', () => {
-			const settings = new kboStartpage();
+			const settings = new kboSettings();
 			
 			// Left links
 			expect(settings.data).toHaveProperty('LinkL1v');
@@ -260,7 +260,7 @@ describe('Data structure validation', () => {
 		});
 
 		test('has all required feed settings', () => {
-			const settings = new kboStartpage();
+			const settings = new kboSettings();
 			
 			expect(settings.data).toHaveProperty('FeedEasternsun');
 			expect(settings.data).toHaveProperty('FeedPlanetDebian');
@@ -274,7 +274,7 @@ describe('Data structure validation', () => {
 		});
 
 		test('has all required meta properties', () => {
-			const settings = new kboStartpage();
+			const settings = new kboSettings();
 			
 			expect(settings.meta).toHaveProperty('mode');
 			expect(settings.meta).toHaveProperty('lastUpdate');

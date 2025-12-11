@@ -6,7 +6,7 @@ var settings;
 /* To be called after page is loaded */
 function initialize(){
 	// Load settings
-	settings = new kboStartpage(function(){
+	settings = new kboSettings(function(){
 		// Trigger Darkmode
 		if ((settings.meta.mode == 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)
 			|| (settings.meta.mode == 'dark')) {

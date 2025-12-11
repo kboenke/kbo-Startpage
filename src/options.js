@@ -1,6 +1,6 @@
 // https://developer.chrome.com/extensions/options
 
-/* global kboStartpage */
+/* global kboSettings */
 var settings;
 
 document.addEventListener('DOMContentLoaded', initialize, false);
@@ -8,9 +8,7 @@ window.onbeforeunload = save_options;
 
 function initialize(){
 	document.getElementById('save').addEventListener('click', save_options);
-	settings = new kboStartpage(function(){
-		restore_options();
-	});
+	settings = new kboSettings(function(){ restore_options(); });
 }
 
 function save_options(){

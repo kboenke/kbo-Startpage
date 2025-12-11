@@ -1,8 +1,8 @@
 /*
- * kbo-Startpage
+ * kbo-Startpage Settings
  */
 
-class kboStartpage {
+class kboSettings {
 	// Data Structure for Settings (and default values)
 	data = {
 		WeatherLoc: '25.867377,-80.120379',
