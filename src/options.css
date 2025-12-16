@@ -1,3 +1,7 @@
+:root {
+	color-scheme: light dark;
+}
+
 div { padding: 5px 0; }
 label { font-weight: 700; }
 span.caption { font-size: .8em; }
