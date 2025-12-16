@@ -22,9 +22,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install --break-system-packages html5validator
 
-      - name: Analyzing HTML and CSS
+      - name: Analyzing HTML
         run: |
-          html5validator --root src/ --also-check-css
+          html5validator --root src/
 
 
   lint_js:
@@ -51,6 +51,32 @@ jobs:
 
       - name: Lint JavaScript
         run: npm run lint:js
+
+
+  lint_css:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          elif [ -f package.json ]; then
+            npm install
+          else
+            echo "No package.json found; cannot run CSS lint."
+            exit 1
+          fi
+
+      - name: Lint CSS
+        run: npm run lint:css
 
 
   gitleaks:
