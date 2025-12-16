@@ -165,7 +165,7 @@ function loadReddit(){
 }
 
 function loadSlashdot(){
-	parseRSS("http://rss.slashdot.org/Slashdot/slashdotMain", function(slashdotData) {
+	parseRSS("https://rss.slashdot.org/Slashdot/slashdotMain", function(slashdotData) {
 		$.each(slashdotData, function(i, entry){
 			feedData.push({
 				icon: "slashdot.png",
@@ -279,9 +279,10 @@ function loadZunder(){
  */
 
 function parseRSS(url, callback) {
-	$.ajax({
-		url: url,
-		success: function(data) {
+	fetch(url)
+		.then(response => response.text())
+		.then(text => {
+			var data = new DOMParser().parseFromString(text, "text/xml");
 			var _data = new Array();
 			$(["entry", "item", "post"]).each(function(_, key){
 				$(data).find(key).each(function(_, item){
@@ -298,9 +299,8 @@ function parseRSS(url, callback) {
 				});
 			});
 			callback(_data);
-		},
-		error: function(data) { console.log(data); }
-	});
+		})
+		.catch(error => { console.log(error); });
 }
 
 function getFavicon(url){

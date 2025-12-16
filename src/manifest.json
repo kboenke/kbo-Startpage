@@ -24,7 +24,7 @@
 	"host_permissions": [
 		"https://api.open-meteo.com/*",
 		"https://www.reddit.com/*",
-		"http://rss.slashdot.org/Slashdot/*",
+		"https://rss.slashdot.org/Slashdot/*",
 		"https://www.tagesschau.de/xml/rss2",
 		"http://easternsun.de/forum/*",
 		"https://planet.debian.org/atom.xml",
