@@ -263,7 +263,7 @@ function loadZunder(){
 				feedData.push({
 					icon: "bosch.png",
 					timestamp: (new Date(item.creationDate)).getTime(),
-					link: "http://bzo.bosch.com/" + item.url,
+					link: "http://bzo.bosch.com" + item.url,
 					value: item.headline
 				});
 			});
