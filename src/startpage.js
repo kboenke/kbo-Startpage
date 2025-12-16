@@ -146,6 +146,12 @@ function loadWeather(){
 }
 
 function loadBluesky(){
+	// Validate credentials before attempting authentication
+	if(!settings.data.BlueskyIdentifier || !settings.data.BlueskyAppPassword){
+		console.log("Bluesky: Missing credentials");
+		return;
+	}
+	
 	// Authenticate with Bluesky and get timeline
 	var authUrl = "https://bsky.social/xrpc/com.atproto.server.createSession";
 	$.ajax({
