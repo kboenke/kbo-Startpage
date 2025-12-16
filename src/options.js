@@ -39,6 +39,9 @@ function save_options(){
 	settings.data.LinkR3d = document.getElementById('linkR3d').value;
 	settings.data.LinkR4l = document.getElementById('linkR4l').value;
 	settings.data.LinkR4d = document.getElementById('linkR4d').value;
+	settings.data.FeedBluesky        = document.getElementById('feedBluesky').checked;
+	settings.data.BlueskyIdentifier  = document.getElementById('blueskyIdentifier').value;
+	settings.data.BlueskyAppPassword = document.getElementById('blueskyAppPassword').value;
 	settings.data.FeedEasternsun   = document.getElementById('feedEasternsun').checked;
 	settings.data.FeedPlanetDebian = document.getElementById('feedPlanetDebian').checked;
 	settings.data.FeedReddit       = document.getElementById('feedReddit').checked;
@@ -102,6 +105,9 @@ function restore_options(){
 	document.getElementById('linkR4d').value = settings.data.LinkR4d;
 	
 	// Feeds
+	document.getElementById('feedBluesky').checked        = settings.data.FeedBluesky;
+	document.getElementById('blueskyIdentifier').value    = settings.data.BlueskyIdentifier;
+	document.getElementById('blueskyAppPassword').value   = settings.data.BlueskyAppPassword;
 	document.getElementById('feedEasternsun').checked   = settings.data.FeedEasternsun;
 	document.getElementById('feedPlanetDebian').checked = settings.data.FeedPlanetDebian;
 	document.getElementById('feedReddit').checked       = settings.data.FeedReddit;

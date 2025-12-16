@@ -5,3 +5,6 @@
 *.zip
 **/.DS_Store
 **/.MacOSX
+node_modules/
+junit.xml
+package-lock.json

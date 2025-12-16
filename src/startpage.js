@@ -63,6 +63,7 @@ function loadFeeds(){
 	$("ul#spinner").css("display", "inherit");
 	
 	// Get data
+	if(settings.data.FeedBluesky)		loadBluesky();
 	if(settings.data.FeedReddit)		loadReddit();
 	if(settings.data.FeedSlashdot)		loadSlashdot();
 	if(settings.data.FeedTagesschau)	loadTagesschau();
@@ -141,6 +142,51 @@ function loadWeather(){
 			}
 			_html += '</ul>';
 			$("#weather").html(_html);
+	});
+}
+
+function loadBluesky(){
+	// Authenticate with Bluesky and get timeline
+	var authUrl = "https://bsky.social/xrpc/com.atproto.server.createSession";
+	$.ajax({
+		type: "POST",
+		url: authUrl,
+		contentType: "application/json",
+		data: JSON.stringify({
+			identifier: settings.data.BlueskyIdentifier,
+			password: settings.data.BlueskyAppPassword
+		}),
+		success: function(authData){
+			// Get timeline using the access token
+			var timelineUrl = "https://bsky.social/xrpc/app.bsky.feed.getTimeline";
+			$.ajax({
+				url: timelineUrl,
+				headers: {
+					"Authorization": "Bearer " + authData.accessJwt
+				},
+				success: function(data){
+					$.each(data.feed, function(i, item){
+						if(item.post && item.post.record){
+							var postUri = item.post.uri;
+							var postParts = postUri.split('/');
+							var postId = postParts[postParts.length - 1];
+							var handle = item.post.author.handle;
+							var profileLink = "https://bsky.app/profile/" + handle + "/post/" + postId;
+							
+							feedData.push({
+								icon: "bluesky.png",
+								timestamp: (new Date(item.post.record.createdAt)).getTime(),
+								link: profileLink,
+								value: item.post.record.text || "(No text)"
+							});
+						}
+					});
+					updateContent();
+				},
+				error: function(data){ console.log("Bluesky timeline error:", data); }
+			});
+		},
+		error: function(data){ console.log("Bluesky auth error:", data); }
 	});
 }
 

@@ -1,51 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="42" failures="0" errors="0" time="1.14">
-  <testsuite name="test/helpers.test.js" errors="0" failures="0" skipped="0" timestamp="2025-12-16T20:38:03" time="0.453" tests="27">
-    <testcase classname="String.format()" name="formats string with single placeholder" time="0.009">
+<testsuites name="jest tests" tests="42" failures="0" errors="0" time="0.803">
+  <testsuite name="test/kboSettings.test.js" errors="0" failures="0" skipped="0" timestamp="2025-12-16T20:41:17" time="0.359" tests="15">
+    <testcase classname="kboSettings class › Constructor and initialization" name="initializes with default data values" time="0.002">
     </testcase>
-    <testcase classname="String.format()" name="formats string with multiple placeholders" time="0.001">
+    <testcase classname="kboSettings class › Constructor and initialization" name="initializes with default meta values" time="0">
     </testcase>
-    <testcase classname="String.format()" name="formats string with repeated placeholders" time="0.001">
+    <testcase classname="kboSettings class › Constructor and initialization" name="calls chrome.storage.sync.get on initialization" time="0">
     </testcase>
-    <testcase classname="String.format()" name="formats HTML-like strings" time="0">
+    <testcase classname="kboSettings class › Constructor and initialization" name="calls chrome.storage.local.get on initialization" time="0">
     </testcase>
-    <testcase classname="String.format()" name="handles empty string" time="0.001">
+    <testcase classname="kboSettings class › Constructor and initialization" name="executes callback after loading data" time="0.011">
+    </testcase>
+    <testcase classname="kboSettings class › Data loading" name="loads data from chrome.storage.sync" time="0.002">
+    </testcase>
+    <testcase classname="kboSettings class › Data loading" name="loads meta from chrome.storage.local" time="0.001">
+    </testcase>
+    <testcase classname="kboSettings class › save() method" name="calls chrome.storage.sync.set with data" time="0.002">
+    </testcase>
+    <testcase classname="kboSettings class › save() method" name="calls chrome.storage.local.set with meta" time="0.001">
+    </testcase>
+    <testcase classname="kboSettings class › updateTimestamp() method" name="updates lastUpdate to current time when called without argument" time="0.002">
+    </testcase>
+    <testcase classname="kboSettings class › updateTimestamp() method" name="updates lastUpdate to provided timestamp" time="0.002">
+    </testcase>
+    <testcase classname="kboSettings class › Data structure validation" name="has all required weather settings" time="0.001">
+    </testcase>
+    <testcase classname="kboSettings class › Data structure validation" name="has all required link settings" time="0.002">
+    </testcase>
+    <testcase classname="kboSettings class › Data structure validation" name="has all required feed settings" time="0.002">
+    </testcase>
+    <testcase classname="kboSettings class › Data structure validation" name="has all required meta properties" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="test/helpers.test.js" errors="0" failures="0" skipped="0" timestamp="2025-12-16T20:41:17" time="0.039" tests="27">
+    <testcase classname="String.format()" name="formats string with single placeholder" time="0.001">
+    </testcase>
+    <testcase classname="String.format()" name="formats string with multiple placeholders" time="0">
+    </testcase>
+    <testcase classname="String.format()" name="formats string with repeated placeholders" time="0">
+    </testcase>
+    <testcase classname="String.format()" name="formats HTML-like strings" time="0.001">
+    </testcase>
+    <testcase classname="String.format()" name="handles empty string" time="0">
     </testcase>
     <testcase classname="String.format()" name="handles no placeholders" time="0">
     </testcase>
     <testcase classname="getFavicon()" name="extracts domain from http URL" time="0.001">
     </testcase>
-    <testcase classname="getFavicon()" name="extracts domain from https URL" time="0.001">
+    <testcase classname="getFavicon()" name="extracts domain from https URL" time="0">
     </testcase>
-    <testcase classname="getFavicon()" name="handles URL with query parameters" time="0.001">
+    <testcase classname="getFavicon()" name="handles URL with query parameters" time="0">
     </testcase>
-    <testcase classname="getFavicon()" name="handles URL with hash fragment" time="0.001">
+    <testcase classname="getFavicon()" name="handles URL with hash fragment" time="0">
     </testcase>
     <testcase classname="getFavicon()" name="returns custom icon for bosch.com domain" time="0">
     </testcase>
     <testcase classname="getFavicon()" name="returns custom icon for boschdevcloud.com domain" time="0">
     </testcase>
-    <testcase classname="getFavicon()" name="handles subdomain correctly" time="0.001">
+    <testcase classname="getFavicon()" name="handles subdomain correctly" time="0">
     </testcase>
-    <testcase classname="getFavicon()" name="handles URL without protocol" time="0">
+    <testcase classname="getFavicon()" name="handles URL without protocol" time="0.001">
     </testcase>
-    <testcase classname="translateWeathercode()" name="translates clear sky (0)" time="0.001">
+    <testcase classname="translateWeathercode()" name="translates clear sky (0)" time="0">
     </testcase>
-    <testcase classname="translateWeathercode()" name="translates mainly clear (1)" time="0.001">
+    <testcase classname="translateWeathercode()" name="translates mainly clear (1)" time="0">
     </testcase>
     <testcase classname="translateWeathercode()" name="translates partly cloudy (2)" time="0">
     </testcase>
     <testcase classname="translateWeathercode()" name="translates overcast (3)" time="0">
     </testcase>
-    <testcase classname="translateWeathercode()" name="translates fog (45)" time="0.001">
+    <testcase classname="translateWeathercode()" name="translates fog (45)" time="0">
     </testcase>
-    <testcase classname="translateWeathercode()" name="translates rain (63)" time="0">
+    <testcase classname="translateWeathercode()" name="translates rain (63)" time="0.001">
     </testcase>
     <testcase classname="translateWeathercode()" name="translates snowfall (73)" time="0">
     </testcase>
-    <testcase classname="translateWeathercode()" name="translates thunderstorms (95)" time="0.001">
+    <testcase classname="translateWeathercode()" name="translates thunderstorms (95)" time="0">
     </testcase>
-    <testcase classname="translateWeathercode()" name="translates thunderstorms with heavy hail (99)" time="0">
+    <testcase classname="translateWeathercode()" name="translates thunderstorms with heavy hail (99)" time="0.001">
     </testcase>
     <testcase classname="translateWeathercode()" name="handles unknown weather code" time="0">
     </testcase>
@@ -54,38 +86,6 @@
     <testcase classname="translateWeathercode()" name="handles all drizzle codes correctly" time="0">
     </testcase>
     <testcase classname="translateWeathercode()" name="handles all shower codes correctly" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="test/kboSettings.test.js" errors="0" failures="0" skipped="0" timestamp="2025-12-16T20:38:03" time="0.544" tests="15">
-    <testcase classname="kboSettings class › Constructor and initialization" name="initializes with default data values" time="0.004">
-    </testcase>
-    <testcase classname="kboSettings class › Constructor and initialization" name="initializes with default meta values" time="0">
-    </testcase>
-    <testcase classname="kboSettings class › Constructor and initialization" name="calls chrome.storage.sync.get on initialization" time="0.001">
-    </testcase>
-    <testcase classname="kboSettings class › Constructor and initialization" name="calls chrome.storage.local.get on initialization" time="0.001">
-    </testcase>
-    <testcase classname="kboSettings class › Constructor and initialization" name="executes callback after loading data" time="0.012">
-    </testcase>
-    <testcase classname="kboSettings class › Data loading" name="loads data from chrome.storage.sync" time="0.002">
-    </testcase>
-    <testcase classname="kboSettings class › Data loading" name="loads meta from chrome.storage.local" time="0.001">
-    </testcase>
-    <testcase classname="kboSettings class › save() method" name="calls chrome.storage.sync.set with data" time="0.001">
-    </testcase>
-    <testcase classname="kboSettings class › save() method" name="calls chrome.storage.local.set with meta" time="0.001">
-    </testcase>
-    <testcase classname="kboSettings class › updateTimestamp() method" name="updates lastUpdate to current time when called without argument" time="0.001">
-    </testcase>
-    <testcase classname="kboSettings class › updateTimestamp() method" name="updates lastUpdate to provided timestamp" time="0.002">
-    </testcase>
-    <testcase classname="kboSettings class › Data structure validation" name="has all required weather settings" time="0.001">
-    </testcase>
-    <testcase classname="kboSettings class › Data structure validation" name="has all required link settings" time="0.002">
-    </testcase>
-    <testcase classname="kboSettings class › Data structure validation" name="has all required feed settings" time="0.001">
-    </testcase>
-    <testcase classname="kboSettings class › Data structure validation" name="has all required meta properties" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

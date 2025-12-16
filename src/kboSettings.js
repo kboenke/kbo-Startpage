@@ -15,6 +15,7 @@ class kboSettings {
 		LinkR2v: true,  LinkR2d: 'iX News', LinkR2l: 'https://www.heise.de/ix/newsticker/',
 		LinkR3v: true,  LinkR3d: 'Rock Paper Shotgun', LinkR3l: 'https://www.rockpapershotgun.com/latest',
 		LinkR4v: false, LinkR4d: '', LinkR4l: 'https://',
+		FeedBluesky: false, BlueskyIdentifier: '', BlueskyAppPassword: '',
 		FeedEasternsun: false,
 		FeedPlanetDebian: true,
 		FeedReddit: false, FeedRedditUrl: '',
