@@ -28,7 +28,7 @@ div.content {
 }
 div.main { flex: 7 1 0%; }
 div.side { flex: 3 1 0%; }
-@media screen and (min-width: 1000px) {
+@media screen and (width >= 1000px) {
 	div.content { 
 		flex-direction: row;
 		flex-wrap: nowrap;
@@ -42,25 +42,25 @@ div.side { flex: 3 1 0%; }
 	text-align: center;
 	text-transform: uppercase;
 }
-@media screen and (max-width: 520px) {
+@media screen and (width <= 520px) {
 	.weather { height: 160px; }
 	.forecast { visibility: hidden; }
 }
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
 	.weather { height: 120px; }
 	.weather i { display: none; }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (width >= 1000px) {
 	.weather { height: 300px; padding-top: 80px; }
 }
 
 
 .links { border: none; padding-bottom: 20px; }
 #links { margin: 0 auto; }
-@media screen and (max-width: 520px) {
+@media screen and (width <= 520px) {
 	.links { padding-bottom: 10px; }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (width >= 1000px) {
 	.links { padding: 200px 0; }
 }
 
@@ -90,11 +90,11 @@ ul.feeds {
 }
 ul.feeds li { padding-bottom: 1px; }
 ul.feeds img { margin-left: -20px; margin-bottom: -2px; }
-@media screen and (max-width: 520px) {
-	ul.feeds { margin: 1px 1px 0px -18px; }
+@media screen and (width <= 520px) {
+	ul.feeds { margin: 1px 1px 0 -18px; }
 }
-@media screen and (min-width: 1000px) {
-	ul.feeds { margin: 1px 1px 0px -3px; }
+@media screen and (width >= 1000px) {
+	ul.feeds { margin: 1px 1px 0 -3px; }
 }
 
 ul.feeds a:hover { color: var(--hover-color); }
@@ -103,9 +103,9 @@ li.olditem{ color: var(--olditem-color); }
 
 li.loading { margin-left: -30px; text-align: center; }
 li.loading img { vertical-align: middle; }
-@media screen and (max-width: 520px) {
+@media screen and (width <= 520px) {
 	li.loading { margin-left: -8px; }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (width >= 1000px) {
 	li.loading { height: 100%; }
 }
