@@ -63,6 +63,7 @@ function loadFeeds(){
 	$("ul#spinner").css("display", "inherit");
 	
 	// Get data
+	if(settings.data.FeedBluesky)		loadBluesky();
 	if(settings.data.FeedReddit)		loadReddit();
 	if(settings.data.FeedSlashdot)		loadSlashdot();
 	if(settings.data.FeedTagesschau)	loadTagesschau();
@@ -141,6 +142,41 @@ function loadWeather(){
 			}
 			_html += '</ul>';
 			$("#weather").html(_html);
+	});
+}
+
+function loadBluesky(){
+	// Get Timeline
+	const authUrl = "https://bsky.social/xrpc/com.atproto.server.createSession";
+	const feedUrl = "https://bsky.social/xrpc/com.atproto.feed.getTimeline?limit=20";
+	$.ajax({
+		method:		"POST",
+		dataType:	"json",
+		url:		authUrl,
+		data:		JSON.stringify({
+			"identifier": settings.data.FeedBlueskyIdentifier,
+			"password": settings.data.FeedBlueskyPassword
+		}),
+		contentType: "application/json",
+		success: function(authData){
+			$.ajax({
+				method:		"GET",
+				dataType:	"json",
+				url:		feedUrl,
+				headers:	{ "Authorization": "Bearer " + authData.accessJwt },
+				success: function(feedData){
+					$.each(feedData.feed, function(i, post) {
+						feedData.push({
+							icon: "bluesky.png",
+							timestamp: (new Date(post.post.record.createdAt)).getTime(),
+							link: "https://bsky.social/profile/" + post.post.author.handle + "/post/" + post.post.cid,
+							value: $("<div>").html(post.post.record.text).text()
+						});
+					});
+					updateContent();
+				}
+			});
+		}
 	});
 }
 

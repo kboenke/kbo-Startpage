@@ -29,6 +29,7 @@
 		"http://easternsun.de/forum/*",
 		"https://planet.debian.org/atom.xml",
 		"https://www.wowhead.com/news/rss/*",
+		"https://bsky.social/*",
 		"https://*.bosch.com/*"
 	],
 	"permissions": ["storage"]

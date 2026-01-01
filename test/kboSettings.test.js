@@ -262,6 +262,9 @@ describe('Data structure validation', () => {
 		test('has all required feed settings', () => {
 			const settings = new kboSettings();
 			
+			expect(settings.data).toHaveProperty('FeedBluesky');
+			expect(settings.data).toHaveProperty('FeedBlueskyIdentifier');
+			expect(settings.data).toHaveProperty('FeedBlueskyPassword');
 			expect(settings.data).toHaveProperty('FeedEasternsun');
 			expect(settings.data).toHaveProperty('FeedPlanetDebian');
 			expect(settings.data).toHaveProperty('FeedReddit');
