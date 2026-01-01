@@ -155,7 +155,7 @@ function loadBluesky(){
 	}
 	// Authenticate and Get Feed-URL
 	const authUrl = settings.data.FeedBlueskyHost + "/xrpc/com.atproto.server.createSession";
-	const feedUrl = settings.data.FeedBlueskyHost + "/xrpc/com.atproto.feed.getTimeline?limit=20";
+	const feedUrl = settings.data.FeedBlueskyHost + "/xrpc/app.bsky.feed.getTimeline?limit=20";
 	$.ajax({
 		method:		"POST",
 		url:		authUrl,
@@ -172,9 +172,10 @@ function loadBluesky(){
 				dataType:	"json",
 				url:		feedUrl,
 				headers:	{ "Authorization": "Bearer " + authData.accessJwt },
-				success: function(feedData){
+				success: function(data){
 					// Parse Posts
-					$.each(feedData.feed, function(i, post) {
+					$.each(data.feed, function(i, post) {
+						console.log(post.post);
 						feedData.push({
 							icon: "bluesky.png",
 							timestamp: (new Date(post.post.record.createdAt)).getTime(),
