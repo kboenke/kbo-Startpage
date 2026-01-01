@@ -3,8 +3,9 @@
 	"author": "Kai Boenke",
 	"name": "kbo-Startpage",
 	"description": "A personalized startpage.",
-	"version": "1.9.0",
+	"version": "1.9.1",
 	"browser_specific_settings": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
+	"data_collection_permissions": "none",
 	"icons": {
 		"128": "icons/kbo-128.png",
 		"96": "icons/kbo-96.png",
@@ -17,13 +18,13 @@
 	},
 	"chrome_url_overrides": { "newtab": "startpage.html" },
 	"chrome_settings_overrides": {
-		"homepage": "startpage.html",
-		"startup_pages": ["startpage.html"]
+		"homepage": "chrome-extension://__MSG_@@extension_id__/startpage.html",
+		"startup_pages": ["chrome-extension://__MSG_@@extension_id__/startpage.html"]
 	},
 	"host_permissions": [
 		"https://api.open-meteo.com/*",
 		"https://www.reddit.com/*",
-		"http://rss.slashdot.org/Slashdot/*",
+		"https://rss.slashdot.org/Slashdot/*",
 		"https://www.tagesschau.de/xml/rss2",
 		"http://easternsun.de/forum/*",
 		"https://planet.debian.org/atom.xml",

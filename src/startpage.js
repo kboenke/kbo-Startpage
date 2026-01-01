@@ -165,7 +165,7 @@ function loadReddit(){
 }
 
 function loadSlashdot(){
-	parseRSS("http://rss.slashdot.org/Slashdot/slashdotMain", function(slashdotData) {
+	parseRSS("https://rss.slashdot.org/Slashdot/slashdotMain", function(slashdotData) {
 		$.each(slashdotData, function(i, entry){
 			feedData.push({
 				icon: "slashdot.png",
@@ -263,7 +263,7 @@ function loadZunder(){
 				feedData.push({
 					icon: "bosch.png",
 					timestamp: (new Date(item.creationDate)).getTime(),
-					link: "http://bzo.bosch.com/" + item.url,
+					link: "http://bzo.bosch.com" + item.url,
 					value: item.headline
 				});
 			});
@@ -279,9 +279,10 @@ function loadZunder(){
  */
 
 function parseRSS(url, callback) {
-	$.ajax({
-		url: url,
-		success: function(data) {
+	fetch(url)
+		.then(response => response.text())
+		.then(text => {
+			var data = new DOMParser().parseFromString(text, "text/xml");
 			var _data = new Array();
 			$(["entry", "item", "post"]).each(function(_, key){
 				$(data).find(key).each(function(_, item){
@@ -298,15 +299,14 @@ function parseRSS(url, callback) {
 				});
 			});
 			callback(_data);
-		},
-		error: function(data) { console.log(data); }
-	});
+		})
+		.catch(error => { console.log(error); });
 }
 
 function getFavicon(url){
 	var favicon = "http://www.google.com/s2/favicons?domain=";
 	var urlParts = (url.replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
-	if (urlParts[0].endsWith('bosch.com') || urlParts[0].endsWith('boschdevcloud.com')) {
+	if (urlParts[0].endsWith('.bosch.com') || urlParts[0].endsWith('.boschdevcloud.com')) {
 		return "icons/bosch.png";
 	}
 	return favicon.concat(urlParts[0]);

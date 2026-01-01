@@ -18,3 +18,4 @@ li.olditem { color: var(--olditem-color-dark); }
 .links { color: var(--link-color-dark); }
 .links #separator { border-right: 1px solid var(--link-color-dark) ! important; }
 .links img { filter: invert(1); }
+.links img[src*="reddit"] { filter: none; }
