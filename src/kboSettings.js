@@ -15,7 +15,7 @@ class kboSettings {
 		LinkR2v: true,  LinkR2d: 'iX News', LinkR2l: 'https://www.heise.de/ix/newsticker/',
 		LinkR3v: true,  LinkR3d: 'Rock Paper Shotgun', LinkR3l: 'https://www.rockpapershotgun.com/latest',
 		LinkR4v: false, LinkR4d: '', LinkR4l: 'https://',
-		FeedBluesky: false, FeedBlueskyIdentifier: '', FeedBlueskyPassword: '',
+		FeedBluesky: false, FeedBlueskyHost: '', FeedBlueskyIdentifier: '', FeedBlueskyPassword: '',
 		FeedEasternsun: false,
 		FeedPlanetDebian: true,
 		FeedReddit: false, FeedRedditUrl: '',
@@ -67,6 +67,16 @@ class kboSettings {
 
 	// Save settings to chrome storage
 	#storeSettings(callback) {
+		// Extract Bluesky Host from Identifier
+		if (this.data.FeedBlueskyIdentifier) {
+			const parts = this.data.FeedBlueskyIdentifier.split('@');
+			if (parts.length === 2) {
+				this.data.FeedBlueskyHost = "https://" + parts[1];
+			}
+		} else {
+			this.data.FeedBlueskyHost = '';
+		}
+
 		chrome.storage.sync.set(this.data, callback);
 	}
 

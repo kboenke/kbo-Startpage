@@ -263,6 +263,7 @@ describe('Data structure validation', () => {
 			const settings = new kboSettings();
 			
 			expect(settings.data).toHaveProperty('FeedBluesky');
+			expect(settings.data).toHaveProperty('FeedBlueskyHost');
 			expect(settings.data).toHaveProperty('FeedBlueskyIdentifier');
 			expect(settings.data).toHaveProperty('FeedBlueskyPassword');
 			expect(settings.data).toHaveProperty('FeedEasternsun');

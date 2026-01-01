@@ -146,9 +146,16 @@ function loadWeather(){
 }
 
 function loadBluesky(){
+	// Sanity Check
+	if(!settings.data.FeedBlueskyIdentifier || settings.data.FeedBlueskyIdentifier.length < 3
+	|| !settings.data.FeedBlueskyPassword || settings.data.FeedBlueskyPassword.length < 8
+	|| !settings.data.FeedBlueskyHost || settings.data.FeedBlueskyHost.length < 10){
+		console.log("Bluesky Feed not properly configured!");
+		return;
+	}
 	// Get Timeline
-	const authUrl = "https://bsky.social/xrpc/com.atproto.server.createSession";
-	const feedUrl = "https://bsky.social/xrpc/com.atproto.feed.getTimeline?limit=20";
+	const authUrl = settings.data.FeedBlueskyHost + "/xrpc/com.atproto.server.createSession";
+	const feedUrl = settings.data.FeedBlueskyHost + "/xrpc/com.atproto.feed.getTimeline?limit=20";
 	$.ajax({
 		method:		"POST",
 		dataType:	"json",
@@ -181,6 +188,11 @@ function loadBluesky(){
 }
 
 function loadReddit(){
+	// Sanity Check
+	if(!settings.data.FeedRedditUrl || settings.data.FeedRedditUrl.length < 10){
+		console.log("Reddit Feed URL not set!");
+		return;
+	}
 	// Get Threads
 	$.ajax({
 		dataType:	"json",
