@@ -175,11 +175,14 @@ function loadBluesky(){
 				success: function(data){
 					// Parse Posts
 					$.each(data.feed, function(i, post) {
-						console.log(post.post);
+						// Convert at-link to http-link
+						const regex = /^at:\/\/([^/]+)\/([^/]+)\/([^/]+)$/;
+						const match = post.post.uri.match(regex);
+						// Add to feed
 						feedData.push({
 							icon: "bluesky.png",
 							timestamp: (new Date(post.post.record.createdAt)).getTime(),
-							link: "https://bsky.social/profile/" + post.post.author.handle + "/post/" + post.post.cid,
+							link: "https://bsky.app/profile/" + match[1] + "/post/" + match[3],
 							value: $("<div>").html(post.post.record.text).text()
 						});
 					});
