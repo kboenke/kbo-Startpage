@@ -43,6 +43,7 @@ function save_options(){
 	settings.data.FeedBlueskyIdentifier = document.getElementById('feedBlueskyIdentifier').value;
 	settings.data.FeedBlueskyPassword   = document.getElementById('feedBlueskyPassword').value;
 	settings.data.FeedEasternsun        = document.getElementById('feedEasternsun').checked;
+	settings.data.FeedFedora            = document.getElementById('feedFedora').checked;
 	settings.data.FeedPlanetDebian      = document.getElementById('feedPlanetDebian').checked;
 	settings.data.FeedReddit            = document.getElementById('feedReddit').checked;
 	settings.data.FeedRedditUrl         = document.getElementById('feedRedditUrl').value;
@@ -109,6 +110,7 @@ function restore_options(){
 	document.getElementById('feedBlueskyIdentifier').value = settings.data.FeedBlueskyIdentifier;
 	document.getElementById('feedBlueskyPassword').value   = settings.data.FeedBlueskyPassword;
 	document.getElementById('feedEasternsun').checked      = settings.data.FeedEasternsun;
+	document.getElementById('feedFedora').checked          = settings.data.FeedFedora;
 	document.getElementById('feedPlanetDebian').checked    = settings.data.FeedPlanetDebian;
 	document.getElementById('feedReddit').checked          = settings.data.FeedReddit;
 	document.getElementById('feedRedditUrl').value         = settings.data.FeedRedditUrl;

@@ -68,6 +68,7 @@ function loadFeeds(){
 	if(settings.data.FeedSlashdot)		loadSlashdot();
 	if(settings.data.FeedTagesschau)	loadTagesschau();
 	if(settings.data.FeedEasternsun)	loadEasternsun();
+	if(settings.data.FeedFedora)		loadFedora();
 	if(settings.data.FeedPlanetDebian)	loadPlanetDebian();
 	if(settings.data.FeedWowhead)		loadWowhead();
 	if(settings.data.FeedConnections)	loadConnections();
@@ -255,6 +256,20 @@ function loadEasternsun(){
 				timestamp: (new Date(post.updated)).getTime(),
 				link: post.href,
 				value: _title
+			});
+		});
+		updateContent();
+	});
+}
+
+function loadFedora(){
+	parseRSS("https://fedoramagazine.org/feed/", function(fedoraData) {
+		$.each(fedoraData, function(i, post){
+			feedData.push({
+				icon: "fedora.png",
+				timestamp: (new Date(post.pubDate)).getTime(),
+				link: post.link,
+				value: post.title
 			});
 		});
 		updateContent();

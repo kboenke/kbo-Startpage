@@ -27,6 +27,7 @@
 		"https://rss.slashdot.org/Slashdot/*",
 		"https://www.tagesschau.de/xml/rss2",
 		"http://easternsun.de/forum/*",
+		"https://fedoramagazine.org/feed/*",
 		"https://planet.debian.org/atom.xml",
 		"https://www.wowhead.com/news/rss/*",
 		"https://bsky.social/*",
