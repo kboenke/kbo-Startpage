@@ -15,7 +15,8 @@ body { background-color: var(--bg-color-dark); }
 ul#feeds a:hover { color: var(--hover-color-dark); }
 li.newitem { color: var(--newitem-color-dark); }
 li.olditem { color: var(--olditem-color-dark); }
-li.newitem, li.olditem img[src="icons/reddit.png"] { filter: none; }
+ul.feeds img { filter: invert(1); }
+
 .links { color: var(--link-color-dark); }
 .links #separator { border-right: 1px solid var(--link-color-dark) ! important; }
 .links img { filter: invert(1); }
