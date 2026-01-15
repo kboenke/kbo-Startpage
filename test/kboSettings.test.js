@@ -33,7 +33,7 @@ describe('kboSettings class', () => {
 			expect(settings.data.WeatherLoc).toBe('25.867377,-80.120379');
 			expect(settings.data.WeatherUnit).toBe('f');
 			expect(settings.data.LinkL1v).toBe(true);
-			expect(settings.data.FeedPlanetDebian).toBe(true);
+			expect(settings.data.FeedFedora).toBe(true);
 			expect(settings.data.FeedTagesschau).toBe(true);
 		});
 
@@ -267,6 +267,7 @@ describe('Data structure validation', () => {
 			expect(settings.data).toHaveProperty('FeedBlueskyIdentifier');
 			expect(settings.data).toHaveProperty('FeedBlueskyPassword');
 			expect(settings.data).toHaveProperty('FeedEasternsun');
+			expect(settings.data).toHaveProperty('FeedFedora');
 			expect(settings.data).toHaveProperty('FeedPlanetDebian');
 			expect(settings.data).toHaveProperty('FeedReddit');
 			expect(settings.data).toHaveProperty('FeedRedditUrl');
