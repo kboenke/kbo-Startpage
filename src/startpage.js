@@ -63,10 +63,12 @@ function loadFeeds(){
 	$("ul#spinner").css("display", "inherit");
 	
 	// Get data
+	if(settings.data.FeedBluesky)		loadBluesky();
 	if(settings.data.FeedReddit)		loadReddit();
 	if(settings.data.FeedSlashdot)		loadSlashdot();
 	if(settings.data.FeedTagesschau)	loadTagesschau();
 	if(settings.data.FeedEasternsun)	loadEasternsun();
+	if(settings.data.FeedFedora)		loadFedora();
 	if(settings.data.FeedPlanetDebian)	loadPlanetDebian();
 	if(settings.data.FeedWowhead)		loadWowhead();
 	if(settings.data.FeedConnections)	loadConnections();
@@ -144,7 +146,60 @@ function loadWeather(){
 	});
 }
 
+function loadBluesky(){
+	// Sanity Check
+	if(!settings.data.FeedBlueskyIdentifier || settings.data.FeedBlueskyIdentifier.length < 3
+	|| !settings.data.FeedBlueskyPassword || settings.data.FeedBlueskyPassword.length < 8
+	|| !settings.data.FeedBlueskyHost || settings.data.FeedBlueskyHost.length < 10){
+		console.log("Bluesky Feed not properly configured!");
+		return;
+	}
+	// Authenticate and Get Feed-URL
+	const authUrl = settings.data.FeedBlueskyHost + "/xrpc/com.atproto.server.createSession";
+	const feedUrl = settings.data.FeedBlueskyHost + "/xrpc/app.bsky.feed.getTimeline?limit=20";
+	$.ajax({
+		method:		"POST",
+		url:		authUrl,
+		dataType:	"json",
+		contentType: "application/json",
+		data:		JSON.stringify({
+			"identifier": settings.data.FeedBlueskyIdentifier,
+			"password": settings.data.FeedBlueskyPassword
+		}),
+		success: function(authData){
+			// Get Feed
+			$.ajax({
+				method:		"GET",
+				dataType:	"json",
+				url:		feedUrl,
+				headers:	{ "Authorization": "Bearer " + authData.accessJwt },
+				success: function(data){
+					// Parse Posts
+					$.each(data.feed, function(i, post) {
+						// Convert at-link to http-link
+						const regex = /^at:\/\/([^/]+)\/([^/]+)\/([^/]+)$/;
+						const match = post.post.uri.match(regex);
+						// Add to feed
+						feedData.push({
+							icon: "bluesky.png",
+							timestamp: (new Date(post.post.record.createdAt)).getTime(),
+							link: "https://bsky.app/profile/" + match[1] + "/post/" + match[3],
+							value: $("<div>").html(post.post.record.text).text()
+						});
+					});
+					updateContent();
+				}
+			});
+		}
+	});
+}
+
 function loadReddit(){
+	// Sanity Check
+	if(!settings.data.FeedRedditUrl || settings.data.FeedRedditUrl.length < 10){
+		console.log("Reddit Feed URL not set!");
+		return;
+	}
 	// Get Threads
 	$.ajax({
 		dataType:	"json",
@@ -201,6 +256,20 @@ function loadEasternsun(){
 				timestamp: (new Date(post.updated)).getTime(),
 				link: post.href,
 				value: _title
+			});
+		});
+		updateContent();
+	});
+}
+
+function loadFedora(){
+	parseRSS("https://fedoramagazine.org/feed/", function(fedoraData) {
+		$.each(fedoraData, function(i, post){
+			feedData.push({
+				icon: "fedora.png",
+				timestamp: (new Date(post.pubDate)).getTime(),
+				link: post.link,
+				value: post.title
 			});
 		});
 		updateContent();

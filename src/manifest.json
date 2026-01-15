@@ -3,7 +3,7 @@
 	"author": "Kai Boenke",
 	"name": "kbo-Startpage",
 	"description": "A personalized startpage.",
-	"version": "1.9.2",
+	"version": "1.9.3",
 	"browser_specific_settings": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
 	"data_collection_permissions": "none",
 	"icons": {
@@ -27,8 +27,10 @@
 		"https://rss.slashdot.org/Slashdot/*",
 		"https://www.tagesschau.de/xml/rss2",
 		"http://easternsun.de/forum/*",
+		"https://fedoramagazine.org/feed/*",
 		"https://planet.debian.org/atom.xml",
 		"https://www.wowhead.com/news/rss/*",
+		"https://bsky.social/*",
 		"https://*.bosch.com/*"
 	],
 	"permissions": ["storage"]
