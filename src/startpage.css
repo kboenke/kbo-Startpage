@@ -76,7 +76,6 @@ div.side { flex: 3 1 0; }
 
 .links table{ border: none; }
 .links img { margin-bottom: -2px; }
-:root[data-theme="dark"] .links img { filter: invert(1); }
 .links td {
 	width: 50%;
 	padding: 0 6px 0 4px;
@@ -122,3 +121,6 @@ li.loading img { vertical-align: middle; }
 @media screen and (width >= 1000px) {
 	li.loading { height: 100%; }
 }
+
+/* Dark mode overrides - higher specificity, placed after base rules */
+:root[data-theme="dark"] .links img { filter: invert(1); }
