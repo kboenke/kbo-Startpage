@@ -77,19 +77,17 @@
 	font-size: 100px; font-weight: 300;
 	text-align: center; text-shadow: 0 1px 3px rgb(0 0 0 / 15%);
 }
+:root[data-theme="dark"] #weather h2 { color: var(--newitem-color); }
 
-#weather ul {
-	margin: 0; padding: 0;
-}
+#weather ul { margin: 0; padding: 0; }
 
 #weather li {
 	padding: 0 20px;
 	display: inline-block;
 	border-radius: 5px;
 	font-size: 14px;
-	color: silver;
+	color: var(--newitem-color);
 }
+:root[data-theme="dark"] #weather i { color: var(--olditem-color); }
 
-#weather .currently {
-	margin: 0;
-}
+#weather .currently { margin: 0; }

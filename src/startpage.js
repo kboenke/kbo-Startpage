@@ -7,11 +7,17 @@ var settings;
 function initialize(){
 	// Load settings
 	settings = new kboSettings(function(){
-		// Trigger Darkmode
-		if ((settings.meta.mode == 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-			|| (settings.meta.mode == 'dark')) {
-			$("head").append("<link rel='stylesheet' id='extracss' href='startpage_dark.css' type='text/css'>");
+		// Determine and apply theme
+		const mode = settings.meta.mode || 'auto';
+		let theme = 'light';
+		
+		if (mode === 'dark') {
+			theme = 'dark';
+		} else if (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			theme = 'dark';
 		}
+		
+		document.documentElement.setAttribute('data-theme', theme);
 		
 		// Populate main page
 		loadLinks();
