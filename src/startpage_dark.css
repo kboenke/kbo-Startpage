@@ -19,4 +19,3 @@ body { background-color: var(--bg-color-dark); }
 ul#feeds a:hover { color: var(--hover-color-dark); }
 li.newitem { color: var(--newitem-color-dark); }
 li.olditem { color: var(--olditem-color-dark); }
-ul.feeds img { filter: invert(1); }
