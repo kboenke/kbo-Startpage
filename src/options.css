@@ -27,4 +27,6 @@ ul#linksL { text-align: right; }
 ul#linksR { text-align: left; }
 
 /* Darkmode Support for Icons (only to SVGs!) */
-:root[data-theme="dark"] ul.feeds img[src$=".svg"] { filter: invert(1); }
+@media (prefers-color-scheme: dark) {
+	#feeds img[src$=".svg"] { filter: invert(1); }
+}

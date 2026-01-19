@@ -229,7 +229,7 @@ function loadSlashdot(){
 	parseRSS("https://rss.slashdot.org/Slashdot/slashdotMain", function(slashdotData) {
 		$.each(slashdotData, function(i, entry){
 			feedData.push({
-				icon: "slashdot.png",
+				icon: "slashdot.svg",
 				timestamp: (new Date(entry.date)).getTime(),
 				link: entry.link,
 				value: entry.title
