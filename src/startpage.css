@@ -93,17 +93,6 @@ ul#linksL { text-align: right; }
 ul#linksR { text-align: left; }
 
 
-li.loading { margin-left: -30px; text-align: center; }
-li.loading img { vertical-align: middle; }
-ul.feeds li:has(a:hover) img { filter: opacity(1);}
-@media screen and (width <= 520px) {
-	li.loading { margin-left: -8px; }
-}
-@media screen and (width >= 1000px) {
-	li.loading { height: 100%; }
-}
-
-
 ul.feeds {
 	height: 100%;
 	margin: 0 auto;
@@ -119,10 +108,20 @@ ul.feeds img { margin-left: -20px; margin-bottom: -2px; }
 }
 
 ul.feeds a:hover { color: var(--hover-color); }
-ul.feeds li:has(a:hover) img { filter: opacity(1);}
 li.newitem{ color: var(--newitem-color); }
 li.olditem{ color: var(--olditem-color); }
 li.olditem img { filter: opacity(0.5); }
+
+li.loading { margin-left: -30px; text-align: center; }
+li.loading img { vertical-align: middle; }
+@media screen and (width <= 520px) {
+	li.loading { margin-left: -8px; }
+}
+@media screen and (width >= 1000px) {
+	li.loading { height: 100%; }
+}
+
+ul.feeds li:has(a:hover) img { filter: opacity(1);}
 
 /* Dark mode overrides - higher specificity, placed after base rules */
 :root[data-theme="dark"] ul.feeds img[src$=".svg"] { filter: invert(1); }
