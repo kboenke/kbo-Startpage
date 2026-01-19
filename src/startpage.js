@@ -187,7 +187,7 @@ function loadBluesky(){
 						const match = post.post.uri.match(regex);
 						// Add to feed
 						feedData.push({
-							icon: "bluesky.png",
+							icon: "bluesky.svg",
 							timestamp: (new Date(post.post.record.createdAt)).getTime(),
 							link: "https://bsky.app/profile/" + match[1] + "/post/" + match[3],
 							value: $("<div>").html(post.post.record.text).text()
@@ -243,7 +243,7 @@ function loadTagesschau(){
 	parseRSS("https://www.tagesschau.de/xml/rss2", function(tagesschauData) {
 		$.each(tagesschauData, function(i, entry){
 			feedData.push({
-				icon: "tagesschau.ico",
+				icon: "tagesschau.svg",
 				timestamp: (new Date(entry.pubDate)).getTime(),
 				link: entry.link,
 				value: entry.title
@@ -286,7 +286,7 @@ function loadPlanetDebian(){
 	parseRSS("https://planet.debian.org/atom.xml", function(planetDebianData) {
 		$.each(planetDebianData, function(i, post){
 			feedData.push({
-				icon: "planetDebian.ico",
+				icon: "planetDebian.svg",
 				timestamp: (new Date(post.updated)).getTime(),
 				link: post.href,
 				value: post.title
@@ -317,7 +317,7 @@ function loadConnections(){
 		success: function(data){
 			$(data.list).each(function(i, item){
 				feedData.push({
-					icon: "bosch.png",
+					icon: "bosch.svg",
 					timestamp: (new Date(item.updated)).getTime(),
 					link: item.object.url,
 					value: $("<div>").html(item.connections.plainTitle).text()
@@ -336,7 +336,7 @@ function loadZunder(){
 		success: function(data){
 			$.each(data, function(i, item){
 				feedData.push({
-					icon: "bosch.png",
+					icon: "bosch.svg",
 					timestamp: (new Date(item.creationDate)).getTime(),
 					link: "http://bzo.bosch.com" + item.url,
 					value: item.headline
@@ -382,7 +382,7 @@ function getFavicon(url){
 	var favicon = "http://www.google.com/s2/favicons?domain=";
 	var urlParts = (url.replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
 	if (urlParts[0].endsWith('.bosch.com') || urlParts[0].endsWith('.boschdevcloud.com')) {
-		return "icons/bosch.png";
+		return "icons/bosch.svg";
 	}
 	return favicon.concat(urlParts[0]);
 }

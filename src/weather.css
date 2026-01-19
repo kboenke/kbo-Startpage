@@ -88,6 +88,5 @@
 	font-size: 14px;
 	color: var(--newitem-color);
 }
-:root[data-theme="dark"] #weather i { color: var(--olditem-color); }
 
 #weather .currently { margin: 0; }

@@ -10,8 +10,8 @@
 	--bg-color: #000000;
 	--link-color: #ffffff;
 	--hover-color: #ffffff;
-	--newitem-color: #999999;
-	--olditem-color: silver;
+	--newitem-color: silver;
+	--olditem-color: #999999;
 }
 
 html { height: 100%; }
@@ -123,4 +123,5 @@ li.loading img { vertical-align: middle; }
 }
 
 /* Dark mode overrides - higher specificity, placed after base rules */
+:root[data-theme="dark"] ul.feeds img[src$=".svg"] { filter: invert(1); }
 :root[data-theme="dark"] .links img { filter: invert(1); }
