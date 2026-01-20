@@ -125,4 +125,4 @@ ul.feeds li:has(a:hover) img { filter: opacity(1);}
 
 /* Dark mode overrides - higher specificity, placed after base rules */
 :root[data-theme="dark"] ul.feeds img[src$=".svg"] { filter: invert(1); }
-:root[data-theme="dark"] .links img { filter: invert(1); }
+:root[data-theme="dark"] .links img { filter: invert(1) grayscale(100%); }
