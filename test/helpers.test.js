@@ -87,12 +87,12 @@ describe('getFavicon()', () => {
 
 	test('returns custom icon for bosch.com domain', () => {
 		const result = getFavicon('https://www.bosch.com/page');
-		expect(result).toBe('icons/bosch.png');
+		expect(result).toBe('icons/bosch.svg');
 	});
 
 	test('returns custom icon for boschdevcloud.com domain', () => {
 		const result = getFavicon('https://app.boschdevcloud.com/page');
-		expect(result).toBe('icons/bosch.png');
+		expect(result).toBe('icons/bosch.svg');
 	});
 
 	test('handles subdomain correctly', () => {
