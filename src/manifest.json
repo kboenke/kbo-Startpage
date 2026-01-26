@@ -4,7 +4,15 @@
 	"name": "kbo-Startpage",
 	"description": "A personalized startpage.",
 	"version": "1.9.5-dev",
-	"browser_specific_settings": { "gecko": { "id": "{0917fcf7-bb50-4b20-af83-274d85af4312}" }},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{0917fcf7-bb50-4b20-af83-274d85af4312}",
+			"data_collection_permissions": {
+				"required": ["none"],
+				"optional": ["none"]
+			}
+		}
+	},
 	"data_collection_permissions": "none",
 	"icons": {
 		"128": "icons/kbo-128.png",
