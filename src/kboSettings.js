@@ -5,6 +5,7 @@
 class kboSettings {
 	// Data Structure for Settings (and default values)
 	data = {
+		WeatherUseCurrent: false,
 		WeatherLoc: '25.867377,-80.120379',
 		WeatherUnit: 'f',
 		LinkL1v: true,  LinkL1d: 'Die ZEIT', LinkL1l: 'https://www.zeit.de/',
@@ -32,6 +33,10 @@ class kboSettings {
 		mode: 'auto', // 'auto' | 'light' | 'dark'
 		lastUpdate: 0 // timestamp of last update
 	};
+
+	// Temporary variables (not stored)
+	currentLocation = null;
+	updateInitiated = 0;
 
 	// Initialize settings and load from storage (if available)
 	constructor(callback) {

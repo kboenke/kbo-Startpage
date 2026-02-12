@@ -13,8 +13,9 @@ function initialize(){
 
 function save_options(){
 	// Get values from form
-	settings.data.WeatherLoc  = document.getElementById('weatherLoc').value;
-	settings.data.WeatherUnit = document.getElementById('weatherTTf').checked ? "f" : "c";
+	settings.data.WeatherUseCurrent = document.getElementById('weatherUseCurrent').checked;
+	settings.data.WeatherLoc        = document.getElementById('weatherLoc').value;
+	settings.data.WeatherUnit       = document.getElementById('weatherTTf').checked ? "f" : "c";
 	settings.data.LinkL1v = document.getElementById('linkL1v').checked;
 	settings.data.LinkL2v = document.getElementById('linkL2v').checked;
 	settings.data.LinkL3v = document.getElementById('linkL3v').checked;
@@ -75,9 +76,10 @@ function save_options(){
 function restore_options(){
 	// Populate form with loaded settings
 	// Weather
-	document.getElementById('weatherLoc').value   = settings.data.WeatherLoc;
-	document.getElementById('weatherTTc').checked = settings.data.WeatherUnit == 'c';
-	document.getElementById('weatherTTf').checked = settings.data.WeatherUnit == 'f';
+	document.getElementById('weatherUseCurrent').checked = settings.data.WeatherUseCurrent;
+	document.getElementById('weatherLoc').value          = settings.data.WeatherLoc;
+	document.getElementById('weatherTTc').checked        = settings.data.WeatherUnit == 'c';
+	document.getElementById('weatherTTf').checked        = settings.data.WeatherUnit == 'f';
 	
 	// Links
 	document.getElementById('linkL1v').checked = settings.data.LinkL1v;

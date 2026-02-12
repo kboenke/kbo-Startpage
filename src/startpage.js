@@ -2,14 +2,13 @@
 document.addEventListener('DOMContentLoaded', initialize, false);
 var feedData = [];
 var settings;
-var lastUpdate;
 
 /* To be called after page is loaded */
 function initialize(){
 	// Load settings
 	settings = new kboSettings(function(){
 		// Set last update timestamp
-		lastUpdate = settings.meta.lastUpdate || 0;
+		settings.updateInitiated = settings.meta.lastUpdate || 0;
 
 		// Determine and apply theme
 		const mode = settings.meta.mode || 'auto';
@@ -114,7 +113,7 @@ function updateContent(){
 	var output = "";
 	for(let i=0; i<_data.length; i++){
 		if(_data[i]['timestamp'] > Date.now()){ continue; } // Skip items published in the future
-		var cssClass = (_data[i]['timestamp'] > lastUpdate) ? "newitem" : "olditem";
+		var cssClass = (_data[i]['timestamp'] > settings.updateInitiated) ? "newitem" : "olditem";
 		output += String.format(html, cssClass, _data[i]['icon'], _data[i]['link'], _data[i]['value']);
 	}
 	
@@ -129,29 +128,61 @@ function updateContent(){
  * Functions for loading data
  */
 
+/* Invoked by Initialize */
 function loadWeather(){
-	var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	var _coord = settings.data.WeatherLoc.split(",");
-	var _tempunit = (settings.data.WeatherUnit == "c") ? "celsius" : "fahrenheit";
-	var _url = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}&hourly=temperature_2m,weathercode&daily=weathercode,temperature_2m_max&temperature_unit={2}&timeformat=unixtime&timezone=auto"
+	const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	const tempunit = (settings.data.WeatherUnit == "c") ? "celsius" : "fahrenheit";
+	// Determine Location
+	var _coord;
+	if(settings.data.WeatherUseCurrent !== true) {
+		// Do not use current location
+		_coord = settings.data.WeatherLoc.split(",");
+	} else {
+		if(settings.currentLocation == null && navigator.geolocation) {
+			// Determine current location
+			navigator.geolocation.getCurrentPosition(function(position) {
+				// Store location and recall function
+				settings.currentLocation = position.coords.latitude + "," + position.coords.longitude;
+				loadWeather();
+			}, function(error) {
+				// API Error: Fallback to default location
+				settings.currentLocation = settings.data.WeatherLoc;
+				loadWeather();
+			});
+			// Break to prevent early call with default coordinates
+			return;
+		} else {
+			if(settings.currentLocation == null) {
+				// No location available: Fallback to default location
+				_coord = settings.data.WeatherLoc.split(",");
+			} else {
+				// Use location from previous call
+				_coord = settings.currentLocation.split(",");
+			}
+		}
+	}
+	// Prepare API Call
+	const url = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}&hourly=temperature_2m,weathercode&daily=weathercode,temperature_2m_max&temperature_unit={2}&timeformat=unixtime&timezone=auto"
 	$.ajax({
-		'accepts': "application/json",
-		'url': 		String.format(_url, _coord[0].trim(), _coord[1].trim(), _tempunit),
-		'error':	 function(error){ $("#weather").html('<p>'+error+'</p>'); }
+		'accepts':	"application/json",
+		'url': 		String.format(url, _coord[0].trim(), _coord[1].trim(), tempunit),
+		'error':	function(error){ $("#weather").html('<p>'+error+'</p>'); }
 	}).done(function(weather){
-			var html = "<h2><i class='icon-{0}' title='{1}'></i> {2}&deg;{3}</h2><ul class='forecast'>";
-			var _tempunit = weather.daily_units.temperature_2m_max.substring(1);
-			var _html = String.format(html, translateWeathercode(weather.hourly.weathercode[0]).icon, translateWeathercode(weather.hourly.weathercode[0]).descr, Math.round(weather.hourly.temperature_2m[0]), _tempunit);
-			for(var i=1;i<Math.min(6,weather.daily.weathercode.length);i++) {
-				html = "<li><i class='icon-{0}' style='font-size:2.5em' title='{1}'></i> {2}&deg;{3}</li>";
-				let __icon = translateWeathercode(weather.daily.weathercode[i]).icon;
+			const html_outter = "<h2><i class='icon-{0}' title='{1}'></i> {2}&deg;{3}</h2><ul class='forecast'>";
+			let _tempunit = weather.daily_units.temperature_2m_max.substring(1);
+			let _icon    = translateWeathercode(weather.hourly.weathercode[0]).icon;
+			let _descr   = translateWeathercode(weather.hourly.weathercode[0]).descr;
+			let _temp    = Math.round(weather.hourly.temperature_2m[0]);
+			var _output = String.format(html_outter, _icon, _descr, _temp, _tempunit);
+			for(let i=1; i<Math.min(6, weather.daily.weathercode.length); i++) {
+				const html_inner = "<li><i class='icon-{0}' style='font-size:2.5em' title='{1}'></i> {2}&deg;{3}</li>";
+				let __icon  = translateWeathercode(weather.daily.weathercode[i]).icon;
 				let __descr = translateWeathercode(weather.daily.weathercode[i]).descr;
 				let __title = weekdays[(new Date(weather.daily.time[i]*1000)).getDay()] + ": " + __descr;
-				let __temp = Math.round(weather.daily.temperature_2m_max[i]);
-				_html += String.format(html, __icon, __title, __temp, _tempunit);
+				let __temp  = Math.round(weather.daily.temperature_2m_max[i]);
+				_output += String.format(html_inner, __icon, __title, __temp, _tempunit);
 			}
-			_html += '</ul>';
-			$("#weather").html(_html);
+			$("#weather").html(_output+'</ul>');
 	});
 }
 

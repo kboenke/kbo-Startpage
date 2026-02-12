@@ -7,10 +7,16 @@
 			"request": "launch",
 			"reAttach": true,
 			"addonPath": "${workspaceFolder}/src",
-			"pathMappings": [{
-				"url": "moz-extension://",
-				"path": "${workspaceFolder}/src"
-			}]
+			"pathMappings": [
+				{
+					"url": "moz-extension://d35fc9fe-4131-43b3-b3c2-835b66210dea",
+					"path": "${workspaceFolder}/src"
+				},
+				{
+					"url": "moz-extension://",
+					"path": "${workspaceFolder}/src"
+				}
+			]
 		},
 		{
 			"name": "Debug Options Page in Firefox",

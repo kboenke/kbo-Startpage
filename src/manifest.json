@@ -41,5 +41,8 @@
 		"https://bsky.social/*",
 		"https://*.bosch.com/*"
 	],
+	"optional_host_permissions": [
+		"geolocation"
+	],
 	"permissions": ["storage"]
 }
