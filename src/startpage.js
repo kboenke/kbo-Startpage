@@ -2,11 +2,15 @@
 document.addEventListener('DOMContentLoaded', initialize, false);
 var feedData = [];
 var settings;
+var lastUpdate;
 
 /* To be called after page is loaded */
 function initialize(){
 	// Load settings
 	settings = new kboSettings(function(){
+		// Set last update timestamp
+		lastUpdate = settings.meta.lastUpdate || 0;
+
 		// Determine and apply theme
 		const mode = settings.meta.mode || 'auto';
 		let theme = 'light';
@@ -16,7 +20,6 @@ function initialize(){
 		} else if (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 			theme = 'dark';
 		}
-		
 		document.documentElement.setAttribute('data-theme', theme);
 		
 		// Populate main page
@@ -91,28 +94,28 @@ function loadFeeds(){
 /* To be called after data has been retrieved */
 function updateContent(){
 	// Copy data to avoid race-conditions
-	var data = feedData;
+	var _data = feedData;
 	
 	// Sort items
 	do{
 		var swapped = false;
-		for(let i=0; i<data.length-1; i++){
-			if(data[i]['timestamp'] < data[i+1]['timestamp']){
-				var swap = data[i];
-				data[i] = data[i+1];
-				data[i+1] = swap;
+		for(let i=0; i<_data.length-1; i++){
+			if(_data[i]['timestamp'] < _data[i+1]['timestamp']){
+				var _swap = _data[i];
+				_data[i] = _data[i+1];
+				_data[i+1] = _swap;
 				swapped = true;
 			}
 		}
 	}while(swapped);
 	
 	// Parse data
+	var html = "<li class='{0}'><img src='icons/{1}' width='16' height='16' alt='' />&nbsp;<a href='{2}'>{3}</a></li>";
 	var output = "";
-	for(let i=0; i<data.length; i++){
-		if(data[i]['timestamp'] > Date.now()){ continue; } // Skip items published in the future
-		var cssClass = (data[i]['timestamp'] > settings.meta.lastUpdate) ? "newitem" : "olditem";
-		var html = "<li class='{0}'><img src='icons/{1}' width='16' height='16' alt='' />&nbsp;<a href='{2}'>{3}</a></li>";
-		output += String.format(html, cssClass, data[i]['icon'], data[i]['link'], data[i]['value']);
+	for(let i=0; i<_data.length; i++){
+		if(_data[i]['timestamp'] > Date.now()){ continue; } // Skip items published in the future
+		var cssClass = (_data[i]['timestamp'] > lastUpdate) ? "newitem" : "olditem";
+		output += String.format(html, cssClass, _data[i]['icon'], _data[i]['link'], _data[i]['value']);
 	}
 	
 	// Inject into page
