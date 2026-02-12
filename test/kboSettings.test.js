@@ -235,6 +235,7 @@ describe('Data structure validation', () => {
 		test('has all required weather settings', () => {
 			const settings = new kboSettings();
 			
+			expect(settings.data).toHaveProperty('WeatherUseCurrent');
 			expect(settings.data).toHaveProperty('WeatherLoc');
 			expect(settings.data).toHaveProperty('WeatherUnit');
 		});
@@ -244,19 +245,31 @@ describe('Data structure validation', () => {
 			
 			// Left links
 			expect(settings.data).toHaveProperty('LinkL1v');
-			expect(settings.data).toHaveProperty('LinkL1d');
 			expect(settings.data).toHaveProperty('LinkL1l');
+			expect(settings.data).toHaveProperty('LinkL1d');
 			expect(settings.data).toHaveProperty('LinkL2v');
+			expect(settings.data).toHaveProperty('LinkL2l');
+			expect(settings.data).toHaveProperty('LinkL2d');
 			expect(settings.data).toHaveProperty('LinkL3v');
+			expect(settings.data).toHaveProperty('LinkL3l');
+			expect(settings.data).toHaveProperty('LinkL3d');
 			expect(settings.data).toHaveProperty('LinkL4v');
+			expect(settings.data).toHaveProperty('LinkL4l');
+			expect(settings.data).toHaveProperty('LinkL4d');
 			
 			// Right links
 			expect(settings.data).toHaveProperty('LinkR1v');
-			expect(settings.data).toHaveProperty('LinkR1d');
 			expect(settings.data).toHaveProperty('LinkR1l');
+			expect(settings.data).toHaveProperty('LinkR1d');
 			expect(settings.data).toHaveProperty('LinkR2v');
+			expect(settings.data).toHaveProperty('LinkR2l');
+			expect(settings.data).toHaveProperty('LinkR2d');
 			expect(settings.data).toHaveProperty('LinkR3v');
+			expect(settings.data).toHaveProperty('LinkR3l');
+			expect(settings.data).toHaveProperty('LinkR3d');
 			expect(settings.data).toHaveProperty('LinkR4v');
+			expect(settings.data).toHaveProperty('LinkR4l');
+			expect(settings.data).toHaveProperty('LinkR4d');
 		});
 
 		test('has all required feed settings', () => {
