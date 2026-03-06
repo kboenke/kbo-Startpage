@@ -67,22 +67,22 @@ describe('String.format()', () => {
 describe('getFavicon()', () => {
 	test('extracts domain from http URL', () => {
 		const result = getFavicon('http://example.com/path');
-		expect(result).toBe('http://www.google.com/s2/favicons?domain=example.com');
+		expect(result).toBe('https://www.google.com/s2/favicons?domain=example.com');
 	});
 
 	test('extracts domain from https URL', () => {
 		const result = getFavicon('https://example.com/path');
-		expect(result).toBe('http://www.google.com/s2/favicons?domain=example.com');
+		expect(result).toBe('https://www.google.com/s2/favicons?domain=example.com');
 	});
 
 	test('handles URL with query parameters', () => {
 		const result = getFavicon('https://example.com/path?query=value');
-		expect(result).toBe('http://www.google.com/s2/favicons?domain=example.com');
+		expect(result).toBe('https://www.google.com/s2/favicons?domain=example.com');
 	});
 
 	test('handles URL with hash fragment', () => {
 		const result = getFavicon('https://example.com/path#section');
-		expect(result).toBe('http://www.google.com/s2/favicons?domain=example.com');
+		expect(result).toBe('https://www.google.com/s2/favicons?domain=example.com');
 	});
 
 	test('returns custom icon for bosch.com domain', () => {
@@ -97,12 +97,12 @@ describe('getFavicon()', () => {
 
 	test('handles subdomain correctly', () => {
 		const result = getFavicon('https://subdomain.example.com/path');
-		expect(result).toBe('http://www.google.com/s2/favicons?domain=subdomain.example.com');
+		expect(result).toBe('https://www.google.com/s2/favicons?domain=subdomain.example.com');
 	});
 
 	test('handles URL without protocol', () => {
 		const result = getFavicon('example.com/path');
-		expect(result).toBe('http://www.google.com/s2/favicons?domain=example.com');
+		expect(result).toBe('https://www.google.com/s2/favicons?domain=example.com');
 	});
 });
 
