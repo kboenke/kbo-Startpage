@@ -1,17 +1,22 @@
 :root {
-	--bg-color: white;
-	--link-color: black;
-	--hover-color: black;
-	--newitem-color: #666666;
-	--olditem-color: silver;
+	--kbo-black: #000000;
+	--kbo-gray1: #666666;
+	--kbo-gray2: #999999;
+	--kbo-gray3: #cccccc;
+	--kbo-white: #ffffff;
+	--bg-color: var(--kbo-white);
+	--link-color: var(--kbo-black);
+	--hover-color: var(--kbo-black);
+	--newitem-color: var(--kbo-gray1);
+	--olditem-color: var(--kbo-gray2);
 }
 
 :root[data-theme="dark"] {
-	--bg-color: #000000;
-	--link-color: #ffffff;
-	--hover-color: #ffffff;
-	--newitem-color: silver;
-	--olditem-color: #999999;
+	--bg-color: var(--kbo-black);
+	--link-color: var(--kbo-white);
+	--hover-color: var(--kbo-white);
+	--newitem-color: var(--kbo-gray3);
+	--olditem-color: var(--kbo-gray1);
 }
 
 html { height: 100%; }
