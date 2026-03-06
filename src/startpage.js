@@ -413,7 +413,7 @@ function parseRSS(url, callback) {
 }
 
 function getFavicon(url){
-	var favicon = "http://www.google.com/s2/favicons?domain=";
+	var favicon = "https://www.google.com/s2/favicons?domain=";
 	var urlParts = (url.replace('http://','')).replace('https://','').split(/[/?#]/); //extract domain --> [0]
 	if (urlParts[0].endsWith('.bosch.com') || urlParts[0].endsWith('.boschdevcloud.com')) {
 		return "icons/bosch.svg";
