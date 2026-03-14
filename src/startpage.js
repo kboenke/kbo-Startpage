@@ -130,6 +130,7 @@ function updateContent(){
 
 /* Invoked by Initialize */
 function loadWeather(){
+	const initialized = Date.now();
 	const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 	const tempunit = (settings.data.WeatherUnit == "c") ? "celsius" : "fahrenheit";
 	// Determine Location
@@ -183,6 +184,13 @@ function loadWeather(){
 				_output += String.format(html_inner, __icon, __title, __temp, _tempunit);
 			}
 			$("#weather").html(_output+'</ul>');
+
+			// Fade in if we needed to wait for geolookup
+			if (Date.now() - initialized > 2000){
+				$("#weather").fadeTo(400, 1);
+			} else {
+				$("#weather").css("opacity", 1);
+			}
 	});
 }
 
