@@ -163,7 +163,7 @@ function loadWeather(){
 		}
 	}
 	// Prepare API Call
-	const url = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}&hourly=temperature_2m,weathercode&daily=weathercode,temperature_2m_max&temperature_unit={2}&timeformat=unixtime&timezone=auto"
+	const url = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}&current=temperature_2m,weathercode&daily=weathercode,temperature_2m_max&temperature_unit={2}&timeformat=unixtime&timezone=auto"
 	$.ajax({
 		'accepts':	"application/json",
 		'url': 		String.format(url, _coord[0].trim(), _coord[1].trim(), tempunit),
@@ -171,9 +171,9 @@ function loadWeather(){
 	}).done(function(weather){
 			const html_outter = "<h2><i class='icon-{0}' title='{1}'></i> {2}&deg;{3}</h2><ul class='forecast'>";
 			let _tempunit = weather.daily_units.temperature_2m_max.substring(1);
-			let _icon    = translateWeathercode(weather.hourly.weathercode[0]).icon;
-			let _descr   = translateWeathercode(weather.hourly.weathercode[0]).descr;
-			let _temp    = Math.round(weather.hourly.temperature_2m[0]);
+			let _icon    = translateWeathercode(weather.current.weathercode).icon;
+			let _descr   = translateWeathercode(weather.current.weathercode).descr;
+			let _temp    = Math.round(weather.current.temperature_2m);
 			var _output = String.format(html_outter, _icon, _descr, _temp, _tempunit);
 			for(let i=1; i<Math.min(6, weather.daily.weathercode.length); i++) {
 				const html_inner = "<li><i class='icon-{0}' style='font-size:2.5em' title='{1}'></i> {2}&deg;{3}</li>";
